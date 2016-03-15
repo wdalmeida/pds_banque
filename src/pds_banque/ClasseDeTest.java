@@ -5,15 +5,15 @@
  */
 package pds_banque;
 
-import pds_banque.ControleurEcranCreationCompte;
+/*import pds_banque.ControleurEcranCreationCompte;
 /**
  *
  * @author flesguer
- */
+ 
 public class ClasseDeTest {
       public static void main(String[] args)
   {
     new ControleurEcranCreationCompte ("TestNom","TestPrenom","TestTelephone","TestMDP", "0", "1", "1");
     
   }
- }
+ }*/
