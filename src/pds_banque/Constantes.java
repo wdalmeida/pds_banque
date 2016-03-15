@@ -15,13 +15,13 @@ public interface Constantes{
     public static final String DATE = "2014-09-26"; // a remplacer par la date du jour
 
     /* url de la base de donnees interne */
-    public static final String URL_INT = "jdbc:mysql://localhost/pds_banque"; // 
+    public static final String URL_INT = "jdbc:mysql://192.168.30.9:3306/god_banque"; // 
 
     /* utilisateur de la base de donnees interne */
-    public static final String USER_INT = "root"; // a remplacer par l'utilisateur de la base de donnees interne
+    public static final String USER_INT = "god_banque"; // a remplacer par l'utilisateur de la base de donnees interne
 
     /* mot de passe de l'utilisateur de la base de donnees interne */
-    public static final String PASSWD_INT = ""; // a remplacer par le mot de pas de l'utilisateur de la base de donnees interne
+    public static final String PASSWD_INT = "God123Banque"; // a remplacer par le mot de pas de l'utilisateur de la base de donnees interne
 
     /* largeur de la fenetre */
     public static final int LF = 500;
