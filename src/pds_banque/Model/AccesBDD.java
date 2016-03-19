@@ -9,6 +9,7 @@ package pds_banque.Model;
  *
  * @author florent
  */
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -54,14 +55,16 @@ public class AccesBDD implements Constantes {
         return acces;
     }
 
-    public int getConnexion(String login, String mdp) {
+    public int getConnexion(String login, String pwd) throws NoSuchAlgorithmException {
         int tmp = 0;
         String query = "";
+        String pwdHash = HashString.sha512(pwd);
+        System.out.println("Mot de passe sha512 = "+ pwdHash);
         try {
-            query = "SELECT login,mdp FROM Utilisateur where login='" + login + "' AND mdp='" + mdp + "';";
+            query = "SELECT login_User,pwd_User FROM User where login_U1ser='" + login + "' AND pwd_User='" + pwdHash + "';";
             ResultSet rs = this.declaration.executeQuery(query);
             if (rs.first()) {
-                if (rs.getString(1).equals(login) && rs.getString(2).equals(mdp)) {
+                if (rs.getString(1).equals(login) && rs.getString(2).equals(pwdHash)) {
                     tmp = 1;
                 } else {
                     tmp = 0;

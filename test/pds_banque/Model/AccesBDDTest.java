@@ -5,6 +5,7 @@
  */
 package pds_banque.Model;
 
+import java.security.NoSuchAlgorithmException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import pds_banque.Customer;
@@ -35,10 +36,10 @@ public class AccesBDDTest {
      * Test of getConnexion method, of class AccesBDD.
      */
     @Test
-    public void testGetConnexion() {
+    public void testGetConnexion() throws NoSuchAlgorithmException {
         System.out.println("getConnexion");
         AccesBDD instance = AccesBDD.getAccesBDD();
-        int result = instance.getConnexion("cmarin", "pass");
+        int result = instance.getConnexion("CMarin", "pass");
         assertNotNull(result);
     }
 
