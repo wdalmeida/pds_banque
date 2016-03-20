@@ -22,7 +22,7 @@ public interface Constantes{
 
     /* mot de passe de l'utilisateur de la base de donnees interne */
     public static final String PASSWD_INT = "God123Banque"; // a remplacer par le mot de pas de l'utilisateur de la base de donnees interne
-
+    
     /* largeur de la fenetre */
     public static final int LF = 500;
 

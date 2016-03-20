@@ -7,7 +7,7 @@ package pds_banque.Controller;
 
 import java.awt.event.*;
 import javax.swing.*;
-import pds_banque.Model.AccesBDD;
+import pds_banque.Model.AccessDB;
 import pds_banque.View.ScreenHome;
 import pds_banque.View.ScreenCreateCust;
 
@@ -17,22 +17,25 @@ import pds_banque.View.ScreenCreateCust;
  */
 public class ControllerScreenHome implements ActionListener {
 
-    private AccesBDD bdd;
+    private AccessDB bdd;
     private JButton btnCreateCustomer;
     private JButton btnSimulateLoan;
     private ScreenHome ecranAccueil;
+    private int idConsultant;
 
     /**
      *
      * @param ecranAccueil0
+     * @param idC
      * @param btnCreateCustomer0
      * @param btnSimulateLoan0
      */
-    public ControllerScreenHome(ScreenHome ecranAccueil0,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
-        this.bdd = AccesBDD.getAccesBDD();
+    public ControllerScreenHome(ScreenHome ecranAccueil0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
+        this.bdd = AccessDB.getAccessDB();
         this.btnCreateCustomer = btnCreateCustomer0;
         this.btnSimulateLoan = btnSimulateLoan0;
         this.ecranAccueil = ecranAccueil0;
+        this.idConsultant = idC;
     }
 
     @Override
@@ -40,8 +43,7 @@ public class ControllerScreenHome implements ActionListener {
         if (e.getSource() == btnCreateCustomer) {
             this.ecranAccueil.dispose();
             ecranAccueil.setVisible(false);
-            ScreenCreateCust fen2 = new ScreenCreateCust();
-            fen2.insertion();
+            ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
             
         } else if (e.getSource() == btnSimulateLoan) {
             System.out.println("bouton loan");

@@ -1,11 +1,11 @@
 package pds_banque;
 
-import pds_banque.View.Fenetre;
+import pds_banque.View.Window;
 
 public class Pds_banque
 {
   public static void main(String[] args)
   {
-    new Fenetre().setVisible(true);
+    new Window().setVisible(true);
   }
 }

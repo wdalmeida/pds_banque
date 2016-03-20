@@ -5,8 +5,9 @@
  */
 package pds_banque.View;
 
+import java.security.NoSuchAlgorithmException;
 import pds_banque.Controller.ControllerScreenHome;
-import pds_banque.Model.AccesBDD;
+import pds_banque.Model.AccessDB;
 
 /**
  *
@@ -14,31 +15,31 @@ import pds_banque.Model.AccesBDD;
  */
 public class ScreenHome extends javax.swing.JFrame {
 
-    private AccesBDD bdd;
-    private int nameConsultant;
+    private AccessDB bdd;
 
     /**
-     * Creates new form EcranAccueil
-     * @param nameConsultant0
+     * Creates new form ScreenHome
+     * @param idC
      */
-    public ScreenHome(int nameConsultant0) {
+    public ScreenHome(int idC) {
         initComponents();
-        this.bdd = AccesBDD.getAccesBDD();
-        getConsultantInfo(nameConsultant0);
-        this.nameConsultant = nameConsultant0;
-        btnCreateCustomer.addActionListener(new ControllerScreenHome(this,btnCreateCustomer,btnSimulateLoan));
+        this.bdd = AccessDB.getAccessDB();
+        this.getConsultantInfo(idC);
+        System.out.println("consultant info = "+idC);
+        btnCreateCustomer.addActionListener(new ControllerScreenHome(this,idC,btnCreateCustomer, btnSimulateLoan));
         this.setVisible(true);
     }
-    public getConsultantInfo(int IdC)
-    {
-        String[] consultant= bdd.getConsultantInfo(IdC);
-        titre.setText("Bienvenue "+consultant[1]+ "  "+consultant[0]);
+
+    public void getConsultantInfo(int IdC) {
+        String[] consultant = bdd.getConsultantInfo(IdC);
+        title.setText("Bienvenue " + consultant[1] + "  " + consultant[0]);
     }
-    public void changementEcran(String login)
-    {
-    String[] tab = bdd.Infos_Conseiller(login);
-    titre.setText("Bienvenue "+tab[1]+ "  "+tab[0]);
+
+    public void changeScreen(String login, String pwd) throws NoSuchAlgorithmException {
+        String[] tab = bdd.Info_Consultant(login, pwd);
+        title.setText("Bienvenue " + tab[1] + "  " + tab[0]);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +52,7 @@ public class ScreenHome extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnSimulateLoan = new javax.swing.JButton();
         btnCreateCustomer = new javax.swing.JButton();
-        titre = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,7 +60,7 @@ public class ScreenHome extends javax.swing.JFrame {
 
         btnCreateCustomer.setText("Create Customer");
 
-        titre.setText(" ");
+        title.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,7 +69,7 @@ public class ScreenHome extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titre, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSimulateLoan)
                         .addGap(18, 18, 18)
@@ -79,7 +80,7 @@ public class ScreenHome extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(titre, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimulateLoan)
@@ -111,6 +112,6 @@ public class ScreenHome extends javax.swing.JFrame {
     private javax.swing.JButton btnCreateCustomer;
     private javax.swing.JButton btnSimulateLoan;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel titre;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,55 +14,55 @@ import pds_banque.Customer;
  *
  * @author Warren
  */
-public class AccesBDDTest {
+public class AccessDBTest {
     
-    public AccesBDDTest() {
+    public AccessDBTest() {
     }
 
     /**
-     * Test of getAccesBDD method, of class AccesBDD.
+     * Test of getAccessDB method, of class AccessDB.
      */
     @Test
-    public void testGetAccesBDD() {
-        System.out.println("getAccesBDD");
-        AccesBDD expResult = null;
-        AccesBDD result = AccesBDD.getAccesBDD();
+    public void testGetAccessDB() {
+        System.out.println("getAccessDB");
+        AccessDB expResult = null;
+        AccessDB result = AccessDB.getAccessDB();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getConnexion method, of class AccesBDD.
+     * Test of getConnexion method, of class AccessDB.
      */
     @Test
     public void testGetConnexion() throws NoSuchAlgorithmException {
         System.out.println("getConnexion");
-        AccesBDD instance = AccesBDD.getAccesBDD();
+        AccessDB instance = AccessDB.getAccessDB();
         int result = instance.getConnexion("CMarin", "pass");
         assertNotNull(result);
     }
 
     /**
-     * Test of deconnexion method, of class AccesBDD.
+     * Test of deconnexion method, of class AccessDB.
      */
     @Test
     public void testDeconnexion() {
         System.out.println("deconnexion");
-        AccesBDD instance = null;
+        AccessDB instance = null;
         instance.deconnexion();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of Infos_Conseiller method, of class AccesBDD.
+     * Test of Infos_Conseiller method, of class AccessDB.
      */
     @Test
     public void testInfos_Conseiller() {
         System.out.println("Infos_Conseiller");
         String login = "";
-        AccesBDD instance = null;
+        AccessDB instance = null;
         String[] expResult = null;
         String[] result = instance.Infos_Conseiller(login);
         assertArrayEquals(expResult, result);
@@ -71,13 +71,13 @@ public class AccesBDDTest {
     }
 
     /**
-     * Test of insertCustomer method, of class AccesBDD.
+     * Test of insertCustomer method, of class AccessDB.
      */
     @Test
     public void testInsertCustomer() {
         System.out.println("insertCustomer");
         Customer cust = null;
-        AccesBDD instance = null;
+        AccessDB instance = null;
         int expResult = 0;
         int result = instance.insertCustomer(cust);
         assertEquals(expResult, result);
@@ -86,13 +86,13 @@ public class AccesBDDTest {
     }
 
     /**
-     * Test of getIDConsultant method, of class AccesBDD.
+     * Test of getIDConsultant method, of class AccessDB.
      */
     @Test
     public void testGetIDConsultant() {
         System.out.println("getIDConsultant");
         Customer cust = null;
-        AccesBDD instance = null;
+        AccessDB instance = null;
         int expResult = 0;
         int result = instance.getIDConsultant(cust);
         assertEquals(expResult, result);

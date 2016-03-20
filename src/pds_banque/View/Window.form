@@ -56,12 +56,12 @@
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lblIdentifiant" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblMotDePasse" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblpassword" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="MotDePasse" pref="50" max="32767" attributes="0"/>
-                      <Component id="Identifiant" max="32767" attributes="0"/>
+                      <Component id="password" pref="50" max="32767" attributes="0"/>
+                      <Component id="identifiant" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -78,12 +78,12 @@
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblIdentifiant" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Identifiant" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="identifiant" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="MotDePasse" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblMotDePasse" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblpassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
                   <Component id="btnConnexion" min="-2" max="-2" attributes="0"/>
@@ -98,11 +98,11 @@
             <Property name="text" type="java.lang.String" value="Identifiant"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="Identifiant">
+        <Component class="javax.swing.JTextField" name="identifiant">
         </Component>
-        <Component class="javax.swing.JTextField" name="MotDePasse">
+        <Component class="javax.swing.JTextField" name="password">
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMotDePasse">
+        <Component class="javax.swing.JLabel" name="lblpassword">
           <Properties>
             <Property name="text" type="java.lang.String" value="Mot de Passe"/>
           </Properties>

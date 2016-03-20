@@ -18,7 +18,7 @@ import pds_banque.View.ScreenCreateCust;
  */
 public class ControllerScreenCreateCust implements ActionListener {
 
-    private AccesBDD bdd;
+    private AccessDB bdd;
     private javax.swing.JTextField birthday;
     private javax.swing.JTextField city;
     private javax.swing.JTextField email;
@@ -32,13 +32,17 @@ public class ControllerScreenCreateCust implements ActionListener {
     private JButton btnBack;
     private Customer customer;
     private ScreenCreateCust scc;
+    private int idConsultant;
 
-    public ControllerScreenCreateCust(JButton back, JButton submit) {
+    public ControllerScreenCreateCust(ScreenCreateCust scc0, int idConsultant0, JButton back, JButton submit) {
         this.btnSubmit = submit;
         this.btnBack = back;
+        this.scc = scc0;
+        this.idConsultant = idConsultant0;
+
     }
 
-    public ControllerScreenCreateCust(ScreenCreateCust scc0, JTextField city, JTextField email, JTextField firstName, JTextField lastName, JTextField phoneNumber, JTextField postalCode, JTextField salary, JTextField street, JButton submit, JButton back) {
+    public ControllerScreenCreateCust(ScreenCreateCust scc0, JTextField city, JTextField email, JTextField firstName, JTextField lastName, JTextField phoneNumber, JTextField postalCode, JTextField salary, JTextField street, int idConsultant0, JButton submit, JButton back) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
@@ -50,26 +54,29 @@ public class ControllerScreenCreateCust implements ActionListener {
         this.btnSubmit = submit;
         this.btnBack = back;
         this.scc = scc0;
-        this.bdd = AccesBDD.getAccesBDD();
+        this.bdd = AccessDB.getAccessDB();
+        this.idConsultant = idConsultant0;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         int res;
-        int idConsultant =bdd.getIDConsultant(this.customer);
         if (e.getSource() == btnSubmit) {
-            this.customer = new Customer(lastName.getText(), firstName.getText(), email.getText(), street.getText(), city.getText(), postalCode.getText(), salary.getText(), phoneNumber.getText());
-            res = bdd.insertCustomer(this.customer);
+           // this.customer = new Customer(lastName.getText(), firstName.getText(), email.getText(), street.getText(), city.getText(), postalCode.getText(), salary.getText(), phoneNumber.getText());
+           /* res = bdd.insertCustomer(this.customer);
             
-            if (res == 1) {
-                this.scc.dispose();
-                scc.setVisible(false);
-                ScreenHome fen2 = new ScreenHome(idConsultant);
-            } else {
-                System.out.println("insertio ko");
-            }
+             if (res == 1) {
+             this.scc.dispose();
+             scc.setVisible(false);
+             ScreenHome fen2 = new ScreenHome();
+             } else {
+             System.out.println("insertio ko");
+             }*/
         } else if (e.getSource() == btnBack) {
+            this.scc.dispose();
+            scc.setVisible(false);
             ScreenHome screenHome = new ScreenHome(idConsultant);
+            System.out.println("CSCC consultant = " + idConsultant);
 
         }
     }

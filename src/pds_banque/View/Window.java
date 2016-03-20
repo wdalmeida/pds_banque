@@ -11,14 +11,14 @@ import pds_banque.Controller.ControllerScreenConnection;
  *
  * @author florent
  */
-public class Fenetre extends javax.swing.JFrame {
+public class Window extends javax.swing.JFrame {
 
     /**
      * Creates new form Fenetre
      */
-    public Fenetre() {
+    public Window() {
         initComponents();
-        btnConnexion.addActionListener(new ControllerScreenConnection(this,Identifiant,MotDePasse));
+        btnConnexion.addActionListener(new ControllerScreenConnection(this,identifiant,password));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,9 +31,9 @@ public class Fenetre extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lblIdentifiant = new javax.swing.JLabel();
-        Identifiant = new javax.swing.JTextField();
-        MotDePasse = new javax.swing.JTextField();
-        lblMotDePasse = new javax.swing.JLabel();
+        identifiant = new javax.swing.JTextField();
+        password = new javax.swing.JTextField();
+        lblpassword = new javax.swing.JLabel();
         btnConnexion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -42,7 +42,7 @@ public class Fenetre extends javax.swing.JFrame {
 
         lblIdentifiant.setText("Identifiant");
 
-        lblMotDePasse.setText("Mot de Passe");
+        lblpassword.setText("Mot de Passe");
 
         btnConnexion.setText("Connexion");
 
@@ -54,11 +54,11 @@ public class Fenetre extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblIdentifiant)
-                    .addComponent(lblMotDePasse))
+                    .addComponent(lblpassword))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(MotDePasse, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(Identifiant))
+                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(identifiant))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(96, Short.MAX_VALUE)
@@ -71,11 +71,11 @@ public class Fenetre extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdentifiant)
-                    .addComponent(Identifiant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(identifiant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MotDePasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMotDePasse))
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblpassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(btnConnexion)
                 .addGap(32, 32, 32))
@@ -126,13 +126,13 @@ public class Fenetre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Identifiant;
-    private javax.swing.JTextField MotDePasse;
     private javax.swing.JButton btnConnexion;
+    private javax.swing.JTextField identifiant;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblIdentifiant;
-    private javax.swing.JLabel lblMotDePasse;
+    private javax.swing.JLabel lblpassword;
+    private javax.swing.JTextField password;
     // End of variables declaration//GEN-END:variables
 }
