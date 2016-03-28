@@ -1,5 +1,6 @@
 package pds_banque.Server;
 
+import pds_banque.Server.AccessDB_server;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,8 +25,9 @@ class TCPServer {
             DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues: " + donneesEntreeClient);
-            donneesModifiees = donneesEntreeClient.toUpperCase() + '\n';
-            sortieVersClient.writeBytes(donneesModifiees);
+            //donneesModifiees = donneesEntreeClient.toUpperCase() + '\n';
+            AccessDB_server.insertionCustomer(donneesEntreeClient);
+            sortieVersClient.writeBytes("Requete effectuee");
         }
     }
 }

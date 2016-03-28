@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class RequeteClientTCP {
 
-   
     public RequeteClientTCP(String entree) throws IOException {
         String phraseModifiee;
         //BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
@@ -29,23 +28,15 @@ public class RequeteClientTCP {
             public void run() {
                 try {
                     //TCPClientAvecThread TCPClientAvecThread = new TCPClientAvecThread("Bonjour");
-                    new RequeteClientTCP("Bonjour");
+                    String requete = "INSERT INTO Customer " + "VALUES (1, '', 'STROH', 'NICOLAS', 3100, 'Edmon Nocard', '94410', 'Saint Maurice', '145659878', 'nicolas.stroh@Yahoo.fr', '1992-08-08', 1, 1, 0, 1)";
+                    new RequeteClientTCP(requete);
                 } catch (IOException ex) {
                     Logger.getLogger(RequeteClientTCP.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-        Thread monclient2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new RequeteClientTCP("Au revoir");
-                } catch (IOException ex) {
-                    Logger.getLogger(RequeteClientTCP.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+
         monclient.start();
-        monclient2.start();
+
     }
 }
