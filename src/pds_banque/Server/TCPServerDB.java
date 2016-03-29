@@ -1,33 +1,40 @@
 package pds_banque.Server;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import pds_banque.Server.AccessDB_server;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author flesguer
- */
-import java.io.*;
-import java.net.*;
 
-class TCPServer {
+public class TCPServerDB {
 
-    public static void main(String argv[]) throws Exception {
+    /**
+     *
+     * @author flesguer
+     */
+    public static void lancerServeur(int port) throws IOException {
+        ServerSocket socketAccueil = new ServerSocket(port);
         String donneesEntreeClient;
-        String donneesModifiees;
-        ServerSocket socketAccueil = new ServerSocket(3000);
+        //String donneesModifiees;
+
         while (true) {
             Socket connectionSocket = socketAccueil.accept();
             BufferedReader entreeVenantDuClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues: " + donneesEntreeClient);
-            //donneesModifiees = donneesEntreeClient.toUpperCase() + '\n';
             AccessDB_server.insertionCustomer(donneesEntreeClient);
             sortieVersClient.writeBytes("Requete effectuee");
+
         }
+
+    }
+
+    public static void main(String argv[]) throws Exception {
+
+        lancerServeur(3000);
+
     }
 }

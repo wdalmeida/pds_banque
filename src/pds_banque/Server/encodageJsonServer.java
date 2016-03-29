@@ -1,14 +1,16 @@
-/**
- *
- * @author flesguer
- */
-package pds_banque.Json;
+package pds_banque.Server;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.simple.JSONObject;
 
-public class ExempleEncodageAmeliore {
+
+/**
+ *
+ * @author Florian
+ */
+public class encodageJsonServer {
+    
 
     public static void encodage(int id_Customer, String title_Customer, String last_Name_Customer, String first_Name_Customer, Float salary_Customer, String street_Customer, String pc_Customer, String city_Customer, String phone_Customer, String email_Customer, String birthday_Customer, int owner_Customer, int id_Consultant, int id_User, int id_status) throws IOException {
 
@@ -37,15 +39,10 @@ public class ExempleEncodageAmeliore {
             file.write(obj.toJSONString());
             System.out.println("Object ecrit dans le fichier avec succes");
             System.out.println("\nObjet ecrit: " + obj);
+            
+            pds_banque.Server.RequeteClientTCPJson.RequeteClientTCPJson(obj, "localhost", 3000);
         }
     }
 
-    public static void main(String[] args) throws IOException {
 
-        float salaire = (float) 4500;
-
-        encodage(4, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com",
-                "1958-08-29", 1, 2, 0, 1);
-
-    }
 }
