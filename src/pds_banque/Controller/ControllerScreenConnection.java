@@ -12,7 +12,7 @@ import pds_banque.View.Window;
 public class ControllerScreenConnection implements ActionListener {
 
     private JTextField Identifiant;
-    private JTextField Password;
+    private transient JTextField Password;
     private Window fen;
     private AccessDB bdd;
 
@@ -28,15 +28,10 @@ public class ControllerScreenConnection implements ActionListener {
         int idConsultant;
         try {
             idConsultant = bdd.getConnexion(Identifiant.getText(), Password.getText());
-            if (idConsultant == 1) {
-                this.fen.dispose();
-                fen.setVisible(false);
-                ScreenHome fen2 = new ScreenHome(idConsultant);
-                fen2.changeScreen(Identifiant.getText(),Password.getText());
-            } else {
-                System.out.println("Connection failed");
-            }
-
+            this.fen.dispose();
+            fen.setVisible(false);
+            ScreenHome fen2 = new ScreenHome(idConsultant);
+            fen2.changeScreen(Identifiant.getText(), Password.getText());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(ControllerScreenConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

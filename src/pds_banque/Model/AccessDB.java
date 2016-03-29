@@ -58,7 +58,7 @@ public class AccessDB implements Constantes {
     public int getConnexion(String login, String pwd) throws NoSuchAlgorithmException {
         int tmp = 0;
         String query = "";
-        pwd = HashString.sha512(pwd); // use for crypt the password
+        pwd = HashString.sha512(pwd); // use for hash the password
         System.out.println("Mot de passe sha512 = " + pwd);
         try {
             query = "SELECT id_User FROM User Natural Join Consultant where login_User='" + login + "' AND pwd_User='" + pwd + "';";
