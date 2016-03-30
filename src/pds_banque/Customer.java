@@ -10,75 +10,40 @@ package pds_banque;
  * @author florent
  */
 public class Customer {
+    private String title;
     private String lastName;
     private String firstName;
+    private String birthday;
+    private String nationality;
+    private String phoneNumber;
     private String email;
+    private boolean owner;
+    private float salary;
+    private String statut;
     private String street;
     private String city;
     private String postalCode;
-    private float salary;
-    private String phoneNumber;
-    private String birthday;
-    private String title;
-    private String profStatus;
-    private boolean owner;
 
-    public Customer(String lastName, String firstName, String email, String street, String city, String postalCode, float salary, String phoneNumber, String birthday, String title, String profStatus, boolean owner) {
+    public Customer(String title, String lastName, String firstName, String birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, String statut, String street, String city, String postalCode) {
+        this.title = title;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.birthday = birthday;
+        this.nationality = nationality;
+        this.phoneNumber = phoneNumber;
         this.email = email;
+        this.owner = owner;
+        this.salary = salary;
+        this.statut = statut;
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
-        this.salary = salary;
-        this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
-        this.title = title;
-        this.profStatus = profStatus;
-        this.owner = owner;
-    }   
-    
-
-    public float getSalary() {
-        return salary;
-    }
-
-    public void setSalary(float salary) {
-        this.salary = salary;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getProfStatus() {
-        return profStatus;
-    }
-
-    public void setProfStatus(String profStatus) {
-        this.profStatus = profStatus;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public boolean isOwner() {
-        return owner;
-    }
-
-    public void setOwner(boolean owner) {
-        this.owner = owner;
-    } 
-    
     public String getLastName() {
         return lastName;
     }
@@ -87,8 +52,32 @@ public class Customer {
         return firstName;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public float getSalary() {
+        return salary;
+    }
+
+    public String getStatut() {
+        return statut;
     }
 
     public String getStreet() {
@@ -102,11 +91,5 @@ public class Customer {
     public String getPostalCode() {
         return postalCode;
     }
-    
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-
-    
+   
 }

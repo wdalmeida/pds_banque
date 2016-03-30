@@ -11,6 +11,7 @@ import pds_banque.Customer;
 import pds_banque.Model.*;
 import pds_banque.View.ScreenHome;
 import pds_banque.View.ScreenCreateCust;
+import org.jdesktop.swingx.*;
 
 /**
  *
@@ -19,17 +20,21 @@ import pds_banque.View.ScreenCreateCust;
 public class ControllerScreenCreateCust implements ActionListener {
 
     private AccessDB bdd;
-    private javax.swing.JTextField birthday;
+    private JXDatePicker birthday;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSubmit;
     private javax.swing.JTextField city;
+    private javax.swing.JComboBox title;
     private javax.swing.JTextField email;
     private javax.swing.JTextField firstName;
     private javax.swing.JTextField lastName;
+    private javax.swing.JTextField nationality;
+    private javax.swing.JCheckBox owner;
     private javax.swing.JTextField phoneNumber;
     private javax.swing.JTextField postalCode;
     private javax.swing.JTextField salary;
+    private javax.swing.JComboBox status;
     private javax.swing.JTextField street;
-    private JButton btnSubmit;
-    private JButton btnBack;
     private Customer customer;
     private ScreenCreateCust scc;
     private int idConsultant;
@@ -42,33 +47,40 @@ public class ControllerScreenCreateCust implements ActionListener {
 
     }
 
-    public ControllerScreenCreateCust(ScreenCreateCust scc0, JTextField city, JTextField email, JTextField firstName, JTextField lastName, JTextField phoneNumber, JTextField postalCode, JTextField salary, JTextField street, int idConsultant0, JButton submit, JButton back) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.email = email;
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.salary = salary;
-        this.phoneNumber = phoneNumber;
-        this.btnSubmit = submit;
-        this.btnBack = back;
+    public ControllerScreenCreateCust(ScreenCreateCust scc0, JComboBox title0, JTextField lastName0, JTextField firstName0, JXDatePicker birthday0, JTextField nationality0, JTextField phoneNumber0, JTextField email0, JCheckBox owner0, JTextField salary0, JComboBox status0, JTextField street0, JTextField city0, JTextField postalCode0, int idC0,JButton btnSubmit0, JButton btnBack0) {
+        this.btnSubmit = btnSubmit0;
+        this.btnBack = btnBack0;
         this.scc = scc0;
+        this.idConsultant = idC0;
         this.bdd = AccessDB.getAccessDB();
-        this.idConsultant = idConsultant0;
+        this.title = title0;
+        this.lastName = lastName0;
+        this.firstName = firstName0;
+        this.birthday = birthday0;
+        this.nationality = nationality0;
+        this.phoneNumber = phoneNumber0;
+        this.email = email0;
+        this.owner = owner0;
+        this.salary = salary0;
+        this.status = status0;
+        this.street = street0;
+        this.city = city0;
+        this.postalCode = postalCode0;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         int res;
         if (e.getSource() == btnSubmit) {
-           // this.customer = new Customer(lastName.getText(), firstName.getText(), email.getText(), street.getText(), city.getText(), postalCode.getText(), salary.getText(), phoneNumber.getText());
-           /* res = bdd.insertCustomer(this.customer);
-            
-             if (res == 1) {
+            float salairetmp = Float.valueOf(salary.getText());
+            //this.customer = new Customer(title.getSelectedItem().toString(),lastName.getText(),firstName.getText(),birthday.getText(),nationality.getText(),phoneNumber.getText(),email.getText(),true,Float.valueOf(salary.getText()),status.getSelectedItem().toString(),street.getText(),city.getText(),postalCode.getText());
+            System.out.println("Civilité = " + title.getSelectedItem().toString() + " Nom = " + lastName.getText() + " Prenom = " + firstName.getText() + " date de Naissance = " + birthday.getDate() + " Nationalite " + nationality.getText() + " telephone = " + phoneNumber.getText() + " email =" + email.getText() + " Proprietaire =true Salaire = " + Float.valueOf(salary.getText()) + " statut = " + status.getSelectedItem().toString() + " rue = " + street.getText() + " ville= " + city.getText() + " CP = " + postalCode.getText());
+
+           // res = bdd.insertCustomer(this.customer);
+           /* if (res == 1) {
              this.scc.dispose();
              scc.setVisible(false);
-             ScreenHome fen2 = new ScreenHome();
+             ScreenHome fen2 = new ScreenHome(idConsultant);
              } else {
              System.out.println("insertio ko");
              }*/
@@ -76,7 +88,6 @@ public class ControllerScreenCreateCust implements ActionListener {
             this.scc.dispose();
             scc.setVisible(false);
             ScreenHome screenHome = new ScreenHome(idConsultant);
-            System.out.println("CSCC consultant = " + idConsultant);
 
         }
     }
