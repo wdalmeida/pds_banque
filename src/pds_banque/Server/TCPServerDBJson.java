@@ -13,7 +13,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-
 /**
  *
  * @author Florian
@@ -33,28 +32,25 @@ public class TCPServerDBJson {
 
             //a partir de ce moment le but est de transformer la chaine de caractere lue par le serveur en un objet
             //il faudrait que cet objet soit un JsonObject dans l ideal
-            Object objetjson = donneesEntreeClient;
-            
             //bug a corriger
-            JSONParser parser = new JSONParser();
-        Object obj;
-        obj = parser.parse(donneesEntreeClient);
-        decodageCustomer(obj);
-        //decodageCustomer(objetjson);
+            Object obj = donneesEntreeClient;
+            decodageCustomer(obj);
 
             //AccessDB_server.insertionCustomer(donneesEntreeClient);
-           // sortieVersClient.writeBytes("Requete effectuee");
-
+            //sortieVersClient.writeBytes("Requete effectuee" + '\n');
         }
 
     }
 
     public static void decodageCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
-        
-        String Newligne=System.getProperty("line.separator"); 
-        System.out.print(objetjson + Newligne);
-        System.out.print("Recu cinq sur cinq");
-        
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        //String Newligne=System.getProperty("line.separator"); 
+        //System.out.print(objetjson + Newligne);
+        //System.out.print("Recu cinq sur cinq");
+
         JSONObject jsonObject = (JSONObject) objetjson;
         long id_Customer = (long) jsonObject.get("id_Customer");
         String title_Customer = (String) jsonObject.get("title_Customer");
@@ -86,7 +82,13 @@ public class TCPServerDBJson {
         System.out.println("id_Consultant: " + id_Consultant);
         System.out.println("id_User: " + id_User);
         System.out.println("id_status: " + id_status);
-                
+
+        String requete = "INSERT INTO Customer " + "VALUES (" + id_Customer + ",'" + title_Customer + "', '" + last_Name_Customer + "','"
+                + first_Name_Customer + "'," + salary_Customer + ", '" + street_Customer + "', '" + pc_Customer + "', '" + city_Customer + "', '" + phone_Customer + "', '"
+                + email_Customer + "', '" + birthday_Customer + "'," + owner_Customer + "," + id_Consultant + "," + id_User + "," + id_status + ")";
+        System.out.println("Soit la requete SQL:" + '\n');
+        System.out.println(requete);
+        AccessDB_server.insertionCustomer(requete);
     }
 
     public static void main(String argv[]) throws Exception {
