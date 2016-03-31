@@ -181,7 +181,7 @@ public class AccessDB implements Constantes {
         int i=0;
         try{
             ArrayList<String> tab = new ArrayList();
-            query = "SELECT id_status,description_status FROM statusRef;";
+            query = "SELECT id_status,description_status FROM statusRef order by description_status;";
             ResultSet rs = this.declaration.executeQuery(query);
             if (rs.first()) {
                 do{
