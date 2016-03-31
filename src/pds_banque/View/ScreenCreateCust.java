@@ -5,6 +5,7 @@
  */
 package pds_banque.View;
 
+import com.sun.corba.se.spi.ior.IORFactories;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.JComboBox;
@@ -32,10 +33,10 @@ public class ScreenCreateCust extends javax.swing.JFrame {
         this.idC = idC0;
         this.db = AccessDB.getAccessDB();
         this.choiceStatus = db.getStatus();
-        this.status = new JComboBox();
         choiceStatus.stream().forEach((choiceStatu) -> {
             status.addItem(choiceStatu);
         });
+        status.setEnabled(true);
         btnSubmit.addActionListener(new ControllerScreenCreateCust(this, title, lastName, firstName, birthday, nationality, phoneNumber, email, owner, salary, status, street, city, postalCode, idC0, btnSubmit, btnBack));
         btnBack.addActionListener(new ControllerScreenCreateCust(this, idC, btnBack, btnSubmit));
         this.setVisible(true);
