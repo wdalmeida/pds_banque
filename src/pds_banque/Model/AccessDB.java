@@ -60,7 +60,7 @@ public class AccessDB implements Constantes {
             query = "SELECT id_User FROM User Natural Join Consultant where login_User='" + login + "' AND pwd_User='" + pwd + "';";
             ResultSet rs = this.declaration.executeQuery(query);
             if (rs.first()) {
-                tmp = rs.getInt(1);                
+                tmp = rs.getInt(1);
             }
             rs.close();
         } catch (SQLException e) {
@@ -91,7 +91,6 @@ public class AccessDB implements Constantes {
     public String[] Info_Consultant(String login, String pwd) throws NoSuchAlgorithmException {
         String query = "test";
         pwd = HashString.sha512(pwd); // use for crypt the password
-        System.out.println("Mot de passe sha512 = " + pwd);
         try {
             String[] tab = new String[2];
             query = "SELECT last_Name_Consultant,first_Name_Consultant FROM Consultant Natural Join User WHERE login_User='" + login + "' AND pwd_User='" + pwd + "';";
@@ -109,35 +108,64 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-    public int insertCustomer(Customer cust) {
+    public int getIdUser(String login, String pwd){
         String query1 = "test";
-        String query2 = "test";
         int res;
         try {
-            query1 = "Insert Into User(login,pwd) values('" + cust.getLastName() + "','" + cust.getFirstName() + "')";
+            query1 = "select id_User from User where login_User='"+login+"' AND pwd_User='"+pwd+"';";
+            System.out.println("requete =" + query1);
             res = this.declaration.executeUpdate(query1);
-            try {
-                if (res == 1) {
-                    query2 = "INSERT INTO `Customer`(`last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`,`id_Consultant`) VALUES ('" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "',2)";
-                    res = this.declaration.executeUpdate(query2);
-                    if (res == 1) {
-                        return 1;
-                    } else {
-                        System.out.println("Erreur dans l'insertion du nouveau Client");
-                        return 0;
-                    }
-                } else {
-                    System.out.println("Erreur dans l'insertion du nouveau Utilisateur");
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-                e.printStackTrace();
+            if (res != 0) {
+                System.out.println("selection ok");
+                return res;
             }
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public int insertCustomer(Customer cust, int idConsulant) throws NoSuchAlgorithmException {
+        String query1 = "test";
+        String query2 = "test";
+        String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
+        int res;
+        int tmp = 0;
+        try {
+            query1 = "Insert Into User(login_User,pwd_User) values('" + cust.getLastName() + "','" +pwd+ "')";
+            res = this.declaration.executeUpdate(query1);
+            if (res == 1) {
+                res = this.getIdUser(cust.getLastName(), pwd);
+                if (res == 1) {
+                    try {
+                        cust.setIdUser(res);
+                        query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`, `id_User`, `id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + cust.getBirthday() + "','" + cust.isOwner() + "','" + cust.getNationality() + "','" + idConsulant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "')";
+                        res = this.declaration.executeUpdate(query2);
+                        if (res == 1) {
+                            tmp = 1;
+                            System.out.println("Insertion du nouveau Client");
+                        } else {
+                            tmp = 0;
+                            System.out.println("Erreur dans l'insertion du nouveau Client");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+                        e.printStackTrace();
+                    }
+                } else {
+                    tmp = 0;
+                    System.out.println("Erreur dans lors de la récupération de l'idUser");
+                }
+            } else {
+                tmp = 0;
+                System.out.println("Erreur dans lors de l'insertion du User");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            e.printStackTrace();
+        }
+        return tmp;
     }
 
     public int getIDConsultant(Customer cust) {
@@ -175,26 +203,26 @@ public class AccessDB implements Constantes {
         }
         return null;
     }
-    
-    public ArrayList<String> getStatus() throws SQLException{
-        String query ="test";
-        int i=0;
-        try{
+
+    public ArrayList<String> getStatus() throws SQLException {
+        String query = "test";
+        int i = 0;
+        try {
             ArrayList<String> tab = new ArrayList();
             query = "SELECT id_status,description_status FROM statusRef order by description_status;";
             ResultSet rs = this.declaration.executeQuery(query);
             if (rs.first()) {
-                do{
+                do {
                     tab.add(rs.getString(2));
-                }while(rs.next());
+                } while (rs.next());
             }
             rs.close();
             return tab;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
             e.printStackTrace();
         }
         return null;
     }
-    
+
 }

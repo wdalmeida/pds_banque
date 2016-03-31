@@ -6,6 +6,10 @@
 package pds_banque.Controller;
 
 import java.awt.event.*;
+import java.security.NoSuchAlgorithmException;
+import static java.util.Calendar.DATE;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import pds_banque.Customer;
 import pds_banque.Model.*;
@@ -47,7 +51,7 @@ public class ControllerScreenCreateCust implements ActionListener {
 
     }
 
-    public ControllerScreenCreateCust(ScreenCreateCust scc0, JComboBox title0, JTextField lastName0, JTextField firstName0, JXDatePicker birthday0, JTextField nationality0, JTextField phoneNumber0, JTextField email0, JCheckBox owner0, JTextField salary0, JComboBox status0, JTextField street0, JTextField city0, JTextField postalCode0, int idC0,JButton btnSubmit0, JButton btnBack0) {
+    public ControllerScreenCreateCust(ScreenCreateCust scc0, JComboBox title0, JTextField lastName0, JTextField firstName0, JXDatePicker birthday0, JTextField nationality0, JTextField phoneNumber0, JTextField email0, JCheckBox owner0, JTextField salary0, JComboBox status0, JTextField street0, JTextField city0, JTextField postalCode0, int idC0, JButton btnSubmit0, JButton btnBack0) {
         this.btnSubmit = btnSubmit0;
         this.btnBack = btnBack0;
         this.scc = scc0;
@@ -72,18 +76,26 @@ public class ControllerScreenCreateCust implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int res;
         if (e.getSource() == btnSubmit) {
-            float salairetmp = Float.valueOf(salary.getText());
-            //this.customer = new Customer(title.getSelectedItem().toString(),lastName.getText(),firstName.getText(),birthday.getText(),nationality.getText(),phoneNumber.getText(),email.getText(),true,Float.valueOf(salary.getText()),status.getSelectedItem().toString(),street.getText(),city.getText(),postalCode.getText());
-            System.out.println("Civilité = " + title.getSelectedItem().toString() + " Nom = " + lastName.getText() + " Prenom = " + firstName.getText() + " date de Naissance = " + birthday.getDate() + " Nationalite " + nationality.getText() + " telephone = " + phoneNumber.getText() + " email =" + email.getText() + " Proprietaire =true Salaire = " + Float.valueOf(salary.getText()) + " statut = " + status.getSelectedItem().toString() + " rue = " + street.getText() + " ville= " + city.getText() + " CP = " + postalCode.getText());
+            this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(), true, Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText(), idConsultant, -1); // -1 default number 
+            // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)
+            //  {
+            try {
+                //System.out.println("Civilité = " + title.getSelectedItem().toString() + " Nom = " + lastName.getText() + " Prenom = " + firstName.getText() + " date de Naissance = " + birthday.getDate() + " Nationalite " + nationality.getText() + " telephone = " + phoneNumber.getText() + " email =" + email.getText() + " Proprietaire = "+owner.isSelected()+ "Salaire = " + Float.valueOf(salary.getText()) + " statut = " + status.getSelectedItem().toString() + " rue = " + street.getText() + " ville= " + city.getText() + " CP = " + postalCode.getText());
+                res = bdd.insertCustomer(this.customer, idConsultant);
 
-           // res = bdd.insertCustomer(this.customer);
-           /* if (res == 1) {
-             this.scc.dispose();
-             scc.setVisible(false);
-             ScreenHome fen2 = new ScreenHome(idConsultant);
-             } else {
-             System.out.println("insertio ko");
-             }*/
+                if (res == 1) {
+                    this.scc.dispose();
+                    scc.setVisible(false);
+                    ScreenHome fen2 = new ScreenHome(idConsultant);
+                } else {
+                    System.out.println("insertio ko");
+                }
+                /*  }else {
+                 // here mesagge for wrong format of birthday or salary or phonenumber or Postal code
+                 }*/
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (e.getSource() == btnBack) {
             this.scc.dispose();
             scc.setVisible(false);
