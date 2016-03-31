@@ -110,15 +110,15 @@ public class AccessDB implements Constantes {
 
     public int getIdUser(String login, String pwd){
         String query1 = "test";
-        int res;
+        ResultSet res;
+        int idUser;
         try {
             query1 = "select id_User from User where login_User='"+login+"' AND pwd_User='"+pwd+"';";
             System.out.println("requete =" + query1);
-            res = this.declaration.executeUpdate(query1);
-            if (res != 0) {
-                System.out.println("selection ok");
-                return res;
-            }
+            res = this.declaration.executeQuery(query1);
+            idUser = res.getInt(1);
+            System.out.println("idUser "+idUser);
+            return idUser;
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
             e.printStackTrace();
