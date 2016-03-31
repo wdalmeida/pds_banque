@@ -56,22 +56,6 @@ public class AccessDBTest {
     }
 
     /**
-     * Test of Infos_Conseiller method, of class AccessDB.
-     */
-    @Test
-    public void testInfos_Conseiller() {
-        System.out.println("Infos_Conseiller");
-        String login = "";
-        String pwd ="";
-        AccessDB instance = null;
-        String[] expResult = null;
-        String[] result = instance.Info_Consultant(login,pwd);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of insertCustomer method, of class AccessDB.
      */
     @Test
