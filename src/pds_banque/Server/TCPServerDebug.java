@@ -26,7 +26,6 @@ class TCPServerDebug {
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues: " + donneesEntreeClient);
             donneesModifiees = donneesEntreeClient.toUpperCase() + '\n';
-            //AccessDB_server.insertionCustomer(donneesEntreeClient);
             sortieVersClient.writeBytes(donneesModifiees);
         }
     }

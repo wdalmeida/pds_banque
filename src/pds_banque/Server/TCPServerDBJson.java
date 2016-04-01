@@ -34,8 +34,8 @@ public class TCPServerDBJson {
             Object obj = donneesEntreeClient;
             decodageCustomer(obj);
 
-            //AccessDB_server.insertionCustomer(donneesEntreeClient);
             //sortieVersClient.writeBytes("Requete effectuee" + '\n');
+            
         }
 
     }
@@ -86,7 +86,7 @@ public class TCPServerDBJson {
                 + email_Customer + "', '" + birthday_Customer + "'," + owner_Customer + "," + id_Consultant + "," + id_User + "," + id_status + ")";
         System.out.println("Soit la requete SQL:" + '\n');
         System.out.println(requete);
-        AccessDB_server.insertionCustomer(requete);
+        AccessDB_server.envoyerRequeteUpdate(requete);
     }
 
     public static void main(String argv[]) throws Exception {

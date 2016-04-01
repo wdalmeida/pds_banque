@@ -8,9 +8,9 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RequeteClientTCP {
+public class RequeteInsertionClient {
 
-    public RequeteClientTCP(String entree, String host, int port) throws IOException {
+    public RequeteInsertionClient(String entree, String host, int port) throws IOException {
         String reponseDuServeur;
         try (
                 Socket socketClient = new Socket(host, port)) {
@@ -29,9 +29,9 @@ public class RequeteClientTCP {
             public void run() {
                 try {
                     String requete = "INSERT INTO Customer " + "VALUES (1, '', 'STROH', 'NICOLAS', 3100, 'Edmon Nocard', '94410', 'Saint Maurice', '145659878', 'nicolas.stroh@Yahoo.fr', '1992-08-08', 1, 1, 0, 1)";
-                    new RequeteClientTCP(requete, "localhost", 3000);
+                    new RequeteInsertionClient(requete, "localhost", 3000);
                 } catch (IOException ex) {
-                    Logger.getLogger(RequeteClientTCP.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RequeteInsertionClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

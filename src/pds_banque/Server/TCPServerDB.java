@@ -25,7 +25,7 @@ public class TCPServerDB {
             DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues: " + donneesEntreeClient);
-            AccessDB_server.insertionCustomer(donneesEntreeClient);
+            AccessDB_server.envoyerRequeteQuery(donneesEntreeClient);
             sortieVersClient.writeBytes("Requete effectuee");
 
         }

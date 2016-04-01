@@ -13,16 +13,25 @@ import java.security.NoSuchAlgorithmException;
  * @author Warren
  */
 public class HashString {
-    
-    public static String sha512(String input) throws NoSuchAlgorithmException{
-       
+
+    public static String sha512(String input) throws NoSuchAlgorithmException {
+
         MessageDigest mDigest = MessageDigest.getInstance("SHA-512");
         byte[] result = mDigest.digest(input.getBytes());
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
-			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-		}
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
         return sb.toString();
     }
     
+    //petit test pour verifier que l objet de retour marche correctement
+    /*public static void main(String[] args) throws NoSuchAlgorithmException {
+
+        String testInput = "bonjour";
+        String inputHashed = sha512(testInput);
+        System.out.println(inputHashed);
+
+    }*/
+
 }
