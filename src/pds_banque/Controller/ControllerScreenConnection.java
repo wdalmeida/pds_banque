@@ -12,52 +12,59 @@ import pds_banque.View.Window;
 
 public class ControllerScreenConnection implements ActionListener {
 
-    private JTextField Identifiant;
-    private transient JTextField Password;
-    private JLabel error;
+    private JTextField identifiant;
+    private transient JPasswordField password;
+    private JLabel lblError;
     private Window fen;
     private AccessDB bdd;
 
-    public ControllerScreenConnection(Window fen0, JTextField Identifiant0, JTextField password0, JLabel labelError) {
-        this.Identifiant = Identifiant0;
-        this.Password = password0;
+    public ControllerScreenConnection(Window fen0, JTextField identifiant0, JPasswordField password0, JLabel labelError) {
+        this.identifiant = identifiant0;
+        this.password = password0;
         this.fen = fen0;
-        error = labelError;
+        lblError = labelError;
         bdd = AccessDB.getAccessDB();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!"".equals(Identifiant.getText().trim()) && !"".equals(Password.getText().trim())) {
+        resetAfterError();
+        if (!"".equals(identifiant.getText().trim()) && !"".equals(password.getText().trim())) {
             System.out.println("pds_banque.Controller.ControllerScreenConnection.actionPerformed()");
             try {
                 signIn();
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(ControllerScreenConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
-            if("".equals(Identifiant.getText().trim())){
-                Identifiant.requestFocus();
+        } else {
+            if ("".equals(identifiant.getText().trim())) {
+                identifiant.requestFocus();
+                identifiant.setBorder(BorderFactory.createLineBorder(Color.RED));
+            } else if ("".equals(password.getText().trim())) {
+                password.requestFocus();
+                password.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
-            else if("".equals(Password.getText().trim())){
-                Password.requestFocus();
-            }
-            error.setText("Veuillez remplir tous les champs");
-            error.setForeground(Color.red);
+            lblError.setText("Veuillez remplir tous les champs");
+            lblError.setForeground(Color.red);
         }
     }
 
-    public void signIn() throws NoSuchAlgorithmException{
-           int idConsultant = bdd.getConnexion(Identifiant.getText(), Password.getText());
-            if (idConsultant != 0) {
-                this.fen.dispose();
-                fen.setVisible(false);
-                ScreenHome fen2 = new ScreenHome(idConsultant);
-                fen2.changeScreen(Identifiant.getText(), Password.getText());
-            } else {
-                error.setText("Identifiant ou mot de passe invalide");
-                error.setForeground(Color.red);
-            }
+    public void signIn() throws NoSuchAlgorithmException {
+        int idConsultant = bdd.getConnexion(identifiant.getText(), password.getText());
+        if (idConsultant != 0) {
+            this.fen.dispose();
+            fen.setVisible(false);
+            ScreenHome fen2 = new ScreenHome(idConsultant);
+            fen2.changeScreen(identifiant.getText(), password.getText());
+        } else {
+            lblError.setText("identifiant ou mot de passe invalide");
+            lblError.setForeground(Color.red);
+        }
+    }
+
+    public void resetAfterError() {
+        lblError.setText("");
+        identifiant.setBorder(UIManager.getBorder("TextField.border"));
+        password.setBorder(UIManager.getBorder("TextField.border"));
     }
 }
