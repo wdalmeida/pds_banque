@@ -15,7 +15,7 @@ public class poolConnexion_V2 {
     ArrayList<AccessDB> listConnexion = new ArrayList<>();
     
     public poolConnexion_V2(){
-       for(int i =0; i<=2; i++){
+       for(int i =0; i<10; i++){
            listConnexion.add(i,AccessDB.getAccessDB());
        } 
 }
