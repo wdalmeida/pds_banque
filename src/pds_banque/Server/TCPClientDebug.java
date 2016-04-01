@@ -1,7 +1,6 @@
 package pds_banque.Server;
 
 import java.io.*;
-import java.net.*;
 import java.net.Socket;
 
 /*
@@ -13,8 +12,6 @@ import java.net.Socket;
  *
  * @author flesguer
  */
-import java.io.*;
-import java.net.*;
 
 class TCPClientDebug {
 

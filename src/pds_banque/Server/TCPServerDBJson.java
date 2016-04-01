@@ -3,13 +3,11 @@ package pds_banque.Server;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
