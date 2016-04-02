@@ -293,6 +293,7 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXDatePicker" name="birthday">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Format : JJ/MM/AAAA"/>
             <Property name="name" type="java.lang.String" value="04birthday" noResource="true"/>
           </Properties>
         </Component>
@@ -308,6 +309,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="street">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Format : N&#xb0; + rue"/>
             <Property name="name" type="java.lang.String" value="11street" noResource="true"/>
           </Properties>
         </Component>
@@ -333,6 +335,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="salary">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Format : 5000.00"/>
             <Property name="name" type="java.lang.String" value="09salary" noResource="true"/>
           </Properties>
         </Component>
@@ -343,6 +346,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="phoneNumber">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Format : 0611223344"/>
             <Property name="name" type="java.lang.String" value="06phoneNumber" noResource="true"/>
           </Properties>
         </Component>
@@ -378,6 +382,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="email">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Format : adresse@email.fr"/>
             <Property name="name" type="java.lang.String" value="07email" noResource="true"/>
           </Properties>
         </Component>

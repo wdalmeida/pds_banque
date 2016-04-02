@@ -124,12 +124,14 @@ public class ScreenCreateCust extends JFrame {
 
         lblBirth.setText("Date de Naissance *");
 
+        birthday.setToolTipText("Format : JJ/MM/AAAA");
         birthday.setName("04birthday"); // NOI18N
 
         lblNationality.setText("Nationalité *");
 
         nationality.setName("05nationality"); // NOI18N
 
+        street.setToolTipText("Format : N° + rue");
         street.setName("11street"); // NOI18N
 
         lblStreet.setText("Rue *");
@@ -140,10 +142,12 @@ public class ScreenCreateCust extends JFrame {
 
         lblPC.setText("Code Postal *");
 
+        salary.setToolTipText("Format : 5000.00");
         salary.setName("09salary"); // NOI18N
 
         lblSalary.setText("Salaire *");
 
+        phoneNumber.setToolTipText("Format : 0611223344");
         phoneNumber.setName("06phoneNumber"); // NOI18N
 
         btnBack.setText("Retour");
@@ -159,6 +163,7 @@ public class ScreenCreateCust extends JFrame {
 
         lblEmail.setText("Email *");
 
+        email.setToolTipText("Format : adresse@email.fr");
         email.setName("07email"); // NOI18N
 
         lblTitle.setText("Civilité *");
