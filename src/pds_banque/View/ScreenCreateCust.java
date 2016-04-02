@@ -135,19 +135,31 @@ public class ScreenCreateCust extends JFrame {
 
         lblBirth.setText("Date de Naissance *");
 
+        birthday.setToolTipText("Format : JJ/MM/AAAA");
         birthday.setName("04birthday"); // NOI18N
 
         lblNationality.setText("Nationalité *");
 
         nationality.setName("05nationality"); // NOI18N
 
-        lblPN.setText("Telephone *");
+        street.setToolTipText("Format : N° + rue");
+        street.setName("11street"); // NOI18N
 
-        phoneNumber.setName("06phoneNumber"); // NOI18N
+        lblStreet.setText("Rue *");
+
+        city.setName("12city"); // NOI18N
+
+        lblCity.setText("Ville *");
+
+        lblPC.setText("Code Postal *");
+
+        salary.setToolTipText("Format : 5000.00");
+        salary.setName("09salary"); // NOI18N
 
         lblEmail.setText("Email *");
 
-        email.setName("07email"); // NOI18N
+        phoneNumber.setToolTipText("Format : 0611223344");
+        phoneNumber.setName("06phoneNumber"); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(200, 0, 0));
         jLabel2.setText("* Champs obligatoires");
@@ -227,7 +239,8 @@ public class ScreenCreateCust extends JFrame {
 
         owner.setName("08owner"); // NOI18N
 
-        lblSalary.setText("Salaire *");
+        email.setToolTipText("Format : adresse@email.fr");
+        email.setName("07email"); // NOI18N
 
         salary.setToolTipText("");
         salary.setName("09salary"); // NOI18N
