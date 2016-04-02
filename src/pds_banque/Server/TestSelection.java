@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import org.json.simple.JSONObject;
+import static pds_banque.Json.JsonEncoding.encodageLoginConsultant;
 import pds_banque.Model.HashString;
 import pds_banque.View.ScreenHome;
 
@@ -21,20 +22,8 @@ public class TestSelection {
         String hashedPass = HashString.sha512("pass");
         System.out.println(hashedPass);
         //JSONObject consultantJson = encodage("cmarin", hashedPass);
-        RequeteTCPJson(encodage("cmarin", hashedPass));
+        RequeteTCPJson(encodageLoginConsultant("cmarin", hashedPass));
 
-    }
-
-    public static JSONObject encodage(String identifiant, String motDePasse) throws IOException {
-
-        JSONObject obj = new JSONObject();
-
-        obj.put("identifiant", identifiant);
-        obj.put("motdepasse", motDePasse);
-
-        System.out.print("Objet encodé:" + obj);
-
-        return obj;
     }
 
     public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
