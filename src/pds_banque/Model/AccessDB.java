@@ -124,50 +124,37 @@ public class AccessDB implements Constantes {
         return idUser;
     }
     public int insertCustomer(Customer cust, int idConsulant) throws NoSuchAlgorithmException {
-        String query1 = "test";
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
         int res;
         int tmp = 0;
         int owner =0;
         if (cust.isOwner()) owner=1;
-        try {
-            query1 = "Insert Into User(login_User,pwd_User) values('" + cust.getLastName() + "','" + pwd + "')";
-            res = this.declaration.executeUpdate(query1);
-            if (res == 1) {
-                res = this.getIdUser(cust.getLastName(), pwd);
-                if (res != 0) {
-                    try {
-                        cust.setIdUser(res);
-                        java.util.Date utilDate = new java.util.Date();
-                        java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
-                        System.out.println("idstatu= "+cust.getIdstatus());
-                        query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`, `id_User`, `id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsulant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "')";
-                        System.out.println(query2);
-                        res = this.declaration.executeUpdate(query2);
-                        System.out.println("res ="+res );
-                        if (res == 1) {
-                            tmp = 1;
-                            System.out.println("Insertion du nouveau Client");
-                        } else {
-                            tmp = 0;
-                            System.out.println("Erreur dans l'insertion du nouveau Client");
-                        }
-                    } catch (SQLException e) {
-                        System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-                        e.printStackTrace();
-                    }
+        res = this.getIdUser(cust.getLastName(), pwd);
+        if (res != 0) {
+            try {
+                cust.setIdUser(res);
+                java.util.Date utilDate = new java.util.Date();
+                java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
+                System.out.println("Code postal = "+cust.getPostalCode());
+                query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`, `id_User`, `id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsulant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "')";
+                System.out.println(query2);
+                res = this.declaration.executeUpdate(query2);
+                System.out.println("res ="+res );
+                if (res == 1) {
+                    tmp = 1;
+                    System.out.println("Insertion du nouveau Client");
                 } else {
                     tmp = 0;
-                    System.out.println("Erreur dans lors de la récupération de l'idUser");
+                    System.out.println("Erreur dans l'insertion du nouveau Client");
                 }
-            } else {
-                tmp = 0;
-                System.out.println("Erreur dans lors de l'insertion du User");
+            } catch (SQLException e) {
+                System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
+        } else {
+            tmp = 0;
+            System.out.println("Erreur dans lors de la récupération de l'idUser");
         }
         return tmp;
     }
@@ -213,7 +200,7 @@ public class AccessDB implements Constantes {
         int i = 0;
         try {
             ArrayList<String> tab = new ArrayList();
-            query = "SELECT id_status,description_status FROM statusRef order by description_status;";
+            query = "SELECT id_status,description_status FROM StatusRef";
             ResultSet rs = this.declaration.executeQuery(query);
             if (rs.first()) {
                 do {
