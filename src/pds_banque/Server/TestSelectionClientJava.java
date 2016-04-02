@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import static pds_banque.Json.JsonEncoding.encodageLoginConsultant;
 import pds_banque.Model.HashString;
@@ -15,15 +17,24 @@ import pds_banque.View.ScreenHome;
  *
  * @author Florian
  */
-public class TestSelection {
+public class TestSelectionClientJava extends Thread {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-        String hashedPass = HashString.sha512("pass");
-        System.out.println(hashedPass);
-        //JSONObject consultantJson = encodage("cmarin", hashedPass);
-        RequeteTCPJson(encodageLoginConsultant("cmarin", hashedPass));
+        Thread monclient = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
 
+                    RequeteTCPJson(encodageLoginConsultant("cmarin", HashString.sha512("pass")));
+                } catch (IOException ex) {
+
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(TestSelectionClientJava.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        monclient.start();
     }
 
     public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
