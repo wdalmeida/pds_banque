@@ -75,7 +75,9 @@ public class ControllerScreenCreateCust implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int res;
         if (e.getSource() == btnSubmit) {
-            this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(),owner.isValid(), Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText().substring(0,5), idConsultant, -1); // -1 default number 
+            this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(), owner.isValid(), Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText().substring(0, 5), idConsultant, -1); // -1 default number 
+            System.out.println("customer = " + customer.toString());
+
             // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)
             //  {
             try {

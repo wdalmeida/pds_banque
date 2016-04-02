@@ -31,7 +31,7 @@ public class ScreenCreateCust extends JFrame {
      */
     public ScreenCreateCust(int idC0) throws SQLException {
         initComponents();
-        System.out.println(Arrays.toString(jPanel1.getComponents()));
+        //System.out.println(Arrays.toString(jPanel1.getComponents()));
         Component[] allFields = jPanel1.getComponents();
         ArrayList<String> fieldNames = new ArrayList<>();
         ArrayList<Component> fieldList = new ArrayList<>();
@@ -111,7 +111,7 @@ public class ScreenCreateCust extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(400, 100));
 
-        title.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Veuillez selectionner une civilite", "Mr", "Mme", "Autre" }));
+        title.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "selectionner", "M", "Mme", "Autre" }));
         title.setName("01title"); // NOI18N
 
         lastName.setName("02lastName"); // NOI18N
@@ -134,28 +134,28 @@ public class ScreenCreateCust extends JFrame {
 
         lblStreet.setText("Rue *");
 
-        city.setName("09salary"); // NOI18N
+        city.setName("12city"); // NOI18N
 
         lblCity.setText("Ville *");
 
         lblPC.setText("Code Postal *");
 
-        salary.setName("12postalCode"); // NOI18N
+        salary.setName("09salary"); // NOI18N
 
         lblSalary.setText("Salaire *");
 
         phoneNumber.setName("06phoneNumber"); // NOI18N
 
         btnBack.setText("Retour");
-        btnBack.setName("13btnBack"); // NOI18N
+        btnBack.setName("14btnBack"); // NOI18N
 
-        postalCode.setName("12city"); // NOI18N
+        postalCode.setName("13postalCode"); // NOI18N
 
         lblformatBirth.setForeground(new java.awt.Color(192, 192, 192));
         lblformatBirth.setText("Format : JJ/MM/AAAA");
 
         btnSubmit.setText("Valider");
-        btnSubmit.setName("14BtnSubmit"); // NOI18N
+        btnSubmit.setName("15BtnSubmit"); // NOI18N
 
         lblEmail.setText("Email *");
 
@@ -165,7 +165,7 @@ public class ScreenCreateCust extends JFrame {
 
         lblStatut.setText("Statut *");
 
-        status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "veuillez selectionner un statut" }));
+        status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "selectionner un statut" }));
         status.setName("10status"); // NOI18N
 
         lblOwner.setText("Proprietaire");
@@ -271,7 +271,6 @@ public class ScreenCreateCust extends JFrame {
                             .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTitle)
                             .addComponent(lblOwner))))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,7 +357,7 @@ public class ScreenCreateCust extends JFrame {
                 .addComponent(lblCreationClient)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();

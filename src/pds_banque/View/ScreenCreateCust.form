@@ -49,7 +49,7 @@
               <Component id="lblCreationClient" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -174,7 +174,6 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -258,8 +257,8 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
-                <StringItem index="0" value="Veuillez selectionner une civilite"/>
-                <StringItem index="1" value="Mr"/>
+                <StringItem index="0" value="selectionner"/>
+                <StringItem index="1" value="M"/>
                 <StringItem index="2" value="Mme"/>
                 <StringItem index="3" value="Autre"/>
               </StringArray>
@@ -319,7 +318,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="city">
           <Properties>
-            <Property name="name" type="java.lang.String" value="09salary" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="12city" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCity">
@@ -334,7 +333,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="salary">
           <Properties>
-            <Property name="name" type="java.lang.String" value="12postalCode" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="09salary" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSalary">
@@ -350,12 +349,12 @@
         <Component class="javax.swing.JButton" name="btnBack">
           <Properties>
             <Property name="text" type="java.lang.String" value="Retour"/>
-            <Property name="name" type="java.lang.String" value="13btnBack" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="14btnBack" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="postalCode">
           <Properties>
-            <Property name="name" type="java.lang.String" value="12city" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="13postalCode" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblformatBirth">
@@ -369,7 +368,7 @@
         <Component class="javax.swing.JButton" name="btnSubmit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Valider"/>
-            <Property name="name" type="java.lang.String" value="14BtnSubmit" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="15BtnSubmit" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblEmail">
@@ -396,7 +395,7 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="1">
-                <StringItem index="0" value="veuillez selectionner un statut"/>
+                <StringItem index="0" value="selectionner un statut"/>
               </StringArray>
             </Property>
             <Property name="name" type="java.lang.String" value="10status" noResource="true"/>
