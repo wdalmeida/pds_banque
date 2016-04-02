@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pds_banque.Server;
 
 import java.io.BufferedReader;
@@ -32,19 +27,16 @@ public class TCPServerJsonSelect {
             DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
-
-            //a partir de ce moment le but est de transformer la chaine de caractere lue par le serveur en un objet
-            //il faudrait que cet objet soit un JsonObject dans l ideal
             Object obj = donneesEntreeClient;
-            decodageCustomer(obj);
+            //decodageCustomer(obj);
+            AccessDB_server.envoyerRequeteQuery(decodageCustomer(donneesEntreeClient));
 
-            //sortieVersClient.writeBytes("Requete effectuee" + '\n');
-            sortieVersClient.writeBytes("cmarin"+ '\n');
+            sortieVersClient.writeBytes("cmarin" + '\n');
         }
 
     }
 
-    public static void decodageCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
+    public static String decodageCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
 
         JSONParser parser = new JSONParser();
         String object = objetjson.toString();
@@ -61,7 +53,8 @@ public class TCPServerJsonSelect {
 
         System.out.println("Soit la requete SQL:" + '\n');
         System.out.println(requete);
-        AccessDB_server.envoyerRequeteQuery(requete);
+        //AccessDB_server.envoyerRequeteQuery(requete);
+        return requete;
     }
 
     public static void main(String argv[]) throws Exception {

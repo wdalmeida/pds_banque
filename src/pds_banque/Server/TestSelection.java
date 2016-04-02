@@ -19,12 +19,13 @@ public class TestSelection {
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
         String hashedPass = HashString.sha512("pass");
-        encodage("cmarin", hashedPass);
         System.out.println(hashedPass);
+        //JSONObject consultantJson = encodage("cmarin", hashedPass);
+        RequeteTCPJson(encodage("cmarin", hashedPass));
 
     }
 
-    public static void encodage(String identifiant, String motDePasse) throws IOException {
+    public static JSONObject encodage(String identifiant, String motDePasse) throws IOException {
 
         JSONObject obj = new JSONObject();
 
@@ -32,7 +33,8 @@ public class TestSelection {
         obj.put("motdepasse", motDePasse);
 
         System.out.print("Objet encodé:" + obj);
-        RequeteTCPJson(obj);
+
+        return obj;
     }
 
     public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
@@ -48,13 +50,13 @@ public class TestSelection {
             reponseServeur = receptionServeur.readLine();
             System.out.println("Le serveur a repondu: " + reponseServeur);
             socketClient.close();
-            
-            if(reponseServeur.equals("cmarin")){
+
+            if (reponseServeur.equals("cmarin")) {
                 ScreenHome fen2 = new ScreenHome(1);
                 fen2.setVisible(true);
                 System.out.println("La fenetre devrai etre creee");
             }
-            
+
         }
 
     }

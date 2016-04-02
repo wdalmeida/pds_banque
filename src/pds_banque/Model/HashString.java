@@ -25,13 +25,5 @@ public class HashString {
         return sb.toString();
     }
     
-    //petit test pour verifier que l objet de retour marche correctement
-    /*public static void main(String[] args) throws NoSuchAlgorithmException {
-
-        String testInput = "bonjour";
-        String inputHashed = sha512(testInput);
-        System.out.println(inputHashed);
-
-    }*/
 
 }

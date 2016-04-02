@@ -27,12 +27,13 @@ public class TestInsertion {
         //le decodeur Json balance dans la classe d'accès à la base de données
         float salaire = (float) 4500;
 
-        encodage(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com",
-                "1958-08-29", 1, 1, 0, 1);
-
+        //encodage(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com", "1958-08-29", 1, 1, 0, 1);
+        RequeteTCPJson(encodage(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com",
+                "1958-08-29", 1, 1, 0, 1));
+        
     }
 
-    public static void encodage(int id_Customer, String title_Customer, String last_Name_Customer, String first_Name_Customer, Float salary_Customer, String street_Customer, String pc_Customer, String city_Customer, String phone_Customer, String email_Customer, String birthday_Customer, int owner_Customer, int id_Consultant, int id_User, int id_status) throws IOException {
+    public static JSONObject encodage(int id_Customer, String title_Customer, String last_Name_Customer, String first_Name_Customer, Float salary_Customer, String street_Customer, String pc_Customer, String city_Customer, String phone_Customer, String email_Customer, String birthday_Customer, int owner_Customer, int id_Consultant, int id_User, int id_status) throws IOException {
 
         JSONObject obj = new JSONObject();
 
@@ -53,7 +54,8 @@ public class TestInsertion {
         obj.put("id_status", id_status);
 
         System.out.print("Objet encodé:" + obj);
-        RequeteTCPJson(obj);
+        //RequeteTCPJson(obj);
+        return obj;
     }
 
     public static void RequeteTCPJson(JSONObject objetJson) throws IOException {

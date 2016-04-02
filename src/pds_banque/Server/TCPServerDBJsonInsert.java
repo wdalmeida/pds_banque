@@ -15,7 +15,7 @@ import org.json.simple.parser.JSONParser;
  *
  * @author Florian
  */
-public class TCPServerDBJson {
+public class TCPServerDBJsonInsert {
 
     public static void lancerServeur(int port) throws IOException, FileNotFoundException, ParseException {
         ServerSocket socketAccueil = new ServerSocket(port);
@@ -25,22 +25,19 @@ public class TCPServerDBJson {
             Socket connectionSocket = socketAccueil.accept();
             BufferedReader entreeVenantDuClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
+            
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
-
-            //a partir de ce moment le but est de transformer la chaine de caractere lue par le serveur en un objet
-            //il faudrait que cet objet soit un JsonObject dans l ideal
-            //bug a corriger
             Object obj = donneesEntreeClient;
-            decodageCustomer(obj);
-
-            //sortieVersClient.writeBytes("Requete effectuee" + '\n');
             
+            AccessDB_server.envoyerRequeteUpdate(decodageCustomer(obj));
+          
+            //sortieVersClient.writeBytes("Requete effectuee" + '\n');
         }
 
     }
 
-    public static void decodageCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
+    public static String decodageCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
 
         JSONParser parser = new JSONParser();
         String object = objetjson.toString();
@@ -86,7 +83,8 @@ public class TCPServerDBJson {
                 + email_Customer + "', '" + birthday_Customer + "'," + owner_Customer + "," + id_Consultant + "," + id_User + "," + id_status + ")";
         System.out.println("Soit la requete SQL:" + '\n');
         System.out.println(requete);
-        AccessDB_server.envoyerRequeteUpdate(requete);
+        //AccessDB_server.envoyerRequeteUpdate(requete);
+        return requete;
     }
 
     public static void main(String argv[]) throws Exception {
