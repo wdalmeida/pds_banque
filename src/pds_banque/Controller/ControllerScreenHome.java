@@ -6,6 +6,9 @@
 package pds_banque.Controller;
 
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import pds_banque.Model.AccessDB;
 import pds_banque.View.ScreenHome;
@@ -41,9 +44,13 @@ public class ControllerScreenHome implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCreateCustomer) {
-            this.ecranAccueil.dispose();
-            ecranAccueil.setVisible(false);
-            ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
+            try {
+                this.ecranAccueil.dispose();
+                ecranAccueil.setVisible(false);
+                ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } else if (e.getSource() == btnSimulateLoan) {
             System.out.println("bouton loan");

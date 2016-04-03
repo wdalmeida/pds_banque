@@ -5,80 +5,68 @@
  */
 package pds_banque;
 
+import java.util.*;
+
 /**
  *
  * @author florent
  */
 public class Customer {
+    private String title;
     private String lastName;
     private String firstName;
+    private Date birthday;
+    private String nationality;
+    private String phoneNumber;
     private String email;
+    private boolean owner;
+    private float salary;
+    private int idstatus;
     private String street;
     private String city;
     private String postalCode;
-    private float salary;
-    private String phoneNumber;
-    private String birthday;
-    private String title;
-    private String profStatus;
-    private boolean owner;
+    private int idConsultant;
+    private int idUser;
 
-    public Customer(String lastName, String firstName, String email, String street, String city, String postalCode, float salary, String phoneNumber, String birthday, String title, String profStatus, boolean owner) {
+    public Customer(String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, int idstatus0, String street, String city, String postalCode,int idConsultant0,int idUser0) {
+        this.title = title;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.birthday = birthday;
+        this.nationality = nationality;
+        this.phoneNumber = phoneNumber;
         this.email = email;
+        this.owner = owner;
+        this.salary = salary;
+        this.idstatus = idstatus0;
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
-        this.salary = salary;
-        this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
-        this.title = title;
-        this.profStatus = profStatus;
-        this.owner = owner;
-    }   
-    
-
-    public float getSalary() {
-        return salary;
+        this.idConsultant = idConsultant0;
+        this.idUser = idUser0;
     }
 
-    public void setSalary(float salary) {
-        this.salary = salary;
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+    
+
+    public int getIdstatus() {
+        return idstatus;
+    }
+
+    public int getIdConsultant() {
+        return idConsultant;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getProfStatus() {
-        return profStatus;
-    }
-
-    public void setProfStatus(String profStatus) {
-        this.profStatus = profStatus;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public boolean isOwner() {
-        return owner;
-    }
-
-    public void setOwner(boolean owner) {
-        this.owner = owner;
-    } 
-    
     public String getLastName() {
         return lastName;
     }
@@ -87,8 +75,32 @@ public class Customer {
         return firstName;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public float getSalary() {
+        return salary;
+    }
+
+    public int getidStatus() {
+        return idstatus;
     }
 
     public String getStreet() {
@@ -102,11 +114,5 @@ public class Customer {
     public String getPostalCode() {
         return postalCode;
     }
-    
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-
-    
+   
 }
