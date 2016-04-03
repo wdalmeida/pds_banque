@@ -30,7 +30,7 @@ public class TCPServerJsonSelect {
             //decodageCustomer(obj);
             AccessDB_server.envoyerRequeteQuery(decodageLoginConsultant(donneesEntreeClient));
 
-            sortieVersClient.writeBytes("cmarin" + '\n');
+            sortieVersClient.writeBytes("reponse du serveur" + '\n');
         }
 
     }

@@ -12,6 +12,8 @@ import java.util.*;
  * @author florent
  */
 public class Customer {
+
+    private String id;
     private String title;
     private String lastName;
     private String firstName;
@@ -28,7 +30,26 @@ public class Customer {
     private int idConsultant;
     private int idUser;
 
-    public Customer(String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, int idstatus0, String street, String city, String postalCode,int idConsultant0,int idUser0) {
+    public Customer(String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, int idstatus0, String street, String city, String postalCode, int idConsultant0, int idUser0) {
+        this.title = title;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.nationality = nationality;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.owner = owner;
+        this.salary = salary;
+        this.idstatus = idstatus0;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.idConsultant = idConsultant0;
+        this.idUser = idUser0;
+    }
+
+    public Customer(String id, String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, int idstatus0, String street, String city, String postalCode, int idConsultant0, int idUser0) {
+        this.id = id;
         this.title = title;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -53,7 +74,6 @@ public class Customer {
     public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
-    
 
     public int getIdstatus() {
         return idstatus;
@@ -114,5 +134,5 @@ public class Customer {
     public String getPostalCode() {
         return postalCode;
     }
-   
+
 }

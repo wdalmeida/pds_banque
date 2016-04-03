@@ -15,7 +15,13 @@ import static pds_banque.Json.JsonDecoding.decodageCustomer;
  * @author Florian
  */
 public class TCPServerDBJsonInsert {
-
+/**
+ * 
+ * @param port Defines on which port the server will be listening on.
+ * @throws IOException 
+ * @throws FileNotFoundException
+ * @throws ParseException 
+ */
     public static void lancerServeur(int port) throws IOException, FileNotFoundException, ParseException {
         ServerSocket socketAccueil = new ServerSocket(port);
         String donneesEntreeClient;
@@ -37,7 +43,12 @@ public class TCPServerDBJsonInsert {
         }
 
     }
-
+    /**
+     *  Starts the server on the specified port. Has to be the same that the client.
+     * @param argv
+     * @throws Exception 
+     */
+   
     public static void main(String argv[]) throws Exception {
 
         lancerServeur(3000);
