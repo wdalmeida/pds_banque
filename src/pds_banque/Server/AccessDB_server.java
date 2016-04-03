@@ -13,13 +13,14 @@ public class AccessDB_server {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/god_banque", "root", "");
+            //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/god_banque", "root", "");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
             Statement stmt = con.createStatement();
-            System.out.println(request);
+            System.out.println("Soit la requete envoyee par le serveur " +request);
              stmt.executeUpdate(request);
             con.close();
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Erreur lors de l execution de la requete");
         }
     }  
