@@ -28,7 +28,9 @@ public class TCPServerDBJsonInsert {
             donneesEntreeClient = entreeVenantDuClient.readLine();
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
             Object obj = donneesEntreeClient;
-
+            
+            
+            //decodageCustomer(obj);
             AccessDB_server.envoyerRequeteUpdate(decodageCustomer(obj));
 
             //sortieVersClient.writeBytes("Requete effectuee" + '\n');

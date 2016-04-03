@@ -22,8 +22,8 @@ public class TestInsertion {
         float salaire = (float) 4500;
 
         //encodage(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com", "1958-08-29", 1, 1, 0, 1);
-        RequeteTCPJson(encodageCustomer(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com",
-                "1958-08-29", 1, 1, 0, 1));
+       // RequeteTCPJson(encodageCustomer(1, "", "Mickael", "Json", salaire, "18 Rue de Paris", "94225", "Charenton le Pont", "0125476936", "mickael.jackson@gmail.com",
+       //         "1958-08-29", 1, 1, 0, 1));
 
     }
 

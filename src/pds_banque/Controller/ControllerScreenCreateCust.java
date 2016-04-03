@@ -6,7 +6,9 @@
 package pds_banque.Controller;
 
 import java.awt.event.*;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -15,6 +17,11 @@ import pds_banque.Model.*;
 import pds_banque.View.ScreenHome;
 import pds_banque.View.ScreenCreateCust;
 import org.jdesktop.swingx.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import static pds_banque.Json.JsonEncoding.encodageCustomer;
+import pds_banque.Server.ClientJavaInsert;
+import static pds_banque.Server.TestInsertion.RequeteTCPJson;
 
 /**
  *
@@ -75,26 +82,38 @@ public class ControllerScreenCreateCust implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int res;
         if (e.getSource() == btnSubmit) {
-            this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(), owner.isValid(), Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText().substring(0, 5), idConsultant, -1); // -1 default number 
-            System.out.println("customer = " + customer.toString());
-
-            // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)
-            //  {
             try {
+                
+                this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(), owner.isValid(), Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText().substring(0, 5), idConsultant, -1); // -1 default number
+                java.sql.Date sqlDate = new java.sql.Date(birthday.getDate().getTime());
+                String dateString = sqlDate.toString();
+                
+                ClientJavaInsert.RequeteTCPJson(encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
+                //Object obj = encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
+                
+                
+                // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)
+                //  {
+                /*try {
                 //System.out.println("Civilité = " + title.getSelectedItem().toString() + " Nom = " + lastName.getText() + " Prenom = " + firstName.getText() + " date de Naissance = " + birthday.getDate() + " Nationalite " + nationality.getText() + " telephone = " + phoneNumber.getText() + " email =" + email.getText() + " Proprietaire = "+owner.isSelected()+ "Salaire = " + Float.valueOf(salary.getText()) + " statut = " + status.getSelectedItem().toString() + " rue = " + street.getText() + " ville= " + city.getText() + " CP = " + postalCode.getText());
                 res = bdd.insertCustomer(this.customer, idConsultant);
 
                 if (res == 1) {
-                    this.scc.dispose();
-                    scc.setVisible(false);
-                    ScreenHome fen2 = new ScreenHome(idConsultant);
+                this.scc.dispose();
+                scc.setVisible(false);
+                ScreenHome fen2 = new ScreenHome(idConsultant);
                 } else {
-                    System.out.println("insertio ko");
+                System.out.println("insertio ko");
                 }
                 /*  }else {
-                 // here mesagge for wrong format of birthday or salary or phonenumber or Postal code
-                 }*/
-            } catch (NoSuchAlgorithmException ex) {
+                // here mesagge for wrong format of birthday or salary or phonenumber or Postal code
+                }
+                } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
+                }*/
+            } catch (IOException ex) {
+                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnBack) {
@@ -104,4 +123,5 @@ public class ControllerScreenCreateCust implements ActionListener {
 
         }
     }
+
 }
