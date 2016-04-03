@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pds_banque.Server.AccessDB_server;
 
 /**
  *
@@ -60,7 +61,7 @@ public class JsonDecoding {
     }
 
     public static String decodageLoginConsultant(Object objetjson) throws FileNotFoundException, IOException, ParseException {
-
+     
         JSONParser parser = new JSONParser();
         String object = objetjson.toString();
         objetjson = parser.parse(object);
@@ -69,14 +70,14 @@ public class JsonDecoding {
         String identifiant_consultant = (String) jsonObject.get("identifiant");
         String mdp_consultant = (String) jsonObject.get("motdepasse");
 
-        System.out.println("identifiant: " + identifiant_consultant);
-        System.out.println("motdepasse: " + mdp_consultant);
+        System.out.println("identifiant test: " + identifiant_consultant);
+        System.out.println("motdepasse test: " + mdp_consultant);
 
-        String requete = "SELECT login_user FROM user WHERE login_user LIKE '" + identifiant_consultant + "' AND pwd_User LIKE '" + mdp_consultant + "'";
+        String requete = "SELECT id_user FROM User WHERE login_user LIKE '" + identifiant_consultant + "' AND pwd_User LIKE '" + mdp_consultant + "'";
 
         System.out.println("Soit la requete SQL:" + '\n');
         System.out.println(requete);
-        //AccessDB_server.envoyerRequeteQuery(requete);
+       // AccessDB_server.envoyerRequeteQuery(requete);
         return requete;
     }
 
