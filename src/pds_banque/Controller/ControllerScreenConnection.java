@@ -9,7 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import pds_banque.Json.JsonDecoding;
 import pds_banque.Json.JsonEncoding;
 import pds_banque.Server.ClientJavaSelect;
 import pds_banque.View.ScreenHome;
@@ -35,7 +37,6 @@ public class ControllerScreenConnection implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         resetAfterError();
         if (!"".equals(identifiant.getText().trim()) && !"".equals(password.getText().trim())) {
-            System.out.println("pds_banque.Controller.ControllerScreenConnection.actionPerformed()");
             try {
                 signIn();
             } catch (NoSuchAlgorithmException | IOException | ParseException ex) {
@@ -56,10 +57,7 @@ public class ControllerScreenConnection implements ActionListener {
 
     public void signIn() throws NoSuchAlgorithmException, IOException, FileNotFoundException, ParseException {
         String res = ClientJavaSelect.RequeteTCPJson(JsonEncoding.encodageLoginConsultant(identifiant.getText(), password.getText()));
-        //int idConsultant = bdd.getConnexion(identifiant.getText(), password.getText());
-        System.out.println("test = " + res);
-        System.out.println(Integer.parseInt(res));
-        if (res != null) {
+        if (!res.equals("null")) {
             this.fen.dispose();
             fen.setVisible(false);
             ScreenHome fen2 = new ScreenHome(Integer.parseInt(res));
