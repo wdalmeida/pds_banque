@@ -28,9 +28,9 @@ public class TCPServerJsonSelect {
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
             Object obj = donneesEntreeClient;
             //decodageCustomer(obj);
-            AccessDB_server.envoyerRequeteQuery(decodageLoginConsultant(donneesEntreeClient));
+          String result = AccessDB_server.envoyerRequeteQuery(decodageLoginConsultant(donneesEntreeClient));
 
-            sortieVersClient.writeBytes("reponse du serveur" + '\n');
+            sortieVersClient.writeBytes(result + '\n');
         }
 
     }

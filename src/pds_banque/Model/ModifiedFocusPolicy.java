@@ -26,6 +26,9 @@ public class ModifiedFocusPolicy extends FocusTraversalPolicy {
     @Override
     public Component getComponentAfter(Container aContainer, Component aComponent) {
         int index = fields.indexOf(aComponent) + 1;
+        if (index == fields.size()){
+            index = 0;
+        }
         return fields.get(index);
     }
 

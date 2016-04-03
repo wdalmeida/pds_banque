@@ -3,10 +3,17 @@ package pds_banque.Controller;
 import java.awt.Color;
 import pds_banque.Model.AccessDB;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import pds_banque.Json.JsonDecoding;
+import pds_banque.Json.JsonEncoding;
+import pds_banque.Server.ClientJavaSelect;
 import pds_banque.View.ScreenHome;
 import pds_banque.View.Window;
 
@@ -30,10 +37,9 @@ public class ControllerScreenConnection implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         resetAfterError();
         if (!"".equals(identifiant.getText().trim()) && !"".equals(password.getText().trim())) {
-            System.out.println("pds_banque.Controller.ControllerScreenConnection.actionPerformed()");
             try {
                 signIn();
-            } catch (NoSuchAlgorithmException ex) {
+            } catch (NoSuchAlgorithmException | IOException | ParseException ex) {
                 Logger.getLogger(ControllerScreenConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -49,12 +55,12 @@ public class ControllerScreenConnection implements ActionListener {
         }
     }
 
-    public void signIn() throws NoSuchAlgorithmException {
-        int idConsultant = bdd.getConnexion(identifiant.getText(), password.getText());
-        if (idConsultant != 0) {
+    public void signIn() throws NoSuchAlgorithmException, IOException, FileNotFoundException, ParseException {
+        String res = ClientJavaSelect.RequeteTCPJson(JsonEncoding.encodageLoginConsultant(identifiant.getText(), password.getText()));
+        if (!res.equals("null")) {
             this.fen.dispose();
             fen.setVisible(false);
-            ScreenHome fen2 = new ScreenHome(idConsultant);
+            ScreenHome fen2 = new ScreenHome(Integer.parseInt(res));
             fen2.changeScreen(identifiant.getText(), password.getText());
         } else {
             lblError.setText("identifiant ou mot de passe invalide");

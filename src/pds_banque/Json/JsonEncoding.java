@@ -2,10 +2,11 @@ package pds_banque.Json;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
+import java.security.NoSuchAlgorithmException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import static pds_banque.Json.JsonDecoding.decodageCustomer;
+import pds_banque.Model.HashString;
 
 /**
  *
@@ -63,15 +64,14 @@ System.out.println("title_Customer: " + title_Customer);
     }
     
     
-    public static JSONObject encodageLoginConsultant(String identifiant, String motDePasse) throws IOException {
+    public static JSONObject encodageLoginConsultant(String identifiant, String motDePasse) throws IOException, FileNotFoundException, ParseException, NoSuchAlgorithmException {
 
         JSONObject obj = new JSONObject();
 
         obj.put("identifiant", identifiant);
-        obj.put("motdepasse", motDePasse);
+        obj.put("motdepasse", HashString.sha512(motDePasse));
 
         System.out.print("Objet encodé:" + obj);
-
         return obj;
     }
     

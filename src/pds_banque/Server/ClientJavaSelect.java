@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import org.json.simple.JSONObject;
+import pds_banque.View.ScreenHome;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.json.simple.JSONObject;
  */
 public class ClientJavaSelect {
 
-    public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
+    public static String RequeteTCPJson(JSONObject objetJson) throws IOException {
         String host = "localhost";
         int port = 3000;
         String jsonString = objetJson.toString();
@@ -33,7 +34,8 @@ public class ClientJavaSelect {
             socketClient.close();
 
         }
-
+        System.out.println("fuck =" +reponseServeur);
+        return reponseServeur;
     }
 
 }

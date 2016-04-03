@@ -35,10 +35,12 @@ public class AccessDB_server {
      * @param request Connects to the database and execute the query sent by an other function. This makes a SELECT query.
      */
         public static void envoyerRequeteQuery(String request) {
+    
+        public static String envoyerRequeteQuery(String request) {
         String resultat = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/god_banque", "root", "");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(request);
             
@@ -46,13 +48,13 @@ public class AccessDB_server {
                 //System.out.println(rs.getInt(1) + "  " + rs.getString(2) + "  " + rs.getString(3));
                 resultat = (rs.getString(1));
             }
-            System.out.println(resultat);
+            System.out.println("res = "+resultat);
             con.close();
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Erreur lors de l execution de la requete");
         }
-        
+        return resultat;
     }
     
 }

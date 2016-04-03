@@ -24,14 +24,6 @@ public class TestSelectionClientJava extends Thread {
         Thread monclient = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-
-                    RequeteTCPJson(encodageLoginConsultant("cmarin", HashString.sha512("pass")));
-                } catch (IOException ex) {
-
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(TestSelectionClientJava.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
         monclient.start();
