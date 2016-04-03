@@ -9,20 +9,27 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * This class hash a String
  *
  * @author Warren
  */
 public class HashString {
-    
-    public static String sha512(String input) throws NoSuchAlgorithmException{
-       
+
+    /**
+     * Hash a String in SHA2-512
+     *
+     * @param input the String which have to be hash
+     * @return the String with SHA2-512
+     * @throws NoSuchAlgorithmException
+     */
+    public static String sha512(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA-512");
         byte[] result = mDigest.digest(input.getBytes());
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < result.length; i++) {
-			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-		}
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
         return sb.toString();
     }
-    
+
 }
