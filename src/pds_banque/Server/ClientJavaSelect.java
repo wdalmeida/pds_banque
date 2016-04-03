@@ -34,7 +34,6 @@ public class ClientJavaSelect {
             socketClient.close();
 
         }
-        System.out.println("fuck =" +reponseServeur);
         return reponseServeur;
     }
 

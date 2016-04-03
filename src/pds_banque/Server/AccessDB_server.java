@@ -33,9 +33,7 @@ public class AccessDB_server {
     /**
      * 
      * @param request Connects to the database and execute the query sent by an other function. This makes a SELECT query.
-     */
-        public static void envoyerRequeteQuery(String request) {
-    
+     */    
         public static String envoyerRequeteQuery(String request) {
         String resultat = null;
         try {
