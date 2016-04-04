@@ -5,6 +5,8 @@
  */
 package pds_banque.View;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.security.NoSuchAlgorithmException;
 import pds_banque.Controller.ControllerScreenHome;
 import pds_banque.Model.AccessDB;
@@ -19,14 +21,28 @@ public class ScreenHome extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenHome
-     * @param idC 
+     *
+     * @param idC
      */
     public ScreenHome(int idC) {
         initComponents();
         this.bdd = AccessDB.getAccessDB();
-        this.getConsultantInfo(idC); /*get information about a Consultant */
-        btnCreateCustomer.addActionListener(new ControllerScreenHome(this,idC,btnCreateCustomer, btnSimulateLoan));
+        this.getConsultantInfo(idC);
+        /*get information about a Consultant */
+        btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
         this.setVisible(true);
+        // on focus validation by taping on enter key
+        btnSimulateLoan.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                getRootPane().setDefaultButton(btnSimulateLoan);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                getRootPane().setDefaultButton(btnCreateCustomer);
+            }
+        });
     }
 
     public void getConsultantInfo(int IdC) {

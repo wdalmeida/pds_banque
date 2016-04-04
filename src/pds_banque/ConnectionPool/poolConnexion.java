@@ -10,11 +10,11 @@ import pds_banque.Model.AccessDB;
  *
  * @author nabil
  */
-public class poolConnexion_V2 {
+public class poolConnexion {
 
     ArrayList<AccessDB> listConnexion = new ArrayList<>();
 
-    public poolConnexion_V2() {
+    public poolConnexion() {
         for (int i = 0; i < 10; i++) {
             listConnexion.add(i, AccessDB.getAccessDB());
         }
@@ -29,7 +29,7 @@ public class poolConnexion_V2 {
             try {
                 wait();
             } catch (InterruptedException ex) {
-                Logger.getLogger(poolConnexion_V2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(poolConnexion.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return connexion;
@@ -45,7 +45,7 @@ public class poolConnexion_V2 {
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        poolConnexion_V2 p = new poolConnexion_V2();
+        poolConnexion p = new poolConnexion();
         AccessDB connexion = p.getConnexion();
         AccessDB connexion2 = p.getConnexion();
         int result = connexion2.getConnexion("Nsadiki", "pass");
