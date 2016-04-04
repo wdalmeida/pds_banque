@@ -37,7 +37,7 @@ public class TCPServerJsonSelect {
 
     public static void main(String argv[]) throws Exception {
 
-        lancerServeur(3000);
+        lancerServeur(3001);
 
     }
 }
