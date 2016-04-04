@@ -21,7 +21,7 @@ public class ClientJavaSelect {
 
     public static String RequeteTCPJson(JSONObject objetJson) throws IOException {
         String host = "localhost";
-        int port = 3000;
+        int port = 3001;
         String jsonString = objetJson.toString();
         String reponseServeur;
 
