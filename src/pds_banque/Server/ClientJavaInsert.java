@@ -15,7 +15,7 @@ public class ClientJavaInsert {
 
     public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
         String host = "localhost";
-        int port = 3000;
+        int port = 3001;
         String jsonString = objetJson.toString();
 
         try (
