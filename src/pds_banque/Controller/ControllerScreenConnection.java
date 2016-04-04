@@ -9,9 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import pds_banque.Json.JsonDecoding;
 import pds_banque.Json.JsonEncoding;
 import pds_banque.Server.ClientJavaSelect;
 import pds_banque.View.ScreenHome;
@@ -36,7 +34,8 @@ public class ControllerScreenConnection implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         resetAfterError();
-        if (!"".equals(identifiant.getText().trim()) && !"".equals(password.getText().trim())) {
+        String passwordString = decodeGetPassword();
+        if (!"".equals(identifiant.getText().trim()) && !"".equals(passwordString.trim())) {
             try {
                 signIn();
             } catch (NoSuchAlgorithmException | IOException | ParseException ex) {
@@ -46,7 +45,7 @@ public class ControllerScreenConnection implements ActionListener {
             if ("".equals(identifiant.getText().trim())) {
                 identifiant.requestFocus();
                 identifiant.setBorder(BorderFactory.createLineBorder(Color.RED));
-            } else if ("".equals(password.getText().trim())) {
+            } else if ("".equals(passwordString.trim())) {
                 password.requestFocus();
                 password.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
@@ -72,5 +71,14 @@ public class ControllerScreenConnection implements ActionListener {
         lblError.setText("");
         identifiant.setBorder(UIManager.getBorder("TextField.border"));
         password.setBorder(UIManager.getBorder("TextField.border"));
+    }
+
+    public String decodeGetPassword() {
+        char[] passChar = password.getPassword();
+        String passString = "";
+        for (int i = 0; i < password.getPassword().length; i++) {
+            passString += Character.toString(passChar[i]);
+        }
+        return passString;
     }
 }
