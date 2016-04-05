@@ -84,7 +84,7 @@ public class TCPServerDBJsonInsertAndSelect {
                     lancerServeur(3001, 3000);
                     System.err.println("Serveur d'insertion lancé");
                 } catch (IOException ex) {
-                    Logger.getLogger(RequeteInsertionClient.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TCPServerDBJsonInsertAndSelect.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ParseException ex) {
                     Logger.getLogger(TCPServerDBJsonInsertAndSelect.class.getName()).log(Level.SEVERE, null, ex);
                 }
