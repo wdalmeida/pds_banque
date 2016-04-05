@@ -85,6 +85,7 @@ public class ControllerScreenCreateCust implements ActionListener {
                 res = bdd.insertCustomer(this.customer, idConsultant);
 
                 if (res == 1) {
+                    JOptionPane.showMessageDialog(scc,"Le client a été enregistré");
                     this.scc.dispose();
                     scc.setVisible(false);
                     ScreenHome fen2 = new ScreenHome(idConsultant);
