@@ -6,13 +6,9 @@
 package pds_banque.Controller;
 
 import java.awt.event.*;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import pds_banque.Model.AccessDB;
 import pds_banque.View.ScreenHome;
-import pds_banque.View.ScreenCreateCust;
+import pds_banque.View.ScreenManageCust;
 
 /**
  *
@@ -20,40 +16,34 @@ import pds_banque.View.ScreenCreateCust;
  */
 public class ControllerScreenHome implements ActionListener {
 
-    private AccessDB bdd;
-    private JButton btnCreateCustomer;
+    private JButton btnManageCustomer;
     private JButton btnSimulateLoan;
-    private ScreenHome ecranAccueil;
+    private ScreenHome screenHome;
     private int idConsultant;
 
     /**
      *
-     * @param ecranAccueil0
+     * @param screenHome
      * @param idC
-     * @param btnCreateCustomer0
+     * @param btnManageCustomer0
      * @param btnSimulateLoan0
      */
-    public ControllerScreenHome(ScreenHome ecranAccueil0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
-        this.bdd = AccessDB.getAccessDB();
-        this.btnCreateCustomer = btnCreateCustomer0;
+    public ControllerScreenHome(ScreenHome screenHome, int idC, JButton btnManageCustomer0, JButton btnSimulateLoan0) {
+        this.btnManageCustomer = btnManageCustomer0;
         this.btnSimulateLoan = btnSimulateLoan0;
-        this.ecranAccueil = ecranAccueil0;
+        this.screenHome = screenHome;
         this.idConsultant = idC;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnCreateCustomer) {
-            try {
-                this.ecranAccueil.dispose();
-                ecranAccueil.setVisible(false);
-                ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
-            } catch (SQLException ex) {
-                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+        if (e.getSource() == btnManageCustomer) {
+            this.screenHome.dispose();
+            screenHome.setVisible(false);
+            ScreenManageCust fen2 = new ScreenManageCust(idConsultant);
+
         } else if (e.getSource() == btnSimulateLoan) {
-            System.out.println("bouton loan");
+            System.out.println("button loan");
         }
     }
 }

@@ -111,11 +111,7 @@ public class ScreenCreateCust extends JFrame {
         btnSubmit = new javax.swing.JButton();
         lblEmail = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
-        panel4 = new java.awt.Panel();
-        lblOwner = new javax.swing.JLabel();
-        owner = new javax.swing.JCheckBox();
-        lblSalary = new javax.swing.JLabel();
-        salary = new javax.swing.JTextField();
+        lblTitle = new javax.swing.JLabel();
         lblStatut = new javax.swing.JLabel();
         status = new javax.swing.JComboBox();
         lblOwner = new javax.swing.JLabel();
@@ -128,24 +124,6 @@ public class ScreenCreateCust extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(400, 100));
-        setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        btnBack.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnBack.setText("Retour");
-        btnBack.setName("14btnBack"); // NOI18N
-
-        btnSubmit.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnSubmit.setText("Valider");
-        btnSubmit.setName("15BtnSubmit"); // NOI18N
-
-        jLabel2.setForeground(new java.awt.Color(200, 0, 0));
-        jLabel2.setText("* Champs obligatoires");
-
-        panel3.setBackground(new java.awt.Color(240, 240, 240));
-
-        lblTitle.setText("Civilité *");
 
         title.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "selectionner", "M", "Mme", "Autre" }));
         title.setName("01title"); // NOI18N
@@ -231,13 +209,9 @@ public class ScreenCreateCust extends JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(lblEmail)
-                            .addGap(141, 141, 141)
-                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblFN)
@@ -250,6 +224,11 @@ public class ScreenCreateCust extends JFrame {
                                         .addComponent(lblNationality, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblPN, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblEmail)
+                                .addGap(146, 146, 146)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lblformatBirth)
@@ -301,8 +280,7 @@ public class ScreenCreateCust extends JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
@@ -375,6 +353,7 @@ public class ScreenCreateCust extends JFrame {
         );
 
         lblCreationClient.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblCreationClient.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCreationClient.setText("Création Client");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -383,23 +362,18 @@ public class ScreenCreateCust extends JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblCreationClient)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblCreationClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(lblCreationClient)
-                .addGap(18, 18, 18)
+                .addGap(74, 74, 74)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

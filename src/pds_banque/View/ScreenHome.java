@@ -27,9 +27,8 @@ public class ScreenHome extends javax.swing.JFrame {
     public ScreenHome(int idC) {
         initComponents();
         this.bdd = AccessDB.getAccessDB();
-        this.getConsultantInfo(idC);
-        /*get information about a Consultant */
-        btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        btnManageCustomer.addActionListener(new ControllerScreenHome(this, idC, btnManageCustomer, btnSimulateLoan));
+
         // on focus validation by taping on enter key
         btnSimulateLoan.addFocusListener(new FocusListener() {
             @Override
@@ -39,20 +38,23 @@ public class ScreenHome extends javax.swing.JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                getRootPane().setDefaultButton(btnCreateCustomer);
+                getRootPane().setDefaultButton(btnManageCustomer);
             }
         });
         this.setVisible(true);
     }
 
     public void getConsultantInfo(int IdC) {
+        System.out.println("getinfoconsultant");
         String[] consultant = bdd.getConsultantInfo(IdC);
-        title.setText("Bienvenue " + consultant[1] + "  " + consultant[0]);
+        title.setText("Bienvenue " + consultant[0] + ". " + consultant[2] + "  " + consultant[1]);
     }
 
     public void changeScreen(String login, String pwd) throws NoSuchAlgorithmException {
-        String[] tab = bdd.Info_Consultant(login, pwd);
-        title.setText("Bienvenue " + tab[1] + "  " + tab[0]);
+        String[] consultant = bdd.Info_Consultant(login, pwd);
+        
+        title.setText("Bienvenue " + consultant[0] + ". " + consultant[2] + "  " + consultant[1]);
+
     }
 
     /**
@@ -66,16 +68,15 @@ public class ScreenHome extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnSimulateLoan = new javax.swing.JButton();
-        btnCreateCustomer = new javax.swing.JButton();
+        btnManageCustomer = new javax.swing.JButton();
         title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(300, 100));
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnSimulateLoan.setText("Simuler le prêt");
 
-        btnCreateCustomer.setText("Créer un client");
+        btnManageCustomer.setText("Gestion client");
 
         title.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -85,24 +86,24 @@ public class ScreenHome extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(185, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSimulateLoan)
                 .addGap(26, 26, 26)
-                .addComponent(btnCreateCustomer)
-                .addGap(183, 183, 183))
-            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnManageCustomer)
+                .addGap(199, 199, 199))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimulateLoan)
-                    .addComponent(btnCreateCustomer))
-                .addGap(128, 128, 128))
+                    .addComponent(btnManageCustomer))
+                .addGap(150, 150, 150))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -110,7 +111,7 @@ public class ScreenHome extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
+                .addContainerGap(76, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
         );
@@ -126,7 +127,7 @@ public class ScreenHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreateCustomer;
+    private javax.swing.JButton btnManageCustomer;
     private javax.swing.JButton btnSimulateLoan;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel title;

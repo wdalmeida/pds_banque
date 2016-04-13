@@ -27,7 +27,9 @@ public class Customer {
     private String postalCode;
     private int idConsultant;
     private int idUser;
-
+    private int idCustomer;
+    private String description_status;
+    
     public Customer(String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary, int idstatus0, String street, String city, String postalCode,int idConsultant0,int idUser0) {
         this.title = title;
         this.lastName = lastName;
@@ -46,6 +48,30 @@ public class Customer {
         this.idUser = idUser0;
     }
 
+    public Customer(int idCustomer0,String title, String lastName, String firstName, Date birthday, String nationality, String phoneNumber, String email, boolean owner, float salary,String description_status0, String street, String city, String postalCode) {
+        this.title = title;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthday = birthday;
+        this.nationality = nationality;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.owner = owner;
+        this.salary = salary;
+        this.description_status = description_status0;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.idCustomer = idCustomer0;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "title=" + title + ", lastName=" + lastName + ", firstName=" + firstName + ", birthday=" + birthday + ", nationality=" + nationality + ", phoneNumber=" + phoneNumber + ", email=" + email + ", owner=" + owner + ", salary=" + salary + ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", idConsultant=" + idConsultant + ", idUser=" + idUser + ", idCustomer=" + idCustomer + ", description_status=" + description_status + '}';
+    }
+
+    
+   
     public int getIdUser() {
         return idUser;
     }
