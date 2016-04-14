@@ -1,11 +1,7 @@
 package pds_banque.Server;
 
 import pds_banque.Server.AccessDB_server;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 /**
  *
  * @author flesguer
@@ -13,6 +9,12 @@ import pds_banque.Server.AccessDB_server;
 import java.io.*;
 import java.net.*;
 
+/**
+ *
+ * This whole class is only meant to be used for debug purposes. Very useful
+ * when it comes to creating the TCP client and the object that has to be sent
+ * at the same time.
+ */
 class TCPServerDebug {
 
     public static void main(String argv[]) throws Exception {

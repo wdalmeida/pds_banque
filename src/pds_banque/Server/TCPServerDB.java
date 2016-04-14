@@ -14,6 +14,12 @@ public class TCPServerDB {
      *
      * @author flesguer
      */
+    /**
+     *
+     * @param port
+     * @throws IOException Starts a server that can make SQL query requests
+     * received through its socket.
+     */
     public static void lancerServeur(int port) throws IOException {
         ServerSocket socketAccueil = new ServerSocket(port);
         String donneesEntreeClient;

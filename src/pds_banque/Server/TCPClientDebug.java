@@ -1,18 +1,18 @@
 package pds_banque.Server;
-
-import java.io.*;
-import java.net.Socket;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author flesguer
  */
 
+import java.io.*;
+import java.net.Socket;
+
+
+
+/**
+ * 
+ * This whole class is only here for debugging, very useful when it comes to create the client and the object that has to be sent into the same method. 
+ */
 class TCPClientDebug {
 
     public static void main(String argv[]) throws Exception {
