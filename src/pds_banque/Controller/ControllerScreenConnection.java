@@ -56,7 +56,7 @@ public class ControllerScreenConnection implements ActionListener {
     }
 
     public void signIn() throws NoSuchAlgorithmException, IOException, FileNotFoundException, ParseException {
-        String res = ClientJavaSelect.RequeteTCPJson(JsonEncoding.encodageLoginConsultant(identifiant.getText(), password.getText()));
+        String res = ClientJavaSelect.clientTcpSelect(JsonEncoding.encodageLoginConsultant(identifiant.getText(), password.getText()));
         if (!res.equals("null")) {
             this.fen.dispose();
             fen.setVisible(false);

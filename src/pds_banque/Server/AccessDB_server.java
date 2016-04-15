@@ -15,7 +15,7 @@ public class AccessDB_server {
      * 
      * @param request  Connects to the database and execute the query sent by an other function. This makes UPDATE statements.
      */
-    public static void envoyerRequeteUpdate(String request) {
+    public static void sendUpdateRequest(String request) {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -33,8 +33,9 @@ public class AccessDB_server {
     /**
      * 
      * @param request Connects to the database and execute the query sent by an other function. This makes a SELECT query.
+     * @return Returns the result of the request
      */    
-        public static String envoyerRequeteQuery(String request) {
+        public static String sendQueryRequest(String request) {
         String resultat = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");

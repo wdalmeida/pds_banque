@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.simple.parser.ParseException;
-import static pds_banque.Json.JsonDecoding.decodageLoginConsultant;
+import static pds_banque.Json.JsonDecoding.decodeLoginConsultant;
 
 /**
  *
@@ -24,28 +24,28 @@ public class TCPServerJsonSelect {
      * @throws ParseException Launches the server. If the buffered reader
      * detects an input it will decode it and send it as an SQL query.
      */
-    public static void lancerServeur(int port) throws IOException, FileNotFoundException, ParseException {
-        ServerSocket socketAccueil = new ServerSocket(port);
-        String donneesEntreeClient;
+    public static void launchServer(int port) throws IOException, FileNotFoundException, ParseException {
+        ServerSocket hostingSocket = new ServerSocket(port);
+        String dataFromClient;
 
         while (true) {
-            Socket connectionSocket = socketAccueil.accept();
-            BufferedReader entreeVenantDuClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
-            donneesEntreeClient = entreeVenantDuClient.readLine();
-            System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
-            Object obj = donneesEntreeClient;
+            Socket connectionSocket = hostingSocket.accept();
+            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+            DataOutputStream outputToClient = new DataOutputStream(connectionSocket.getOutputStream());
+            dataFromClient = inputFromClient.readLine();
+            System.out.println("Donnees recues par le serveur: " + dataFromClient);
+            Object obj = dataFromClient;
             //decodageCustomer(obj);
-            String result = AccessDB_server.envoyerRequeteQuery(decodageLoginConsultant(donneesEntreeClient));
+            String result = AccessDB_server.sendQueryRequest(decodeLoginConsultant(dataFromClient));
 
-            sortieVersClient.writeBytes(result + '\n');
+            outputToClient.writeBytes(result + '\n');
         }
 
     }
 
     public static void main(String argv[]) throws Exception {
 
-        lancerServeur(3001);
+        launchServer(3001);
 
     }
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import static pds_banque.Json.JsonDecoding.decodageCustomer;
+import static pds_banque.Json.JsonDecoding.decodeCustomer;
 import pds_banque.Model.HashString;
 
 /**
@@ -57,7 +57,7 @@ System.out.println("title_Customer: " + title_Customer);
         
         System.out.print("Objet encodé:" + obj);
         //RequeteTCPJson(obj);
-        decodageCustomer(obj);
+        decodeCustomer(obj);
         return obj;
         
         

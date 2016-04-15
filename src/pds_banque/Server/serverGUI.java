@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pds_banque.Server;
 
 import java.io.BufferedReader;
@@ -15,8 +10,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.parser.ParseException;
-import static pds_banque.Json.JsonDecoding.decodageCustomer;
-import static pds_banque.Json.JsonDecoding.decodageLoginConsultant;
+import static pds_banque.Json.JsonDecoding.decodeCustomer;
+import static pds_banque.Json.JsonDecoding.decodeLoginConsultant;
 
 /**
  *
@@ -29,12 +24,12 @@ public class serverGUI extends javax.swing.JFrame {
      * Creates new form serverGUI
      */
     public serverGUI() {
-        this.serveur = new Thread(new Runnable() {
+        this.server = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     System.err.println("Lancement du serveur d'insertion:");
-                    lancerServeur(3001, 3000);
+                    launchServer(3001, 3000);
                     System.err.println("Serveur d'insertion lancé");
                 } catch (IOException ex) {
                     Logger.getLogger(serverGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,7 +41,7 @@ public class serverGUI extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static void lancerServeur(int portInsert, int portSelect) throws IOException, FileNotFoundException, ParseException {
+    public static void launchServer(int portInsert, int portSelect) throws IOException, FileNotFoundException, ParseException {
         ServerSocket socketInsert = new ServerSocket(portInsert);
         String inputClientInsert;
         ServerSocket socketSelect = new ServerSocket(portSelect);
@@ -60,20 +55,20 @@ public class serverGUI extends javax.swing.JFrame {
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClientSelect);
             Object obj = donneesEntreeClientSelect;
             //decodageCustomer(obj);
-            String resultFromSelect = AccessDB_server.envoyerRequeteQuery(decodageLoginConsultant(donneesEntreeClientSelect));
+            String resultFromSelect = AccessDB_server.sendQueryRequest(decodeLoginConsultant(donneesEntreeClientSelect));
 
             outputToClientSelect.writeBytes(resultFromSelect + '\n');
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             Socket connectionSocketInsert = socketInsert.accept();
             BufferedReader InputFromClientInsert = new BufferedReader(new InputStreamReader(connectionSocketInsert.getInputStream()));
-            DataOutputStream sortieVersClient = new DataOutputStream(connectionSocketInsert.getOutputStream());
+            DataOutputStream outputToClient = new DataOutputStream(connectionSocketInsert.getOutputStream());
 
             inputClientInsert = InputFromClientInsert.readLine();
             System.out.println("Donnees recues par le serveur: " + inputClientInsert);
             Object objectInpuClientInsert = inputClientInsert;
 
-            AccessDB_server.envoyerRequeteUpdate(decodageCustomer(objectInpuClientInsert));
+            AccessDB_server.sendUpdateRequest(decodeCustomer(objectInpuClientInsert));
 
             //sortieVersClient.writeBytes("Requete effectuee" + '\n');
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +76,7 @@ public class serverGUI extends javax.swing.JFrame {
 
     }
 
-    Thread serveur;
+    Thread server;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,13 +132,13 @@ public class serverGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        serveur.start();
+        server.start();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        serveur.stop();
+        server.stop();
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

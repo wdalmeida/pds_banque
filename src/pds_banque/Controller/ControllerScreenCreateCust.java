@@ -86,7 +86,7 @@ public class ControllerScreenCreateCust implements ActionListener {
                 java.sql.Date sqlDate = new java.sql.Date(birthday.getDate().getTime());
                 String dateString = sqlDate.toString();
 
-                ClientJavaInsert.RequeteTCPJson(encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
+                ClientJavaInsert.clientTcpInsert(encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
                 //Object obj = encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
 
                 // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)

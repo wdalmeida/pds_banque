@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pds_banque.Server;
 
 import java.io.BufferedReader;
@@ -11,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import org.json.simple.JSONObject;
-import pds_banque.View.ScreenHome;
 
 /**
  *
@@ -26,7 +20,7 @@ public class ClientJavaSelect {
      * @throws IOException
      * Send a Json Object to a server through a TCP socket.
      */
-    public static String RequeteTCPJson(JSONObject objetJson) throws IOException {
+    public static String clientTcpSelect(JSONObject objetJson) throws IOException {
         String host = "localhost";
         int port = 3001;
         String jsonString = objetJson.toString();

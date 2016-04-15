@@ -18,17 +18,17 @@ import java.net.*;
 class TCPServerDebug {
 
     public static void main(String argv[]) throws Exception {
-        String donneesEntreeClient;
-        String donneesModifiees;
-        ServerSocket socketAccueil = new ServerSocket(3000);
+        String dataFromClient;
+        String modifiedData;
+        ServerSocket hostingSocket = new ServerSocket(3000);
         while (true) {
-            Socket connectionSocket = socketAccueil.accept();
-            BufferedReader entreeVenantDuClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
-            donneesEntreeClient = entreeVenantDuClient.readLine();
-            System.out.println("Donnees recues: " + donneesEntreeClient);
-            donneesModifiees = donneesEntreeClient.toUpperCase() + '\n';
-            sortieVersClient.writeBytes(donneesModifiees);
+            Socket connectionSocket = hostingSocket.accept();
+            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+            DataOutputStream outputToClient = new DataOutputStream(connectionSocket.getOutputStream());
+            dataFromClient = inputFromClient.readLine();
+            System.out.println("Donnees recues: " + dataFromClient);
+            modifiedData = dataFromClient.toUpperCase() + '\n';
+            outputToClient.writeBytes(modifiedData);
         }
     }
 }

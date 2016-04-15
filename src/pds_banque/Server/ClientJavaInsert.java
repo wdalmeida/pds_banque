@@ -13,11 +13,11 @@ public class ClientJavaInsert {
 
     /**
      *
-     * @param jsonObject
+     * @param objetJson
      * @throws IOException Function for sending an encoded Json object to a
      * server through a TCP socket
      */
-    public static void RequeteTCPJson(JSONObject objetJson) throws IOException {
+    public static void clientTcpInsert(JSONObject objetJson) throws IOException {
         String host = "localhost";
         int port = 3000;
         String jsonString = objetJson.toString();

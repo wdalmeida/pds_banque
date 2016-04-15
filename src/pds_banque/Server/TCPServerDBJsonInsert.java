@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
-import static pds_banque.Json.JsonDecoding.decodageCustomer;
+import static pds_banque.Json.JsonDecoding.decodeCustomer;
 
 /**
  *
@@ -22,22 +22,22 @@ public class TCPServerDBJsonInsert {
  * @throws FileNotFoundException
  * @throws ParseException 
  */
-    public static void lancerServeur(int port) throws IOException, FileNotFoundException, ParseException {
-        ServerSocket socketAccueil = new ServerSocket(port);
-        String donneesEntreeClient;
+    public static void launchServer(int port) throws IOException, FileNotFoundException, ParseException {
+        ServerSocket hostingSocket = new ServerSocket(port);
+        String dataFromClient;
 
         while (true) {
-            Socket connectionSocket = socketAccueil.accept();
-            BufferedReader entreeVenantDuClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            DataOutputStream sortieVersClient = new DataOutputStream(connectionSocket.getOutputStream());
+            Socket socketConnection = hostingSocket.accept();
+            BufferedReader inputFromClient = new BufferedReader(new InputStreamReader(socketConnection.getInputStream()));
+            DataOutputStream outputToClient = new DataOutputStream(socketConnection.getOutputStream());
 
-            donneesEntreeClient = entreeVenantDuClient.readLine();
-            System.out.println("Donnees recues par le serveur: " + donneesEntreeClient);
-            Object obj = donneesEntreeClient;
+            dataFromClient = inputFromClient.readLine();
+            System.out.println("Donnees recues par le serveur: " + dataFromClient);
+            Object obj = dataFromClient;
             
             
             //decodageCustomer(obj);
-            AccessDB_server.envoyerRequeteUpdate(decodageCustomer(obj));
+            AccessDB_server.sendUpdateRequest(decodeCustomer(obj));
 
             //sortieVersClient.writeBytes("Requete effectuee" + '\n');
         }
@@ -46,12 +46,13 @@ public class TCPServerDBJsonInsert {
     /**
      *  Starts the server on the specified port. Has to be the same that the client.
      * @param argv
-     * @throws Exception 
+     * @throws Exception
+     *  Starts the server on the specified port. Has to be the same that the client. 
      */
    
     public static void main(String argv[]) throws Exception {
 
-        lancerServeur(3000);
+        launchServer(3000);
 
     }
 }
