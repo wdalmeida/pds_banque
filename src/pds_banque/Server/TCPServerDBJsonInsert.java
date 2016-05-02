@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
+import pds_banque.ConnectionPool.poolConnexion_V2;
 import static pds_banque.Json.JsonDecoding.decodeCustomer;
 
 /**
@@ -49,7 +50,9 @@ public class TCPServerDBJsonInsert {
      * @throws Exception
      *  Starts the server on the specified port. Has to be the same that the client. 
      */
-   
+    
+    poolConnexion_V2 pool = new poolConnexion_V2();
+    
     public static void main(String argv[]) throws Exception {
 
         launchServer(3000);
