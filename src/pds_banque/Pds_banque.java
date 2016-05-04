@@ -1,6 +1,6 @@
 package pds_banque;
 
-import pds_banque.View.Window;
+import views.Window;
 
 public class Pds_banque
 {
