@@ -19,13 +19,17 @@ public class ScreenHome extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenHome
-     * @param idC 
+     *
+     * @param idC
      */
     public ScreenHome(int idC) {
         initComponents();
         this.bdd = AccessDB.getAccessDB();
-        this.getConsultantInfo(idC); /*get information about a Consultant */
-        btnCreateCustomer.addActionListener(new ControllerScreenHome(this,idC,btnCreateCustomer, btnSimulateLoan));
+        this.getConsultantInfo(idC);
+        /*get information about a Consultant */
+        btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        btnSimulateLoan.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+
         this.setVisible(true);
     }
 

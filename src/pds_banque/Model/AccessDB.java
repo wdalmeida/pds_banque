@@ -107,7 +107,8 @@ public class AccessDB implements Constantes {
         }
         return null;
     }
-/*
+
+    /*
     public int getIdUser(String login, String pwd) {
         int idUser = 0;
         String query1 = "test";
@@ -124,33 +125,35 @@ public class AccessDB implements Constantes {
         }
         return idUser;
     }
-    */
+     */
     public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
         int res;
         int tmp = 0;
-        int owner =0;
-        if (cust.isOwner()) owner=1;
+        int owner = 0;
+        if (cust.isOwner()) {
+            owner = 1;
+        }
         //res = this.getIdUser(cust.getLastName(), pwd);
-            try {
-                java.util.Date utilDate = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
-                query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`,`id_User`,`id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsultant + "','"+cust.getIdUser()+"','" + cust.getIdstatus() + "')";
-                System.out.println(query2);
-                res = this.declaration.executeUpdate(query2);
-                System.out.println("res ="+res );
-                if (res == 1) {
-                    tmp = 1;
-                    System.out.println("Insertion du nouveau Client");
-                } else {
-                    tmp = 0;
-                    System.out.println("Erreur dans l'insertion du nouveau Client");
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-                e.printStackTrace();
+        try {
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
+            query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`,`id_User`,`id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsultant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "')";
+            System.out.println(query2);
+            res = this.declaration.executeUpdate(query2);
+            System.out.println("res =" + res);
+            if (res == 1) {
+                tmp = 1;
+                System.out.println("Insertion du nouveau Client");
+            } else {
+                tmp = 0;
+                System.out.println("Erreur dans l'insertion du nouveau Client");
             }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            e.printStackTrace();
+        }
         return tmp;
     }
 
@@ -209,6 +212,34 @@ public class AccessDB implements Constantes {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList getCustomer(String lastN, String firstN, String pc) throws SQLException {
+        String query = "";
+        ResultSet resultat = null;
+        ArrayList customers = new ArrayList();
+
+        try {
+            String[] tab = new String[2];
+            query = "SELECT * FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? ;";
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, lastN);
+            queryPrep.setString(2, firstN);
+            //  queryPrep.setString(3, pc);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    customers.add(rs.getRow());
+                    System.out.println(rs.getRow());
+                    while (rs.next()) {
+                        customers.add(rs.getRow());
+                        System.out.println(rs.getRow());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return customers;
     }
 
 }

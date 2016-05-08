@@ -5,6 +5,9 @@
  */
 package pds_banque.View;
 
+import pds_banque.Controller.ControlerScreenManageCust;
+import pds_banque.Controller.ControllerScreenHome;
+
 /**
  *
  * @author florent
@@ -23,6 +26,8 @@ public class ScreenManageCust extends javax.swing.JFrame {
         btnCreate.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
+        btnSubmit.addActionListener(new ControlerScreenManageCust(this, txtLastName,txtFirstName,idC0,btnCreate,btnUpdate,btnDelete,btnSubmit,btnBack));
+
     }
 
     public void updateTableCustomer() {

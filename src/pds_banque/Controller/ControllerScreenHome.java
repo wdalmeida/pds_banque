@@ -13,6 +13,7 @@ import javax.swing.*;
 import pds_banque.Model.AccessDB;
 import pds_banque.View.ScreenHome;
 import pds_banque.View.ScreenCreateCust;
+import pds_banque.View.ScreenManageCust;
 
 /**
  *
@@ -23,21 +24,21 @@ public class ControllerScreenHome implements ActionListener {
     private AccessDB bdd;
     private JButton btnCreateCustomer;
     private JButton btnSimulateLoan;
-    private ScreenHome ecranAccueil;
+    private ScreenHome screenHome;
     private int idConsultant;
 
     /**
      *
-     * @param ecranAccueil0
+     * @param screenHome0
      * @param idC
      * @param btnCreateCustomer0
      * @param btnSimulateLoan0
      */
-    public ControllerScreenHome(ScreenHome ecranAccueil0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
+    public ControllerScreenHome(ScreenHome screenHome0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
         this.bdd = AccessDB.getAccessDB();
         this.btnCreateCustomer = btnCreateCustomer0;
         this.btnSimulateLoan = btnSimulateLoan0;
-        this.ecranAccueil = ecranAccueil0;
+        this.screenHome = screenHome0;
         this.idConsultant = idC;
     }
 
@@ -45,15 +46,18 @@ public class ControllerScreenHome implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCreateCustomer) {
             try {
-                this.ecranAccueil.dispose();
-                ecranAccueil.setVisible(false);
+                this.screenHome.dispose();
+                screenHome.setVisible(false);
                 ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         } else if (e.getSource() == btnSimulateLoan) {
-            System.out.println("bouton loan");
+            System.out.println("pds_banque.Controller.ControllerScreenHome.actionPerformed()");
+            screenHome.dispose();
+            screenHome.setVisible(false);
+            ScreenManageCust fen2 = new ScreenManageCust(idConsultant);
         }
     }
 }
