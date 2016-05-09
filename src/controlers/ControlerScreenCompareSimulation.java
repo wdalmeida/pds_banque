@@ -10,7 +10,7 @@ package controlers;
  * @author florent
  */
 public class ControlerScreenCompareSimulation {
-
+  
     public ControlerScreenCompareSimulation() {
         
     }
