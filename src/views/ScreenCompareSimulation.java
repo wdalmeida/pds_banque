@@ -5,7 +5,6 @@
  */
 package views;
 
-import controlers.ControlerScreenCompareSimulation;
 import models.AccessDB;
  
 /**
