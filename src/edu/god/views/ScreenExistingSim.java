@@ -13,9 +13,13 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenExistingSim
+     * @param idConsultant
+     * @param idCustomer
      */
-    public ScreenExistingSim() {
+    public ScreenExistingSim(int idConsultant, String idCustomer) {
         initComponents();
+        setTitle(idConsultant+" - "+idCustomer);
+        setVisible(true);
     }
 
     /**

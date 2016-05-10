@@ -81,7 +81,7 @@ System.out.println("title_Customer: " + title_Customer);
 
         obj.put("lastName", aLastName);
         obj.put("firstName",aFirstName);
-        obj.put("firstName",aPostalCode);
+        obj.put("postalCode",aPostalCode);
 
         System.out.print("Objet encodé:" + obj);
         return obj;

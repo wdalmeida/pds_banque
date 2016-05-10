@@ -214,32 +214,36 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-    public ArrayList getCustomer(String lastN, String firstN, String pc) throws SQLException {
-        String query = "";
-        ResultSet resultat = null;
-        ArrayList customers = new ArrayList();
-
+    public ArrayList<String[]> getCustomer(String lastN, String firstN, String pc) throws SQLException {
+        String query = "SELECT id_Customer,title_Customer,last_Name_Customer,first_Name_Customer,street_Customer"
+                + ",pc_Customer,city_Customer,phone_Customer,email_Customer,birthday_Customer,nationality_Customer"
+                + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
+        ArrayList<String[]> res = new ArrayList();
         try {
-            String[] tab = new String[2];
-            query = "SELECT * FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? ;";
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setString(1, lastN);
             queryPrep.setString(2, firstN);
-            //  queryPrep.setString(3, pc);
+            queryPrep.setString(3, pc);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    customers.add(rs.getRow());
-                    System.out.println(rs.getRow());
+                    rs.last();
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount();
+                    String test[] = new String[nbColumn];
+                    rs.beforeFirst();
                     while (rs.next()) {
-                        customers.add(rs.getRow());
-                        System.out.println(rs.getRow());
+                        for (int i = 0; i < nbColumn; i++) {
+                            test[i] = rs.getString(i + 1);
+                        }
+                        res.add(test);
                     }
                 }
+                System.out.println("requete = "+queryPrep.toString());
             }
         } catch (SQLException e) {
-            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
-        return customers;
+        return res;
     }
 
 }

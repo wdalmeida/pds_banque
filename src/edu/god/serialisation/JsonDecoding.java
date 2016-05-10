@@ -1,7 +1,9 @@
 package edu.god.serialisation;
 
+import edu.god.server.AccessDB_server;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -87,7 +89,7 @@ public class JsonDecoding {
         return query;
     }
 
-    public static String[] decodingSearchCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
+    public static ResultSet decodingSearchCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
 
         JSONParser parser = new JSONParser();
         String object = objetjson.toString();
@@ -107,7 +109,7 @@ public class JsonDecoding {
 
         // System.out.println("Soit la requete SQL:" + '\n');
         // System.out.println(query);
-        // AccessDB_server.envoyerRequeteQuery(requete);
-        return data;
+       // AccessDB_server.sendSearchRequest(data);
+        return AccessDB_server.sendSearchRequest(data);
     }
 }
