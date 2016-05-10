@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.JFrame;
-import etu.god.controllers.ControllerScreenCreateCust;
-import etu.god.models.AccessDB;
-import etu.god.models.ModifiedFocusPolicy;
+import edu.god.controllers.ControllerScreenCreateCust;
+import edu.god.models.*;
 
 /**
  *

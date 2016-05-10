@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.models;
+package edu.god.models;
 
 /**
  *
@@ -12,8 +12,8 @@ package etu.god.models;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.*;
-import etu.god.common.contents.Constantes;
-import etu.god.entities.Customer;
+import edu.god.common.contents.*;
+import edu.god.entities.*;
 
 public class AccessDB implements Constantes {
 

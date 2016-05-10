@@ -1,4 +1,4 @@
-package etu.god.server;
+package edu.god.server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

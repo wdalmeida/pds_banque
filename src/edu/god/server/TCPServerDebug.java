@@ -1,6 +1,6 @@
-package etu.god.server;
+package edu.god.server;
 
-import etu.god.server.AccessDB_server;
+import edu.god.server.AccessDB_server;
 
 /**
  *

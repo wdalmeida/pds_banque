@@ -1,4 +1,4 @@
-package etu.god.server;
+package edu.god.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

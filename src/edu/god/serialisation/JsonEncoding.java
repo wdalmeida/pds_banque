@@ -1,12 +1,12 @@
-package etu.god.serialisation;
+package edu.god.serialisation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import static etu.god.serialisation.JsonDecoding.decodeCustomer;
-import etu.god.models.HashString;
+import static edu.god.serialisation.JsonDecoding.decodeCustomer;
+import edu.god.models.HashString;
 
 /**
  *
@@ -70,6 +70,18 @@ System.out.println("title_Customer: " + title_Customer);
 
         obj.put("identifiant", identifiant);
         obj.put("motdepasse", HashString.sha512(motDePasse));
+
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    
+     public static JSONObject encodingSearchCustomer(String aLastName, String aFirstName, String aPostalCode) throws IOException, FileNotFoundException, ParseException, NoSuchAlgorithmException {
+
+        JSONObject obj = new JSONObject();
+
+        obj.put("lastName", aLastName);
+        obj.put("firstName",aFirstName);
+        obj.put("firstName",aPostalCode);
 
         System.out.print("Objet encodé:" + obj);
         return obj;

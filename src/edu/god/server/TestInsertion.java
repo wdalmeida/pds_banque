@@ -1,10 +1,10 @@
-package etu.god.server;
+package edu.god.server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import org.json.simple.JSONObject;
-import static etu.god.serialisation.JsonEncoding.encodageCustomer;
+import static edu.god.serialisation.JsonEncoding.encodageCustomer;
 
 /**
  *

@@ -1,7 +1,7 @@
-package etu.god.controllers;
+package edu.god.controllers;
 
 import java.awt.Color;
-import etu.god.models.AccessDB;
+import edu.god.models.AccessDB;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,11 +11,11 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import etu.god.serialisation.JsonDecoding;
-import etu.god.serialisation.JsonEncoding;
-import etu.god.server.ClientJavaSelect;
-import etu.god.views.ScreenHome;
-import etu.god.views.Window;
+import edu.god.serialisation.JsonDecoding;
+import edu.god.serialisation.JsonEncoding;
+import edu.god.server.ClientJavaSelect;
+import edu.god.views.ScreenHome;
+import edu.god.views.Window;
 
 public class ControllerScreenConnection implements ActionListener {
 

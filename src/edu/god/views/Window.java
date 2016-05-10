@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
 import javax.swing.*;
-import etu.god.controllers.ControllerScreenConnection;
+import edu.god.controllers.*;
 
 /**
  *

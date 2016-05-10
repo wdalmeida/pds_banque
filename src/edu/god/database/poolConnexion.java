@@ -1,10 +1,10 @@
-package etu.god.database;
+package edu.god.database;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import etu.god.models.AccessDB;
+import edu.god.models.AccessDB;
 
 /**
  *

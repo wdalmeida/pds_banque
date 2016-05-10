@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
 import java.security.NoSuchAlgorithmException;
-import etu.god.controllers.ControllerScreenHome;
-import etu.god.models.AccessDB;
+import edu.god.controllers.ControllerScreenHome;
+import edu.god.models.AccessDB;
 
 /**
  *

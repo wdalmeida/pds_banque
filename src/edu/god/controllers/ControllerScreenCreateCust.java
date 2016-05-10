@@ -3,23 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.controllers;
+package edu.god.controllers;
 
-import etu.god.models.AccessDB;
+import edu.god.models.*;
 import java.awt.event.*;
 import java.io.IOException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import etu.god.entities.Customer;
-import etu.god.views.ScreenHome;
-import etu.god.views.ScreenCreateCust;
+import edu.god.entities.*;
+import edu.god.views.*;
+import edu.god.views.ScreenCreateCust;
 import org.jdesktop.swingx.*;
 
 import org.json.simple.parser.ParseException;
-import static etu.god.serialisation.JsonEncoding.encodageCustomer;
-import etu.god.server.ClientJavaInsert;
+import static edu.god.serialisation.JsonEncoding.encodageCustomer;
+import edu.god.server.*;
 
 /**
  *

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
-import etu.god.controllers.ControlerScreenManageCust;
-import etu.god.controllers.ControllerScreenHome;
+import edu.god.controllers.ControlerScreenManageCust;
+import edu.god.controllers.ControllerScreenHome;
 
 /**
  *
