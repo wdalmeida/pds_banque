@@ -5,7 +5,7 @@
  */
 package pds_banque.Model;
 
-import etu.god.models.AccessDB;
+import edu.god.models.AccessDB;
 import static java.lang.String.format;
 import static java.lang.String.format;
 import static java.lang.String.format;
@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import etu.god.entities.Customer;
+import edu.god.entities.Customer;
 import java.util.Date;
 
 /**
