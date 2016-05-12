@@ -14,6 +14,7 @@ import edu.god.models.AccessDB;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenCreateCust;
 import edu.god.views.ScreenManageCust;
+import java.text.ParseException;
 
 /**
  *
@@ -48,7 +49,7 @@ public class ControllerScreenHome implements ActionListener {
             try {
                 this.screenHome.dispose();
                 screenHome.setVisible(false);
-                ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant);
+                ScreenCreateCust fen2 = new ScreenCreateCust(idConsultant,false);
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -57,7 +58,11 @@ public class ControllerScreenHome implements ActionListener {
             System.out.println("pds_banque.Controller.ControllerScreenHome.actionPerformed()");
             screenHome.dispose();
             screenHome.setVisible(false);
-            ScreenManageCust fen2 = new ScreenManageCust(idConsultant);
+            try {
+                ScreenManageCust fen2 = new ScreenManageCust(idConsultant);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

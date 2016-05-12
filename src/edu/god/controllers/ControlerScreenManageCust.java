@@ -23,7 +23,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author warren
  */
-public class ControlerScreenManageCust implements ActionListener, MouseListener {
+public class ControlerScreenManageCust implements ActionListener, MouseListener, KeyListener {
 
     private ScreenManageCust smc;
     private int idConsultant;
@@ -85,7 +85,7 @@ public class ControlerScreenManageCust implements ActionListener, MouseListener 
                     if (click == JOptionPane.YES_OPTION) {
                         smc.dispose();
                         try {
-                            ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant);
+                            ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant,true);
                         } catch (SQLException ex) {
                             Logger.getLogger(ControlerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -96,7 +96,7 @@ public class ControlerScreenManageCust implements ActionListener, MouseListener 
         } else if (e.getSource() == btnCreateCust) {
             smc.dispose();
             try {
-                ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant);
+                ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant,true);
             } catch (SQLException ex) {
                 Logger.getLogger(ControlerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -157,28 +157,42 @@ public class ControlerScreenManageCust implements ActionListener, MouseListener 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
+            System.out.println("test1");
             smc.dispose();
-            ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant,tableCustomer.getModel().getValueAt( tableCustomer.getSelectedRow(), 0).toString());
+            System.out.println("test2");
+            ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(),0).toString());
+            System.out.println("test3");
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-    //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if (postalCode.getText().length() >= 5) {
+            e.consume();
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }

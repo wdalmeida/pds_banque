@@ -226,7 +226,6 @@ public class AccessDB implements Constantes {
             queryPrep.setString(3, pc);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    rs.last();
                     ResultSetMetaData metadata = rs.getMetaData();
                     int nbColumn = metadata.getColumnCount();
                     String test[] = new String[nbColumn];
@@ -238,7 +237,7 @@ public class AccessDB implements Constantes {
                         res.add(test);
                     }
                 }
-                System.out.println("requete = "+queryPrep.toString());
+                System.out.println("requete = " + queryPrep.toString());
             }
         } catch (SQLException e) {
             System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
@@ -246,4 +245,125 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {
+        String query = "SELECT id_Customer"
+                + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
+        String res = "";
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, title);
+            queryPrep.setString(2, lastN);
+            queryPrep.setString(3, firstN);
+            queryPrep.setString(4, salary.toString());
+            queryPrep.setString(5, street);
+            queryPrep.setString(6, pc);
+            queryPrep.setString(7, city);
+            queryPrep.setString(8, phone);
+            queryPrep.setString(9, email);
+            queryPrep.setString(10, birthday);
+            queryPrep.setBoolean(11, owner);
+            queryPrep.setString(12, nation);
+            queryPrep.setInt(13, idConsultant);
+            queryPrep.setInt(14, user);
+            queryPrep.setInt(15, status);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res = rs.getString(1);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public String[] getLastFirstNameCustomer(String idCustomer) {
+        String query = "SELECT title_Customer, last_Name_Customer, first_Name_Customer"
+                + " FROM Customer WHERE id_Customer =? ; ";
+        String res[] = new String[3];
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idCustomer);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getString(1);
+                    res[1] = rs.getString(2);
+                    res[2] = rs.getString(3);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String[]> getDateTypeSims(String idCustomer) {
+        String query = "SELECT id_Sim, description_LoanRef, date_Sim,id_Rate,monthly_Sim, duration_Sim "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Customer =? ; ";
+        ArrayList<String[]> res = new ArrayList();
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idCustomer);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount();
+                    String test[] = new String[nbColumn];
+                    rs.beforeFirst();
+                    while (rs.next()) {
+                        for (int i = 0; i < nbColumn; i++) {
+                            test[i] = rs.getString(i + 1);
+                        }
+                        res.add(test);
+                    }
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String> getSimByID(String idSim) {
+        String query = "SELECT LoanSimulation.* "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Sim =? ;";
+        ArrayList<String> res = new ArrayList();
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idSim);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount();
+                    for (int i = 0; i < nbColumn; i++) {
+                        res.add(rs.getString(i + 1));
+                    }
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String> getLoanType() throws SQLException {
+        ArrayList<String> res = new ArrayList();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT description_LoanRef FROM LoanRef ;");
+        if (rs.first()) {
+            rs.beforeFirst();
+            while (rs.next()) {
+                res.add(rs.getString(1));
+            }
+        }
+
+        return res;
+    }
 }

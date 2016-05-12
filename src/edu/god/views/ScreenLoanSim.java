@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+
+import edu.god.models.AccessDB;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -15,10 +19,44 @@ public class ScreenLoanSim extends JFrame {
 
     /**
      * Creates new form ScreenLoanSim
+     *
+     * @param idConsultant
+     * @param idSim
+     * @throws java.sql.SQLException
      */
-    public ScreenLoanSim() {
+    public ScreenLoanSim(int idConsultant, String idSim) throws SQLException {
+        System.out.println("edu.god.views.ScreenLoanSim.<init>()");
         initComponents();
+        System.out.println("test111");
         rootPane.getContentPane().setBackground(Color.WHITE);
+        setVisible(true);
+        loadForm(idSim);
+        ArrayList<String> loanTypes = AccessDB.getAccessDB().getLoanType();
+        cbxLoan.removeAllItems();
+        for (String loanType : loanTypes) {
+            cbxLoan.addItem(loanType);
+        }
+
+    }
+
+    public void loadForm(String idSim) {
+        AccessDB db = AccessDB.getAccessDB();
+        ArrayList<String> simData = db.getSimByID(idSim);
+
+       /* for (int i = 0; i < cbxLoan.getItemCount(); i++) {
+            if (cbxLoan.getItemAt(WIDTH).equals(simData.get(0))) {
+                cbxLoan.setSelectedItem(simData.get(0));
+            }
+        }*/
+        cbxLoan.setSelectedItem(simData.get(0));
+        txtAmount.setText(simData.get(0));
+        txtRate.setText(simData.get(0));
+        txtInsurance.setText(simData.get(0));
+        txtAmountInsurance.setText(simData.get(0));
+        txtDuration.setText(simData.get(0));
+        txtDate.setText(simData.get(3));
+        txtCapital.setText(simData.get(0));
+
     }
 
     /**
