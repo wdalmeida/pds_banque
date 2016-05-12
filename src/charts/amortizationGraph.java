@@ -5,33 +5,47 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.*;
 import java.awt.geom.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 import javax.swing.*;
 
-public class amortizationGraph extends JPanel implements MouseListener{
 
-    double principalAmount;
-    double interestRate;
+public class amortizationGraph extends JPanel implements MouseListener, Printable {
 
-    JFrame chartFrame = null;
     JScrollPane scrollingPane = null;
     //takes in parameter the name of the class calling the graph class
+    JPanel panel = new JPanel();
+    JFrame f = new JFrame();
+    private javax.swing.JButton printGraphButton;
+
     double[] dGraph = new double[newGui.tMonths];
     final int PAD = 100;
-    private double monthlyPayment;
-    private double interestPaid;
-    private double principalPaid;
-    
-    
-    
-    
+    double monthlyPayment;
+    double interestPaid;
+    double principalPaid;
+    double principalAmount;
+    double interestRate;
+    double termMonths;
+    double totalInterests;
+    double totalPayments;
+    double initialAmount;
 
-	 //This class adds the table to the JFrame
-    public void getGraphInfo(String principalAmountTextField, String interestRateTextField, String termMonthsTextField) {
+    //This class adds the table to the JFrame
+    public void getGraphInfo(String principalAmountTextField, String interestRateTextField, String termMonthsTextField, String totalInterestsTextField, String totalPaymentsTextField) {
 
-        double principalAmount = Double.parseDouble(principalAmountTextField); //principal amount
-        double interestRate = Double.parseDouble(interestRateTextField); //interest rate
-        int termMonths = Integer.parseInt(termMonthsTextField);  // term (in months)
+        
+        initialAmount = Double.parseDouble(principalAmountTextField); //the actual amount of the loan
+        principalAmount = Double.parseDouble(principalAmountTextField); //principal amount
+        interestRate = Double.parseDouble(interestRateTextField); //interest rate
+        termMonths = Integer.parseInt(termMonthsTextField);  // term (in months)
+        totalInterests = Double.parseDouble(totalInterestsTextField);  // total of the interests
+        totalPayments = Double.parseDouble(totalPaymentsTextField);  // total of the payment
         double newPrincipal = principalAmount;
         interestRate = interestRate / 100.0;
         double monthlyInterestRate = interestRate / 12.0; //monthly interest rate
@@ -51,24 +65,48 @@ public class amortizationGraph extends JPanel implements MouseListener{
 
         }
 
-        JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JScrollPane scrollPane = new JScrollPane(this);
-        scrollPane.setBounds(10, 101, 742, 276);
+        System.out.println((int) Double.parseDouble(principalAmountTextField));
 
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setPreferredSize(new Dimension(500, 500));
+        //MyComponent.setChartValues(85, 10, 5); 
+        int principalAmountPercent = (Integer.parseInt(principalAmountTextField) * 100) / (int) totalPayments;
+        int totalInterestsPercent = ((int) totalInterests * 100) / (int) totalPayments;
+
+        MyComponent.setChartValues(principalAmountPercent, totalInterestsPercent, 1); //first parameter needs to take insurance in account
+        // percent = (n * 100.0f) / v;
+        
+        printGraphButton = new javax.swing.JButton();
+        printGraphButton.setText("Imprimer");
+          printGraphButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+             //   printGraphButtonActionPerformed(evt);
+              printJavaComponent();
+            }
+        });
+
+        
+        panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(300, 500));
+        panel.add(new MyComponent());
+        this.add(printGraphButton);
+
+        GridLayout layout = new GridLayout(1, 2);
+        f.setLayout(layout);
         f.add(this);
-        f.setSize(500, 500);
+        f.add(panel);
+        f.setSize(800, 500);
         f.setLocation(200, 200);
-        f.setTitle("Graphique"); //the title of the table
+        f.setTitle("Graphiques"); //the title of the window
         f.setVisible(true);
         f.setBackground(Color.WHITE);
-        
+        f.pack();
+
         addMouseListener(this);
-        
 
     }
 
-       //paint component     
+    //paint component     
     protected void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -147,33 +185,67 @@ public class amortizationGraph extends JPanel implements MouseListener{
         return max;
 
     }
-    
+
+    public void printJavaComponent() {
+    PrinterJob job = PrinterJob.getPrinterJob();
+    job.setJobName("Print Java Component");
+ 
+    job.setPrintable (new Printable() {    
+        public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+            if (pageIndex > 0) {
+                return(NO_SUCH_PAGE);
+            } else {
+                Graphics2D g2d = (Graphics2D)g;
+                g2d.translate(pageFormat.getImageableX(), 
+                pageFormat.getImageableY());
+ 
+                panel.paint(g2d);
+ 
+                return(PAGE_EXISTS); 
+            }
+        }
+    });
+         
+    if (job.printDialog()) {
+        try {
+            job.print();
+        } catch (PrinterException e) {
+            System.err.println(e.getMessage()); 
+        }
+    }
+}
+   
 
     @Override
     public void mouseClicked(MouseEvent e) {
-    
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-    
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-    
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-    //the mouseOver
+        //the mouseOver
         //JOptionPane.showConfirmDialog(this, "Tout plein d'informations", "Bien ou bien", JOptionPane.YES_NO_OPTION);
-        this.setToolTipText("Informations relatives au prêt.");
+        panel.setToolTipText("Somme empruntée: " + initialAmount + " Euros" + '\n' + "Total des intérèts payés: " + totalInterests + " Euros" + '\n' + "Total de la somme à rembourser: " + totalPayments + " Euros");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-    
+
+    }
+
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

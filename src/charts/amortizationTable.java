@@ -14,10 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-//amortization table 
+//amortization table buton
+
 public class amortizationTable extends JFrame {
 
     double interestPaid;
@@ -37,7 +39,8 @@ public class amortizationTable extends JFrame {
         double interestRate = Double.parseDouble(interestRateTextField);  //parsed interest rate from the interest rate text field
         int termMonths = Integer.parseInt(termMonthsTextField);  ////parsed term in months from the term (in months) text field
         String[] columnNames = {"Numéro de mensualité", "Restant à payer avant paiement", "Montant des intérèts de la mensualité", "Montant du capital remboursé", "Restant à payer après paiement"}; // column names
-
+        
+        //add columns of the table
         for (int columnLength = 0; columnLength < 5; columnLength++) {
             model.addColumn(columnNames[columnLength]);
         }
@@ -47,9 +50,12 @@ public class amortizationTable extends JFrame {
             interestRate = interestRate / 100.0;
             double monthlyInterestRate = interestRate / 12.0;
             monthlyPayment = principalAmount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -termMonths))); //calculated monthly payment
+            //not used anymore
             double monthlyPayment = principalAmount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -termMonths)));
-
-            NumberFormat nf = NumberFormat.getCurrencyInstance();
+            
+            //sets the currency
+            //NumberFormat nf = NumberFormat.getCurrencyInstance();
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
 
             for (int numberOfTerms = 0; numberOfTerms < termMonths; numberOfTerms++) {
                 Object data[] = new Object[5];
@@ -83,7 +89,7 @@ public class amortizationTable extends JFrame {
         this.getContentPane().add(p);
     }
 
-        private void printGradesTable() {
+        private void printAmortizationTable() {
         /* Fetch printing properties from the GUI components */
 
         MessageFormat header = null;
@@ -97,28 +103,28 @@ public class amortizationTable extends JFrame {
             if (complete) {
                 /* show a success message */
                 JOptionPane.showMessageDialog(this,
-                                              "Printing Complete",
-                                              "Printing Result",
+                                              "Impression effectuée",
+                                              "Impression du résultat",
                                               JOptionPane.INFORMATION_MESSAGE);
             } else {
                 /* show a message indicating that printing was cancelled */
                 JOptionPane.showMessageDialog(this,
-                                              "Printing Cancelled",
-                                              "Printing Result",
+                                              "Impression annulée",
+                                              "Impression du résultat",
                                               JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (PrinterException pe) {
             /* Printing failed, report to the user */
             JOptionPane.showMessageDialog(this,
-                                          "Printing Failed: " + pe.getMessage(),
-                                          "Printing Result",
+                                          "L'impression à échouée: " + pe.getMessage(),
+                                          "Impression du résultat",
                                           JOptionPane.ERROR_MESSAGE);
         }
     }
 
  private void printTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         
-         printGradesTable();
+         printAmortizationTable();
         
     }                                                
 }
