@@ -73,6 +73,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         SPSim = new javax.swing.JScrollPane();
         tblSims = new javax.swing.JTable();
         btnCompareSimulation = new javax.swing.JButton();
+        btnNewSim = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,21 +96,25 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
         btnCompareSimulation.setText("Comparer Simulation");
 
+        btnNewSim.setText("Nouvelle simulation");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(173, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTitle)
-                .addContainerGap(173, Short.MAX_VALUE))
-            .addComponent(SPSim, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(193, 193, 193)
-                .addComponent(btnValidate)
-                .addGap(33, 33, 33)
-                .addComponent(btnCompareSimulation)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(SPSim, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnNewSim)
+                .addGap(36, 36, 36)
+                .addComponent(btnValidate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCompareSimulation)
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +126,8 @@ public class ScreenExistingSim extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnValidate)
-                    .addComponent(btnCompareSimulation))
+                    .addComponent(btnCompareSimulation)
+                    .addComponent(btnNewSim))
                 .addGap(64, 64, 64))
         );
 
@@ -132,6 +138,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPSim;
     private javax.swing.JButton btnCompareSimulation;
+    private javax.swing.JButton btnNewSim;
     private javax.swing.JButton btnValidate;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblSims;
