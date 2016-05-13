@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
-import etu.god.controllers.ControlerScreenManageCust;
-import etu.god.controllers.ControllerScreenHome;
+import edu.god.controllers.ControllerScreenManageCust;
+import java.awt.Color;
+import java.text.ParseException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,23 +16,37 @@ import etu.god.controllers.ControllerScreenHome;
  */
 public class ScreenManageCust extends javax.swing.JFrame {
 
-    private int idConsultant;
+    private final int idConsultant;
 
     /**
      * Creates new form ScreenManageCust
+     *
+     * @param idC0
      */
-    public ScreenManageCust(int idC0) {
+    public ScreenManageCust(int idC0) throws ParseException {
         initComponents();
+        String title[] = {"Civilité", "Nom", "Prenom", "Rue", "Code postal", "Ville", "Telephone", "Email", "Date de Naissance", "Nationalité"};
+        DefaultTableModel model = new DefaultTableModel(title, 0);
+        tblCustomer.setModel(model);
         this.idConsultant = idC0;
         this.setVisible(true);
         btnCreate.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
-        btnSubmit.addActionListener(new ControlerScreenManageCust(this, txtLastName,txtFirstName,idC0,btnCreate,btnUpdate,btnDelete,btnSubmit,btnBack));
+        
+        txtPc.addKeyListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        
+        tblCustomer.addMouseListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnCreate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnUpdate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnDelete.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        
+        // TODO ajouter la selection sur la ligne et double clique
+        
+        lblError.setText("");
+        lblError.setForeground(Color.red);
 
-    }
-
-    public void updateTableCustomer() {
+        btnSubmit.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer,lblError));
 
     }
 
@@ -41,12 +57,12 @@ public class ScreenManageCust extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws ParseException{
 
         lblLastName = new javax.swing.JLabel();
-        txtLastName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JFormattedTextField();
         lblFirstName = new javax.swing.JLabel();
-        txtFirstName = new javax.swing.JTextField();
+        txtFirstName = new javax.swing.JFormattedTextField();
         btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -55,8 +71,9 @@ public class ScreenManageCust extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         SPManage = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
-        lblPc = new javax.swing.JTextField();
-        txtPc = new javax.swing.JLabel();
+        txtPc = new javax.swing.JFormattedTextField();
+        lblPc = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion client");
@@ -83,28 +100,36 @@ public class ScreenManageCust extends javax.swing.JFrame {
 
         tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nom", "Prenom", "Adresse", "Ville", "Code Postal", "Date de naissance"
+                "Nom", "Prenom", "Adresse", "Ville", "Code Postal", "Date de naissance", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        ) {public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
             }
         });
-        tblCustomer.setColumnSelectionAllowed(true);
+        tblCustomer.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblCustomer.setRequestFocusEnabled(false);
+        tblCustomer.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         SPManage.setViewportView(tblCustomer);
         tblCustomer.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblCustomer.getColumnModel().getColumnCount() > 0) {
+            tblCustomer.getColumnModel().getColumn(0).setResizable(false);
+            tblCustomer.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tblCustomer.getColumnModel().getColumn(1).setResizable(false);
+            tblCustomer.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblCustomer.getColumnModel().getColumn(3).setResizable(false);
+            tblCustomer.getColumnModel().getColumn(3).setPreferredWidth(10);
+        }
 
-        txtPc.setText("Code postal");
+        lblPc.setText("Code postal");
+
+        lblError.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,16 +155,20 @@ public class ScreenManageCust extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)))
-                        .addComponent(txtPc)
+                        .addComponent(lblPc)
                         .addGap(35, 35, 35)
-                        .addComponent(lblPc, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(SPManage, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPc, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SPManage))
                 .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(360, Short.MAX_VALUE)
+                .addComponent(lblError)
+                .addContainerGap(435, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,29 +184,30 @@ public class ScreenManageCust extends javax.swing.JFrame {
                         .addComponent(lblFirstName)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPc)
-                            .addComponent(lblPc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblPc)
+                            .addComponent(txtPc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSubmit)
                     .addComponent(btnBack))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                        .addGap(0, 176, Short.MAX_VALUE)
                         .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69)
                         .addComponent(btnDelete))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
+                        .addComponent(lblError)
+                        .addGap(39, 39, 39)
                         .addComponent(SPManage, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(77, 77, 77))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPManage;
@@ -186,13 +216,14 @@ public class ScreenManageCust extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblLastName;
     private javax.swing.JLabel lblManageCust;
-    private javax.swing.JTextField lblPc;
+    private javax.swing.JLabel lblPc;
     private javax.swing.JTable tblCustomer;
-    private javax.swing.JTextField txtFirstName;
-    private javax.swing.JTextField txtLastName;
-    private javax.swing.JLabel txtPc;
+    private javax.swing.JFormattedTextField txtFirstName;
+    private javax.swing.JFormattedTextField txtLastName;
+    private javax.swing.JFormattedTextField txtPc;
     // End of variables declaration//GEN-END:variables
 }

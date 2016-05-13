@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
 
 import java.security.NoSuchAlgorithmException;
-import etu.god.controllers.ControllerScreenHome;
-import etu.god.models.AccessDB;
+import edu.god.controllers.ControllerScreenHome;
+import edu.god.models.AccessDB;
+import javax.swing.JFrame;
 
 /**
  *
@@ -68,6 +69,11 @@ public class ScreenHome extends javax.swing.JFrame {
         title.setText("TEST");
 
         jButton1.setText("Gestion des taux ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,6 +125,11 @@ public class ScreenHome extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFrame ScreenType = new ScreenType();
+        ScreenType.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateCustomer;

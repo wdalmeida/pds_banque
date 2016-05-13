@@ -1,4 +1,4 @@
-package etu.god.server;
+package edu.god.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -8,8 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
-import etu.god.database.poolConnexion;
-import static etu.god.serialisation.JsonDecoding.decodeCustomer;
+import edu.god.database.poolConnexion;
+import static edu.god.serialisation.JsonDecoding.decodeCustomer;
 
 /**
  *

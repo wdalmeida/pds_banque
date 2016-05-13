@@ -1,7 +1,9 @@
-package etu.god.serialisation;
+package edu.god.serialisation;
 
+import edu.god.server.AccessDB_server;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -87,4 +89,27 @@ public class JsonDecoding {
         return query;
     }
 
+    public static ResultSet decodingSearchCustomer(Object objetjson) throws FileNotFoundException, IOException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String lastName = (String) jsonObject.get("lastName");
+        String firstName = (String) jsonObject.get("firstName");
+        String postalCode = (String) jsonObject.get("postalCode");
+
+        System.out.println("lastName : " + lastName);
+        System.out.println("firstName : " + firstName);
+        System.out.println("postalCode : " + postalCode);
+
+        String data[] = {lastName, firstName, postalCode};   
+        //String query = "SELECT id_user FROM User WHERE login_user LIKE '" + identifiant_consultant + "' AND pwd_User LIKE '" + mdp_consultant + "'";
+
+        // System.out.println("Soit la requete SQL:" + '\n');
+        // System.out.println(query);
+       // AccessDB_server.sendSearchRequest(data);
+        return AccessDB_server.sendSearchRequest(data);
+    }
 }

@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 
 class Pie_Chart {
 
+
+
     double value;
     Color color;
 

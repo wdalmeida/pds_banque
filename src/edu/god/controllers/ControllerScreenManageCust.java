@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.controllers;
+package edu.god.controllers;
 
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -11,9 +11,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import etu.god.entities.Customer;
-import etu.god.models.AccessDB;
-import etu.god.views.ScreenManageCust;
+import edu.god.entities.Customer;
+import edu.god.models.AccessDB;
+import edu.god.views.ScreenManageCust;
 
 /**
  *

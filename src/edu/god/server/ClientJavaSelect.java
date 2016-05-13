@@ -1,4 +1,4 @@
-package etu.god.server;
+package edu.god.server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

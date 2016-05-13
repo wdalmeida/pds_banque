@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 import javax.swing.JFrame;
@@ -18,7 +24,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Florian
  */
-public class newGui extends JFrame implements Printable{
+public class newGui extends JFrame implements Printable {
 
     //variable declaration
     public static int tMonths;
@@ -27,11 +33,14 @@ public class newGui extends JFrame implements Printable{
     double totalInterestsValue;
     String monthlyPayment;
     String totalPayment;
-  
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+ 
 
     //every Swing component is located inside the initComponents method
     public newGui() {
+        super("Afficher et imprimer les résultats d'un calcul de prêt");
         initComponents();
+
     }
 
     //Swing components and action listeners
@@ -54,7 +63,10 @@ public class newGui extends JFrame implements Printable{
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         printWindowButton = new javax.swing.JButton();
-        printTableButton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        startDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        jLabel8 = new javax.swing.JLabel();
+        endDateTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,90 +103,101 @@ public class newGui extends JFrame implements Printable{
             }
         });
 
-        printTableButton.setText("Imprimmer tableau");
-        printTableButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printTableButtonActionPerformed(evt);
-            }
-        });
+        jLabel7.setText("Date de début du prêt");
+
+        jLabel8.setText("Date de fin de prêt");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(tableButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(50, 50, 50))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel3))
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(37, 37, 37)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(principalAmountTextField)
-                            .addComponent(interestRateTextField)
-                            .addComponent(termMonthsTextField)
-                            .addComponent(monthlyPaymentTextField)
-                            .addComponent(totalPaymentsTextField)
-                            .addComponent(totalInterestsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(252, 252, 252))
+                        .addComponent(printWindowButton)
+                        .addGap(336, 336, 336))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(graphButton)
-                        .addGap(77, 77, 77))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(printTableButton)
-                .addGap(91, 91, 91)
-                .addComponent(printWindowButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel3))
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel7))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel8))))
+                            .addComponent(tableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(endDateTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(principalAmountTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(interestRateTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(termMonthsTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalInterestsTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                                .addGap(163, 163, 163)
+                                .addComponent(graphButton)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(97, 97, 97)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(principalAmountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addContainerGap(142, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tableButton)
+                            .addComponent(graphButton))
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(principalAmountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(interestRateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(termMonthsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(53, 53, 53)
+                        .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(totalInterestsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(interestRateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(termMonthsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tableButton)
-                    .addComponent(graphButton))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalInterestsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(printWindowButton)
-                    .addComponent(printTableButton))
-                .addGap(34, 34, 34))
+                    .addComponent(jLabel8)
+                    .addComponent(endDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
+                .addComponent(printWindowButton)
+                .addGap(56, 56, 56))
         );
 
         pack();
@@ -209,6 +232,8 @@ public class newGui extends JFrame implements Printable{
 
         amortizationTable amT = new amortizationTable(); // an object of the amortization table
         amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText());
+        
+        endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
 
     }//GEN-LAST:event_tableButtonActionPerformed
 
@@ -241,76 +266,76 @@ public class newGui extends JFrame implements Printable{
         totalPaymentsTextField.setText(tPay);
         totalInterestsTextField.setText(tInterests);
         tMonths = Integer.parseInt(termMonthsTextField.getText());
-        
+
         amortizationGraph amG = new amortizationGraph();
-        amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText());
+        amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText());
+
+        endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
 
 
     }//GEN-LAST:event_graphButtonActionPerformed
 
     private void printWindowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printWindowButtonActionPerformed
-       
+
         PrinterJob job = PrinterJob.getPrinterJob();
         PageFormat format = job.defaultPage();
         format.setOrientation(PageFormat.LANDSCAPE);
-  
+
         job.setPrintable(this, format);
-         
-        try{
-            if(job.printDialog()) job.print();
+
+        try {
+            if (job.printDialog()) {
+                job.print();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e){e.printStackTrace();}
-         
+
     }//GEN-LAST:event_printWindowButtonActionPerformed
 
-    
-   
     //actual printing function
     public int print(Graphics g, PageFormat format, int pagenum) {
-         
-       if (pagenum > 0){
-           return Printable.NO_SUCH_PAGE;
-       }
-        
-       g.translate((int)format.getImageableX(), (int)format.getImageableY());
-               
-       float pageWidth = (float)format.getImageableWidth();
-       float pageHeight = (float)format.getImageableHeight();
-       float imageHeight = (float)this.getHeight();
-       float imageWidth = (float)this.getWidth();
-       float scaleFactor = Math.min((float)pageWidth/(float)imageWidth, (float)pageHeight/(float)imageHeight);
-       int scaledWidth = (int)(((float)imageWidth)*scaleFactor);
-       int scaledHeight = (int)(((float)imageHeight)*scaleFactor);  
-        
-       BufferedImage canvas = new BufferedImage( this.getWidth(),  this.getHeight(), BufferedImage.TYPE_INT_RGB);
-       Graphics2D gg = canvas.createGraphics();
-       this.paint( gg );  
-       Image img = canvas ;
-  
-       g.drawImage(img, 0, 0, scaledWidth, scaledHeight, null );
-  
-       return Printable.PAGE_EXISTS;
-   
-    }   
-    
-    
-    private void printTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printTableButtonActionPerformed
-        
-        PrinterJob job = PrinterJob.getPrinterJob();
-     
-        PageFormat format = job.defaultPage();
-        format.setOrientation(PageFormat.LANDSCAPE);
-  
-        job.setPrintable(this, format);
-         
-        try{
-            if(job.printDialog()) job.print();
-        }
-        catch(Exception e){e.printStackTrace();}
-         
-        
-    }//GEN-LAST:event_printTableButtonActionPerformed
 
+        if (pagenum > 0) {
+            return Printable.NO_SUCH_PAGE;
+        }
+
+        g.translate((int) format.getImageableX(), (int) format.getImageableY());
+
+        float pageWidth = (float) format.getImageableWidth();
+        float pageHeight = (float) format.getImageableHeight();
+        float imageHeight = (float) this.getHeight();
+        float imageWidth = (float) this.getWidth();
+        float scaleFactor = Math.min((float) pageWidth / (float) imageWidth, (float) pageHeight / (float) imageHeight);
+        int scaledWidth = (int) (((float) imageWidth) * scaleFactor);
+        int scaledHeight = (int) (((float) imageHeight) * scaleFactor);
+
+        BufferedImage canvas = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D gg = canvas.createGraphics();
+        this.paint(gg);
+        Image img = canvas;
+
+        g.drawImage(img, 0, 0, scaledWidth, scaledHeight, null);
+
+        return Printable.PAGE_EXISTS;
+
+    }
+
+
+    /*public static Date addMonths(int months) {
+     Calendar cal = Calendar.getInstance();
+     Date todayDate = new Date();
+     cal.setTime(todayDate);
+     cal.add(Calendar.MONTH, months); //minus number would decrement the days
+     return cal.getTime();
+     }
+     */
+    public static Date addMonths(Date date, int months) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months); //minus number would decrement the days
+        return cal.getTime();
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -358,6 +383,7 @@ public class newGui extends JFrame implements Printable{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField endDateTextField;
     private javax.swing.JButton graphButton;
     private javax.swing.JTextField interestRateTextField;
     private javax.swing.JLabel jLabel1;
@@ -366,10 +392,12 @@ public class newGui extends JFrame implements Printable{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField monthlyPaymentTextField;
     private javax.swing.JTextField principalAmountTextField;
-    private javax.swing.JButton printTableButton;
     private javax.swing.JButton printWindowButton;
+    private org.jdesktop.swingx.JXDatePicker startDatePicker;
     private javax.swing.JButton tableButton;
     private javax.swing.JTextField termMonthsTextField;
     private javax.swing.JTextField totalInterestsTextField;

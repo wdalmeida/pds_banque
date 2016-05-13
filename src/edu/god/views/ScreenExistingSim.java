@@ -3,7 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package etu.god.views;
+package edu.god.views;
+
+import edu.god.controllers.ControllerScreenExistingSim;
+import edu.god.models.AccessDB;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -13,11 +20,45 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenExistingSim
+     * @param idConsultant
+     * @param idCustomer
+     * @param idSim
      */
-    public ScreenExistingSim() {
+    public ScreenExistingSim(int idConsultant, String idCustomer) {
         initComponents();
+        setTitle(idConsultant+" - "+idCustomer);
+        setVisible(true);
+        loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
+        getData(idCustomer);
+        
+        tblSims.addMouseListener(new ControllerScreenExistingSim(this, lblTitle, tblSims, btnValidate, btnValidate,idCustomer,idConsultant));
+        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation());
     }
+    
+    public void getData(String idCustomer) {
+        AccessDB bdd = AccessDB.getAccessDB();
+        String[] consultant = bdd.getLastFirstNameCustomer(idCustomer);
+        lblTitle.setText(lblTitle.getText()+ consultant[0]+"." + consultant[1] + " " + consultant[2]);
+   
+    }
+    public void loadDataInTable(ArrayList<String[]> simulations) {
+        System.out.println(Arrays.toString(simulations.toArray()));
+        String title[] = {"IDSIM","Type", "Date", "taux d'interet", "montant", "mensuailté","IDCONSULTANT"};
+        DefaultTableModel model = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
+        for (String[] sim : simulations) {
+            model.addRow(sim);
+        }
+        tblSims.setModel(model);
+        TableColumnModel tcm = tblSims.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
+        tcm.removeColumn(tcm.getColumn(tblSims.getColumnCount()-1));
 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,30 +69,46 @@ public class ScreenExistingSim extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
-        cbxSim = new javax.swing.JComboBox<>();
         btnValidate = new javax.swing.JButton();
+        SPSim = new javax.swing.JScrollPane();
+        tblSims = new javax.swing.JTable();
+        btnCompareSimulation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblTitle.setText("Simulation enregistré pour ");
 
-        cbxSim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btnValidate.setText("Valider");
+
+        tblSims.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        SPSim.setViewportView(tblSims);
+
+        btnCompareSimulation.setText("Comparer Simulation");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxSim, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(136, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(173, Short.MAX_VALUE)
+                .addComponent(lblTitle)
+                .addContainerGap(173, Short.MAX_VALUE))
+            .addComponent(SPSim, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(193, 193, 193)
                 .addComponent(btnValidate)
+                .addGap(33, 33, 33)
+                .addComponent(btnCompareSimulation)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -59,11 +116,13 @@ public class ScreenExistingSim extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(cbxSim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addComponent(btnValidate)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(SPSim, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnValidate)
+                    .addComponent(btnCompareSimulation))
+                .addGap(64, 64, 64))
         );
 
         pack();
@@ -71,8 +130,10 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane SPSim;
+    private javax.swing.JButton btnCompareSimulation;
     private javax.swing.JButton btnValidate;
-    private javax.swing.JComboBox<String> cbxSim;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tblSims;
     // End of variables declaration//GEN-END:variables
 }

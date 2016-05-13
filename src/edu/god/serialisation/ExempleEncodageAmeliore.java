@@ -2,7 +2,7 @@
  *
  * @author flesguer
  */
-package etu.god.serialisation;
+package edu.god.serialisation;
 
 import java.io.FileWriter;
 import java.io.IOException;

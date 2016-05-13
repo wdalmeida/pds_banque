@@ -1,6 +1,6 @@
-package etu.god.common.contents;
+package edu.god.common.contents;
 
-import etu.god.views.Window;
+import edu.god.views.Window;
 
 public class Pds_banque
 {
