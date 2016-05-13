@@ -22,6 +22,7 @@ public class ScreenManageCust extends javax.swing.JFrame {
      * Creates new form ScreenManageCust
      *
      * @param idC0
+     * @throws java.text.ParseException
      */
     public ScreenManageCust(int idC0) throws ParseException {
         initComponents();

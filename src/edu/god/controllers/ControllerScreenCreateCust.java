@@ -142,6 +142,8 @@ public class ControllerScreenCreateCust implements ActionListener {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (java.text.ParseException ex) {
+                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnBack) {
             this.scc.dispose();
