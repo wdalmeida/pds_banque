@@ -104,24 +104,6 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-    /*
-    public int getIdUser(String login, String pwd) {
-        int idUser = 0;
-        String query1 = "test";
-        try {
-            query1 = "select id_User from User where login_User='" + login + "' AND pwd_User='" + pwd + "';";
-            System.out.println("requete iduser = "+ query1);
-            ResultSet rs = this.declaration.executeQuery(query1);
-            if (rs.first()) {
-                idUser = rs.getInt(1);
-                System.out.println("idUser ="+idUser);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-        }
-        return idUser;
-    }
-     */
     public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
@@ -236,6 +218,31 @@ public class AccessDB implements Constantes {
             System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
         return res;
+    }
+    
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) throws SQLException {
+        String query = "";
+        ResultSet resultat = null;
+        ArrayList simulationLoans = new ArrayList();
+
+        try {
+            query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer='"+idCustomer+"'";
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setInt(1, idCustomer);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    simulationLoans.add(rs.getRow());
+                    System.out.println(rs.getRow());
+                    while (rs.next()) {
+                        simulationLoans.add(rs.getRow());
+                        System.out.println(rs.getRow());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return simulationLoans;
     }
 
     public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {

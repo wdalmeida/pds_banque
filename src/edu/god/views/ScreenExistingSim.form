@@ -32,6 +32,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
               <Component id="btnValidate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <Component id="btnCompareSimulation" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -44,7 +46,10 @@
               <EmptySpace pref="42" max="32767" attributes="0"/>
               <Component id="SPSim" min="-2" pref="150" max="-2" attributes="0"/>
               <EmptySpace pref="69" max="32767" attributes="0"/>
-              <Component id="btnValidate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnValidate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCompareSimulation" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -82,5 +87,10 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnCompareSimulation">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Comparer Simulation"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

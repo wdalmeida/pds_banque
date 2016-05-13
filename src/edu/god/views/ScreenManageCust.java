@@ -5,7 +5,7 @@
  */
 package edu.god.views;
 
-import edu.god.controllers.ControlerScreenManageCust;
+import edu.god.controllers.ControllerScreenManageCust;
 import java.awt.Color;
 import java.text.ParseException;
 import javax.swing.table.DefaultTableModel;
@@ -34,19 +34,19 @@ public class ScreenManageCust extends javax.swing.JFrame {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         
-        txtPc.addKeyListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        txtPc.addKeyListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
         
-        tblCustomer.addMouseListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnCreate.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnUpdate.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnDelete.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        tblCustomer.addMouseListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnCreate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnUpdate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnDelete.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
         
         // TODO ajouter la selection sur la ligne et double clique
         
         lblError.setText("");
         lblError.setForeground(Color.red);
 
-        btnSubmit.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer,lblError));
+        btnSubmit.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer,lblError));
 
     }
 
