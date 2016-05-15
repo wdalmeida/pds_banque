@@ -5,8 +5,9 @@
  */
 package edu.god.views;
 
-import edu.god.controllers.ControlerScreenManageCust;
+import edu.god.controllers.ControllerScreenManageCust;
 import java.awt.Color;
+import java.text.ParseException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,8 +22,9 @@ public class ScreenManageCust extends javax.swing.JFrame {
      * Creates new form ScreenManageCust
      *
      * @param idC0
+     * @throws java.text.ParseException
      */
-    public ScreenManageCust(int idC0) {
+    public ScreenManageCust(int idC0, boolean simulation) throws ParseException {
         initComponents();
         String title[] = {"Civilité", "Nom", "Prenom", "Rue", "Code postal", "Ville", "Telephone", "Email", "Date de Naissance", "Nationalité"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
@@ -32,18 +34,19 @@ public class ScreenManageCust extends javax.swing.JFrame {
         btnCreate.setVisible(false);
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
-        
-        tblCustomer.addMouseListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnCreate.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnUpdate.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        btnDelete.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
-        
+
+        txtPc.addKeyListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError,simulation));
+
+        tblCustomer.addMouseListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError,simulation));
+        btnCreate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError,simulation));
+        btnUpdate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError,simulation));
+        btnDelete.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError,simulation));
+
         // TODO ajouter la selection sur la ligne et double clique
-        
         lblError.setText("");
         lblError.setForeground(Color.red);
 
-        btnSubmit.addActionListener(new ControlerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer,lblError));
+        btnSubmit.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
 
     }
 
@@ -54,12 +57,12 @@ public class ScreenManageCust extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws ParseException{
 
         lblLastName = new javax.swing.JLabel();
-        txtLastName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JFormattedTextField();
         lblFirstName = new javax.swing.JLabel();
-        txtFirstName = new javax.swing.JTextField();
+        txtFirstName = new javax.swing.JFormattedTextField();
         btnCreate = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -68,7 +71,7 @@ public class ScreenManageCust extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         SPManage = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
-        txtPc = new javax.swing.JTextField();
+        txtPc = new javax.swing.JFormattedTextField();
         lblPc = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
 
@@ -206,11 +209,6 @@ public class ScreenManageCust extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblCustomerMouseClicked
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPManage;
     private javax.swing.JButton btnBack;
@@ -224,8 +222,8 @@ public class ScreenManageCust extends javax.swing.JFrame {
     private javax.swing.JLabel lblManageCust;
     private javax.swing.JLabel lblPc;
     private javax.swing.JTable tblCustomer;
-    private javax.swing.JTextField txtFirstName;
-    private javax.swing.JTextField txtLastName;
-    private javax.swing.JTextField txtPc;
+    private javax.swing.JFormattedTextField txtFirstName;
+    private javax.swing.JFormattedTextField txtLastName;
+    private javax.swing.JFormattedTextField txtPc;
     // End of variables declaration//GEN-END:variables
 }

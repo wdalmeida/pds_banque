@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Coline
  */
-public class ScreenModifyRatesProject extends javax.swing.JFrame {
+public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
 
     /**
      * Creates new form ScreenModifyRates
      */
-    public ScreenModifyRatesProject() {
+    public ScreenModifyRatesConsumption() {
         initComponents();
     }
 
@@ -46,7 +47,7 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Travaux");
+        jLabel1.setText("Consommation");
 
         jLabel2.setText("Taux de la maison mère :");
 
@@ -70,6 +71,11 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
         });
 
         jButton3.setText("Visualisez l'impact");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,6 +150,10 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+            JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -161,20 +171,20 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesProject.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ScreenModifyRatesProject().setVisible(true);
+                new ScreenModifyRatesConsumption().setVisible(true);
             }
         });
     }
@@ -193,4 +203,6 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+   
 }

@@ -26,9 +26,10 @@ public class ScreenCreateCust extends JFrame {
      * Creates new form ScreenCreateCust
      *
      * @param idC0
+     * @param sim
      * @throws java.sql.SQLException
      */
-    public ScreenCreateCust(int idC0) throws SQLException {
+    public ScreenCreateCust(int idC0, boolean sim) throws SQLException {
         initComponents();
         //System.out.println(Arrays.toString(jPanel1.getComponents()));
         Component[] allFields = jPanel1.getComponents();
@@ -56,7 +57,11 @@ public class ScreenCreateCust extends JFrame {
         choiceStatus.stream().forEach((choiceStatu) -> {
             status.addItem(choiceStatu);
         });
-        btnSubmit.addActionListener(new ControllerScreenCreateCust(this, title, lastName, firstName, birthday, nationality, phoneNumber, email, owner, salary, status, street, city, postalCode, idC0, btnSubmit, btnBack));
+        if (sim) {
+            btnSubmit.addActionListener(new ControllerScreenCreateCust(this, title, lastName, firstName, birthday, nationality, phoneNumber, email, owner, salary, status, street, city, postalCode, idC0, btnSubmit, btnBack,sim));
+        } else {
+            btnSubmit.addActionListener(new ControllerScreenCreateCust(this, title, lastName, firstName, birthday, nationality, phoneNumber, email, owner, salary, status, street, city, postalCode, idC0, btnSubmit, btnBack));
+        }
         btnBack.addActionListener(new ControllerScreenCreateCust(this, idC, btnBack, btnSubmit));
 
         setFocusTraversalPolicy(new ModifiedFocusPolicy(fieldList));

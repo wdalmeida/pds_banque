@@ -30,17 +30,14 @@ public class AccessDB implements Constantes {
                     this.declaration = conn.createStatement();
                 } catch (SQLException e) {
                     System.out.println("Erreur ! La cr\u00E9ation de l'objet Statement interne a \u00E9chou\u00E9.\n\nMessage d'erreur :\n");
-                    e.printStackTrace();
                     deconnexion();
                 }
             } catch (SQLException e) {
                 System.out.println("Erreur ! La cr\u00E9ation de la connexion interne a la base projetihm a \u00E9chou\u00E9.\n\nMessage d'erreur :\n");
-                e.printStackTrace();
                 deconnexion();
             }
         } catch (ClassNotFoundException e) {
             System.out.println("Erreur ! Le pilote n'a pas \u00E9t\u00E9 trouv\u00E9.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
             deconnexion();
         }
     }
@@ -58,11 +55,11 @@ public class AccessDB implements Constantes {
         pwd = HashString.sha512(pwd); // use for hash the password
         try {
             query = "SELECT id_User FROM User Natural Join Consultant where login_User='" + login + "' AND pwd_User='" + pwd + "';";
-            ResultSet rs = this.declaration.executeQuery(query);
-            if (rs.first()) {
-                tmp = rs.getInt(1);
+            try (ResultSet rs = this.declaration.executeQuery(query)) {
+                if (rs.first()) {
+                    tmp = rs.getInt(1);
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
@@ -94,38 +91,19 @@ public class AccessDB implements Constantes {
         try {
             String[] tab = new String[2];
             query = "SELECT last_Name_Consultant,first_Name_Consultant FROM Consultant Natural Join User WHERE login_User='" + login + "' AND pwd_User='" + pwd + "';";
-            ResultSet rs = this.declaration.executeQuery(query);
-            if (rs.first()) {
-                tab[0] = rs.getString(1);
-                tab[1] = rs.getString(2);
+            try (ResultSet rs = this.declaration.executeQuery(query)) {
+                if (rs.first()) {
+                    tab[0] = rs.getString(1);
+                    tab[1] = rs.getString(2);
+                }
             }
-            rs.close();
             return tab;
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
         }
         return null;
     }
 
-    /*
-    public int getIdUser(String login, String pwd) {
-        int idUser = 0;
-        String query1 = "test";
-        try {
-            query1 = "select id_User from User where login_User='" + login + "' AND pwd_User='" + pwd + "';";
-            System.out.println("requete iduser = "+ query1);
-            ResultSet rs = this.declaration.executeQuery(query1);
-            if (rs.first()) {
-                idUser = rs.getInt(1);
-                System.out.println("idUser ="+idUser);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur ! La requ\u00EAte" + query1 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-        }
-        return idUser;
-    }
-     */
     public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
@@ -152,7 +130,6 @@ public class AccessDB implements Constantes {
             }
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
         }
         return tmp;
     }
@@ -179,16 +156,15 @@ public class AccessDB implements Constantes {
         try {
             String[] tab = new String[2];
             query = "SELECT last_Name_Consultant,first_Name_Consultant FROM Consultant Natural Join User WHERE id_User='" + idC + "';";
-            ResultSet rs = this.declaration.executeQuery(query);
-            if (rs.first()) {
-                tab[0] = rs.getString(1);
-                tab[1] = rs.getString(2);
+            try (ResultSet rs = this.declaration.executeQuery(query)) {
+                if (rs.first()) {
+                    tab[0] = rs.getString(1);
+                    tab[1] = rs.getString(2);
+                }
             }
-            rs.close();
             return tab;
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
         }
         return null;
     }
@@ -199,17 +175,16 @@ public class AccessDB implements Constantes {
         try {
             ArrayList<String> tab = new ArrayList();
             query = "SELECT id_status,description_status FROM StatusRef";
-            ResultSet rs = this.declaration.executeQuery(query);
-            if (rs.first()) {
-                do {
-                    tab.add(rs.getString(2));
-                } while (rs.next());
+            try (ResultSet rs = this.declaration.executeQuery(query)) {
+                if (rs.first()) {
+                    do {
+                        tab.add(rs.getString(2));
+                    } while (rs.next());
+                }
             }
-            rs.close();
             return tab;
         } catch (SQLException e) {
             System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
-            e.printStackTrace();
         }
         return null;
     }
@@ -226,7 +201,6 @@ public class AccessDB implements Constantes {
             queryPrep.setString(3, pc);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    rs.last();
                     ResultSetMetaData metadata = rs.getMetaData();
                     int nbColumn = metadata.getColumnCount();
                     String test[] = new String[nbColumn];
@@ -238,7 +212,66 @@ public class AccessDB implements Constantes {
                         res.add(test);
                     }
                 }
-                System.out.println("requete = "+queryPrep.toString());
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+    
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) throws SQLException {
+        String query = "";
+        ResultSet resultat = null;
+        ArrayList simulationLoans = new ArrayList();
+
+        try {
+            query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer='"+idCustomer+"'";
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setInt(1, idCustomer);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    simulationLoans.add(rs.getRow());
+                    System.out.println(rs.getRow());
+                    while (rs.next()) {
+                        simulationLoans.add(rs.getRow());
+                        System.out.println(rs.getRow());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return simulationLoans;
+    }
+
+    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {
+        String query = "SELECT id_Customer"
+                + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
+        String res = "";
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, title);
+            queryPrep.setString(2, lastN);
+            queryPrep.setString(3, firstN);
+            queryPrep.setString(4, salary.toString());
+            queryPrep.setString(5, street);
+            queryPrep.setString(6, pc);
+            queryPrep.setString(7, city);
+            queryPrep.setString(8, phone);
+            queryPrep.setString(9, email);
+            queryPrep.setString(10, birthday);
+            queryPrep.setBoolean(11, owner);
+            queryPrep.setString(12, nation);
+            queryPrep.setInt(13, idConsultant);
+            queryPrep.setInt(14, user);
+            queryPrep.setInt(15, status);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res = rs.getString(1);
+                }
+                System.out.println("requete = " + queryPrep.toString());
             }
         } catch (SQLException e) {
             System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
@@ -246,4 +279,125 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    public String[] getLastFirstNameCustomer(String idCustomer) {
+        String query = "SELECT title_Customer, last_Name_Customer, first_Name_Customer"
+                + " FROM Customer WHERE id_Customer =? ; ";
+        String res[] = new String[3];
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idCustomer);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getString(1);
+                    res[1] = rs.getString(2);
+                    res[2] = rs.getString(3);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String[]> getDateTypeSims(String idCustomer) {
+        String query = "SELECT id_Sim, description_LoanRef, date_Sim,id_Rate,monthly_Sim, duration_Sim "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Customer =? ; ";
+        ArrayList<String[]> res = new ArrayList();
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idCustomer);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount();
+                    String test[] = new String[nbColumn];
+                    rs.beforeFirst();
+                    while (rs.next()) {
+                        for (int i = 0; i < nbColumn; i++) {
+                            test[i] = rs.getString(i + 1);
+                        }
+                        res.add(test);
+                    }
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String> getSimByID(String idSim) {
+        String query = "SELECT LoanSimulation.*, description_LoanRef "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Sim =? ;";
+        ArrayList<String> res = new ArrayList();
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idSim);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount();
+                    for (int i = 0; i < nbColumn; i++) {
+                        res.add(rs.getString(i + 1));
+                    }
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public ArrayList<String> getLoanType() throws SQLException {
+        ArrayList<String> res = new ArrayList();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT description_LoanRef FROM LoanRef ;");
+        if (rs.first()) {
+            rs.beforeFirst();
+            while (rs.next()) {
+                res.add(rs.getString(1));
+            }
+        }
+
+        return res;
+    }
+
+    public int insertLoanSim(String capital, String amount, String duration, String date, String statut, String idConsultant, String idCustomer, String idInsurance, String idRate ,String loanType) throws SQLException {
+        //  java.util.Date utilDate = new java.util.Date();
+        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
+        String query = "INSERT INTO LoanSimulation ('capital_Sim','total_Amount_Sim','duration_Sim','date_Sim','statut_Sim','id_Consultant,'id_Customer','id_Insurance','id_Rate','id_LoanRef') VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, capital);
+        queryPrep.setString(2, amount);
+        queryPrep.setString(3, duration);
+        queryPrep.setString(4, date);
+        queryPrep.setString(5, statut);
+        queryPrep.setString(6, idConsultant);
+        queryPrep.setString(7, idCustomer);
+        queryPrep.setString(8, idInsurance);
+        queryPrep.setString(9, idRate);
+        queryPrep.setString(10, loanType);
+        return queryPrep.executeUpdate();
+    }
+    public int updateLoanSim(String idSim, String capital, String amount, String duration, String date, String statut, String idConsultant, String idInsurance, String idRate ,String loanType) throws SQLException {
+        //  java.util.Date utilDate = new java.util.Date();
+        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
+        String query = "UPDATE LoanSimulation set capital_Sim=?, total_Amount_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, idConsultant=?, id_Insurance=? ,id_Rate=? WHERE id_Sim=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, capital);
+        queryPrep.setString(2, amount);
+        queryPrep.setString(3, duration);
+        queryPrep.setString(4, date);
+        queryPrep.setString(5, statut);
+        queryPrep.setString(6, idConsultant);
+        queryPrep.setString(8, idInsurance);
+        queryPrep.setString(9, idRate);
+        queryPrep.setString(10, loanType);
+        return queryPrep.executeUpdate();
+    }
 }
