@@ -32,11 +32,16 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="btnNewSim" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Component id="btnValidate" min="-2" pref="102" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnModified" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnCompareSimulation" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
+              <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,11 +54,13 @@
               <Component id="SPSim" min="-2" pref="150" max="-2" attributes="0"/>
               <EmptySpace pref="69" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnValidate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnModified" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCompareSimulation" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnNewSim" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,9 +71,9 @@
         <Property name="text" type="java.lang.String" value="Simulation enregistr&#xe9; pour "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnValidate">
+    <Component class="javax.swing.JButton" name="btnModified">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Valider"/>
+        <Property name="text" type="java.lang.String" value="Modifier la simulation"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="SPSim">
@@ -98,6 +105,11 @@
     <Component class="javax.swing.JButton" name="btnNewSim">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nouvelle simulation"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Annuler"/>
       </Properties>
     </Component>
   </SubComponents>

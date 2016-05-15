@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.god.models.AccessDB;
 import edu.god.views.ScreenCreateCust;
 import edu.god.views.ScreenExistingSim;
+import edu.god.views.ScreenHome;
 import edu.god.views.ScreenManageCust;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +40,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     private final JTable tableCustomer;
     //private final ArrayList<Customer> tabArrayListCustomer;
     private final JLabel error;
+    private final boolean simulation;
 
     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError) {
         this.db = AccessDB.getAccessDB();
@@ -53,6 +55,23 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.tableCustomer = tableCust;
         this.error = lblError;
         this.smc= smc0;
+        this.simulation=false;
+    }
+    
+     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError, boolean aSimulation) {
+        this.db = AccessDB.getAccessDB();
+        this.btnBack = btnBack0;
+        this.btnSubmit = btnSubmit0;
+        this.firstName = firstName0;
+        this.lastName = lastName0;
+        this.btnCreateCust = btnCreateCust0;
+        this.btnUpdateCust = btnUpdateCust0;
+        this.btnDeleteCust = btnDeleteCust0;
+        this.postalCode = txtPc;
+        this.tableCustomer = tableCust;
+        this.error = lblError;
+        this.smc= smc0;
+        this.simulation= aSimulation;
     }
 
     @Override
@@ -64,7 +83,6 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
             error.setText("");
 
             System.out.println("bouton submit");
-            btnCreateCust.setVisible(false);
             btnUpdateCust.setVisible(false);
             btnDeleteCust.setVisible(false);
             ArrayList<String[]> customers = search();
@@ -101,6 +119,10 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        else if (e.getSource() == btnBack) {
+            smc.dispose();
+            ScreenHome newWindow = new ScreenHome(idConsultant);
         }
     }
 
@@ -157,7 +179,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {
+        if (e.getClickCount() == 2 && simulation) {
             smc.dispose();
             ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
         }

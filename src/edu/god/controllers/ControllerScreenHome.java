@@ -59,7 +59,7 @@ public class ControllerScreenHome implements ActionListener {
             screenHome.dispose();
             screenHome.setVisible(false);
             try {
-                ScreenManageCust fen2 = new ScreenManageCust(idConsultant);
+                ScreenManageCust fen2 = new ScreenManageCust(idConsultant,true);
             } catch (ParseException ex) {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }

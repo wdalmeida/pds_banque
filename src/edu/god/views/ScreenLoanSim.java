@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Locale;
 import javax.swing.*;
@@ -34,13 +33,10 @@ public class ScreenLoanSim extends JFrame {
      * @throws java.sql.SQLException
      * @throws java.text.ParseException
      */
-    public ScreenLoanSim(int idConsultant, String idSim) throws SQLException, ParseException {
+    public ScreenLoanSim(int idConsultant, String id, boolean simulation) throws SQLException, ParseException {
         initComponents();
         rootPane.getContentPane().setBackground(Color.WHITE);
-        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft,lblError));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft,lblError));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack,PLeft,lblError));
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError));
+
         lblError.setText("");
         lblError.setForeground(Color.red);
         setVisible(true);
@@ -50,14 +46,20 @@ public class ScreenLoanSim extends JFrame {
         for (String loanType : loanTypes) {
             cbxLoan.addItem(loanType);
         }
-        loadForm(idSim);
+        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation,idConsultant,id));
+        if (simulation) {
+            loadForm(id);
+        }
 
     }
 
     public void loadForm(String idSim) throws ParseException {
         AccessDB db = AccessDB.getAccessDB();
         ArrayList<String> simData = db.getSimByID(idSim);
-        cbxLoan.setSelectedItem(simData.get(simData.size()-1));
+        cbxLoan.setSelectedItem(simData.get(simData.size() - 1));
         txtAmount.setText(simData.get(2));
         txtRate.setText(simData.get(2));//////////// ou COLINE SI CREATION
         txtInsurance.setText(simData.get(3));/////////
