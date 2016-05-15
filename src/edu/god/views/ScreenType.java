@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static java.nio.file.Files.*;
 import static java.rmi.Naming.*;
 import static java.util.Collections.*;
@@ -32,20 +34,11 @@ public class ScreenType extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("OK");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("Retour");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -57,6 +50,11 @@ public class ScreenType extends javax.swing.JFrame {
         jLabel1.setText("Choissisez le type de prêt ");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Consommation", "Personnel", "Travaux", "Immobilier", "Rachat de crédit", "Véhicules" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,30 +66,24 @@ public class ScreenType extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(111, 111, 111)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(111, 111, 111)
-                                .addComponent(jLabel1)))
-                        .addGap(17, 90, Short.MAX_VALUE)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(17, 90, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(172, 172, 172))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addGap(49, 49, 49)
+                .addGap(78, 78, 78)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -101,23 +93,68 @@ public class ScreenType extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Come back in Home
-//JFrame ScreenHome = new ScreenHome();
-//ScreenHome.setVisible(true);
+        ScreenHome  screen = new ScreenHome(1);
+        screen.setVisible(true);
       //Delete window
         this. setVisible(false);
       this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Choice type of the rate
-        //Come in the window
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+       String[] possibilites = {"Consommation", "Personel", "Immobilier","Travaux", "Rachat de crédit","Véhicules"};
+
+
+                String s = (String) jComboBox1.getSelectedItem();
+                switch (s) {
+                    case "Consommation":
+                        ScreenModifyRatesConsumption screen = new ScreenModifyRatesConsumption();
+                        screen.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();
+                        break;
+                    case "Personel":
+                        ScreenModifyRatesPersonal screenP = new ScreenModifyRatesPersonal();
+                        screenP.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();// Ce qui se passe
+
+                    case "Immobilier":
+                         ScreenModifyRatesProperty screenI = new ScreenModifyRatesProperty();
+                        screenI.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();
+
+                        break;
+                    case "Travaux":
+                         ScreenModifyRatesProject screenT = new ScreenModifyRatesProject();
+                        screenT.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();
+                    case "Rachat de crédit":
+                          ScreenModifyRatesRepurchase screenR = new ScreenModifyRatesRepurchase();
+                        screenR.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();
+
+                        break;
+                      case "Véhicules":
+                        ScreenModifyRatesVehicles screenV = new ScreenModifyRatesVehicles();
+                        screenV.setVisible(true);
+                       this. setVisible(false);
+                       this.dispose();
+
+                        break;
+                    default:
+                        
+                        System.out.println("Vous devez selectionné un type de taux");
+                        break;
+                
+            
+        };
         
-    }//GEN-LAST:event_jButton1ActionPerformed
-    String[] tab = {"Option 1", "Option 2", "Option 3", "Option 4"};
-    JComboBox list = new JComboBox(tab);
-   // list.setSize(50,50);
- //   list.setBounds(10, 41, 113, 14);
-    
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -154,7 +191,6 @@ public class ScreenType extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
