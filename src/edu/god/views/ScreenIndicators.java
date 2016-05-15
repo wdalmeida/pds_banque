@@ -167,4 +167,5 @@ public class ScreenIndicators extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel selectAgencyLabel;
     // End of variables declaration//GEN-END:variables
+
 }
