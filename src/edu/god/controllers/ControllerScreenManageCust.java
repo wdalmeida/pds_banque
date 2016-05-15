@@ -11,11 +11,13 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import edu.god.entities.Customer;
 import edu.god.models.AccessDB;
-import edu.god.views.ScreenLoanSim;
+import edu.god.views.ScreenCreateCust;
+import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenManageCust;
-import java.text.ParseException;
+import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -23,7 +25,7 @@ import java.text.ParseException;
  */
 public class ControllerScreenManageCust implements ActionListener, MouseListener, KeyListener {
 
-    private ScreenManageCust smc;
+    private final ScreenManageCust smc;
     private int idConsultant;
     private final JButton btnSubmit;
     private final JButton btnBack;
@@ -50,70 +52,131 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.postalCode = txtPc;
         this.tableCustomer = tableCust;
         this.error = lblError;
+        this.smc= smc0;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ArrayList customers = new ArrayList();
         if (e.getSource() == btnSubmit) {
+            lastName.setBorder(UIManager.getBorder("TextField.border"));
+            firstName.setBorder(UIManager.getBorder("TextField.border"));
+            postalCode.setBorder(UIManager.getBorder("TextField.border"));
+            error.setText("");
+
             System.out.println("bouton submit");
             btnCreateCust.setVisible(false);
             btnUpdateCust.setVisible(false);
             btnDeleteCust.setVisible(false);
-            if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !lastName.getText().isEmpty()) {
-                try {
-                    customers = db.getCustomer(lastName.getText(), firstName.getText(), "450");
-                } catch (SQLException ex) {
-                    Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+            ArrayList<String[]> customers = search();
+
+            if (customers != null) {
+                if (!customers.isEmpty()) {
+                    System.out.println("Customers = " + Arrays.toString(customers.get(0)));
+                    loadDataInTable(customers);
+                } else {
+                    DefaultTableModel dtm = (DefaultTableModel) tableCustomer.getModel();
+                    dtm.setRowCount(0);
+                    String option[] = {"Ajouter un client", "Retour"};
+                    int click = JOptionPane.showOptionDialog(smc, "Aucun client ne correspond à votre recherche", "Client inconnu",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            option,
+                            option[1]);
+                    if (click == JOptionPane.YES_OPTION) {
+                        smc.dispose();
+                        try {
+                            ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant, true);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
                 }
             }
-            //      tabArrayListCustomer = db.getCustomer(lastName.getText(),firstName.getText());
-            System.out.println("reception donnes BDD");
-            System.out.println(customers.toString());
-            /*  int i = 0;
-            Customer[][] data = (Customer[][]) new Object[tabArrayListCustomer.size()][14];
-            for (Customer line : tabArrayListCustomer) {
-                //data[i] = line;
-                i++;
+        } else if (e.getSource() == btnCreateCust) {
+            smc.dispose();
+            try {
+                ScreenCreateCust newWindow = new ScreenCreateCust(idConsultant, true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            String title[] = {"ID", "Civilité", "Nom", "Prenom", "Salaire", "Rue", "Code Postal", "Ville", "Telephone", "Email", "Date de Naissance", "Proprietaire", "Nationalité", "Statut"};
-            JTable tableau = new JTable(data, title);
-            System.out.println("Jtable = "+ tableau.getSize());
-            smc.getContentPane().add(new JScrollPane(tableau));*/
         }
+    }
+
+    public void loadDataInTable(ArrayList<String[]> customers) {
+        String title[] = {"ID", "Civilité", "Nom", "Prenom", "Rue", "Code postal", "Ville", "Telephone", "Email", "Date de Naissance", "Nationalité"};
+        DefaultTableModel model = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
+        for (String[] cu : customers) {
+            model.addRow(cu);
+        }
+        tableCustomer.setModel(model);
+        TableColumnModel tcm = tableCustomer.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
+
+    }
+
+    private ArrayList<String[]> search() {
+        ArrayList<String[]> customers = null;
+        //check if PC = 5 figures
+        //check last first = regex *[a-z][A-Z][-']
+        if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !postalCode.getText().isEmpty()) {
+            System.out.println("Les 3 sont non vides");
+            try {
+                customers = db.getCustomer(lastName.getText(), firstName.getText(), postalCode.getText());
+                System.out.println("Nom - prenom - code postal");
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            error.setText("Veuillez saisir tous les champs");
+            if (lastName.getText().isEmpty()) {
+                lastName.requestFocus();
+                lastName.setBorder(BorderFactory.createLineBorder(Color.RED));
+            }
+            if (firstName.getText().isEmpty()) {
+                if (!lastName.isFocusOwner()) {
+                    firstName.requestFocus();
+                }
+                firstName.setBorder(BorderFactory.createLineBorder(Color.RED));
+            }
+            if (postalCode.getText().isEmpty()) {
+                if (!lastName.isFocusOwner() || !firstName.isFocusOwner()) {
+                    postalCode.requestFocus();
+                }
+                postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
+            }
+        }
+        return customers;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
             smc.dispose();
-            try {
-                ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
-            } catch (SQLException | ParseException ex) {
-                Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -125,11 +188,9 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

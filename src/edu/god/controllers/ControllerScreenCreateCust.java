@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
 import static edu.god.serialisation.JsonEncoding.encodageCustomer;
 import edu.god.server.*;
 import java.sql.SQLException;
-import sun.security.pkcs11.Secmod;
 
 /**
  *
@@ -30,23 +29,23 @@ public class ControllerScreenCreateCust implements ActionListener {
 
     private AccessDB bdd;
     private JXDatePicker birthday;
-    private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnSubmit;
-    private javax.swing.JTextField city;
-    private javax.swing.JComboBox title;
-    private javax.swing.JTextField email;
-    private javax.swing.JTextField firstName;
-    private javax.swing.JTextField lastName;
-    private javax.swing.JTextField nationality;
-    private javax.swing.JCheckBox owner;
-    private javax.swing.JTextField phoneNumber;
-    private javax.swing.JTextField postalCode;
-    private javax.swing.JTextField salary;
-    private javax.swing.JComboBox status;
-    private javax.swing.JTextField street;
+    private final JButton btnBack;
+    private final JButton btnSubmit;
+    private JTextField city;
+    private JComboBox title;
+    private JTextField email;
+    private JTextField firstName;
+    private JTextField lastName;
+    private JTextField nationality;
+    private JCheckBox owner;
+    private JTextField phoneNumber;
+    private JTextField postalCode;
+    private JTextField salary;
+    private JComboBox status;
+    private JTextField street;
     private Customer customer;
-    private ScreenCreateCust scc;
-    private int idConsultant;
+    private final ScreenCreateCust scc;
+    private final int idConsultant;
     private boolean goToSim = false;
 
     public ControllerScreenCreateCust(ScreenCreateCust scc0, int idConsultant0, JButton back, JButton submit) {
@@ -101,8 +100,8 @@ public class ControllerScreenCreateCust implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        int res;
+    public void actionPerformed(ActionEvent e) { // TODO SION VIENS DE SIMULATION ALLER SUR LOAN SIM SINON RETOUR SUR ACUEUIL
+        //int res;
         if (e.getSource() == btnSubmit) {
             try {
 
@@ -136,13 +135,7 @@ public class ControllerScreenCreateCust implements ActionListener {
                  } catch (NoSuchAlgorithmException ex) {
                  Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
                  }*/
-            } catch (IOException ex) {
-                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (java.text.ParseException ex) {
+            } catch (IOException | ParseException | SQLException | java.text.ParseException ex) {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnBack) {

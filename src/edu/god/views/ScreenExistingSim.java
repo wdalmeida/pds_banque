@@ -32,7 +32,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         getData(idCustomer);
         
         tblSims.addMouseListener(new ControllerScreenExistingSim(this, lblTitle, tblSims, btnValidate, btnValidate,idCustomer,idConsultant));
-        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation());
+      //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation());
     }
     
     public void getData(String idCustomer) {
