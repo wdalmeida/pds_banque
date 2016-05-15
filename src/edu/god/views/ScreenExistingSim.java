@@ -6,6 +6,7 @@
 package edu.god.views;
 
 //import edu.god.controllers.ControllerScreenCompareSimulation;
+import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
 import edu.god.models.AccessDB;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         getData(idCustomer);
         
         tblSims.addMouseListener(new ControllerScreenExistingSim(this, lblTitle, tblSims, btnValidate, btnValidate,idCustomer,idConsultant));
-      //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation());
+        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
     
     public void getData(String idCustomer) {
@@ -57,7 +58,6 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         TableColumnModel tcm = tblSims.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
         tcm.removeColumn(tcm.getColumn(tblSims.getColumnCount()-1));
-
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,11 +110,11 @@ public class ScreenExistingSim extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(btnNewSim)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addComponent(btnValidate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnCompareSimulation)
-                .addGap(27, 27, 27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
