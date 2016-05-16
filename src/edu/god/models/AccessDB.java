@@ -219,23 +219,19 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-    
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) throws SQLException {
-        String query = "";
-        ResultSet resultat = null;
-        ArrayList simulationLoans = new ArrayList();
 
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
+        ArrayList simulationLoans = new ArrayList();
         try {
-            query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer='"+idCustomer+"'";
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    simulationLoans.add(rs.getRow());
-                    System.out.println(rs.getRow());
+                    System.out.println(" rs first : "+rs.getRow());
                     while (rs.next()) {
-                        simulationLoans.add(rs.getRow());
-                        System.out.println(rs.getRow());
+                        System.out.println(" rs next "+rs.getRow());
+                        simulationLoans.add(rs.getRow());                        
                     }
                 }
             }
@@ -367,7 +363,7 @@ public class AccessDB implements Constantes {
         return res;
     }
 
-    public int insertLoanSim(String capital, String amount, String duration, String date, String statut, String idConsultant, String idCustomer, String idInsurance, String idRate ,String loanType) throws SQLException {
+    public int insertLoanSim(String capital, String amount, String duration, String date, String statut, String idConsultant, String idCustomer, String idInsurance, String idRate, String loanType) throws SQLException {
         //  java.util.Date utilDate = new java.util.Date();
         //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
         String query = "INSERT INTO LoanSimulation ('capital_Sim','total_Amount_Sim','duration_Sim','date_Sim','statut_Sim','id_Consultant,'id_Customer','id_Insurance','id_Rate','id_LoanRef') VALUES (?,?,?,?,?,?,?,?,?,?,?);";
@@ -384,7 +380,8 @@ public class AccessDB implements Constantes {
         queryPrep.setString(10, loanType);
         return queryPrep.executeUpdate();
     }
-    public int updateLoanSim(String idSim, String capital, String amount, String duration, String date, String statut, String idConsultant, String idInsurance, String idRate ,String loanType) throws SQLException {
+
+    public int updateLoanSim(String idSim, String capital, String amount, String duration, String date, String statut, String idConsultant, String idInsurance, String idRate, String loanType) throws SQLException {
         //  java.util.Date utilDate = new java.util.Date();
         //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
         String query = "UPDATE LoanSimulation set capital_Sim=?, total_Amount_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, idConsultant=?, id_Insurance=? ,id_Rate=? WHERE id_Sim=? ;";
