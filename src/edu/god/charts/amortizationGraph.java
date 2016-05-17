@@ -1,4 +1,4 @@
-package charts;
+package edu.god.charts;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -35,11 +35,11 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
     double totalInterests;
     double totalPayments;
     double initialAmount;
+    double totalInsurance;
 
     //This class adds the table to the JFrame
-    public void getGraphInfo(String principalAmountTextField, String interestRateTextField, String termMonthsTextField, String totalInterestsTextField, String totalPaymentsTextField) {
+    public void getGraphInfo(String principalAmountTextField, String interestRateTextField, String termMonthsTextField, String totalInterestsTextField, String totalPaymentsTextField, String insuranceRateTextField) {
 
-        
         initialAmount = Double.parseDouble(principalAmountTextField); //the actual amount of the loan
         principalAmount = Double.parseDouble(principalAmountTextField); //principal amount
         interestRate = Double.parseDouble(interestRateTextField); //interest rate
@@ -50,6 +50,8 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
         interestRate = interestRate / 100.0;
         double monthlyInterestRate = interestRate / 12.0; //monthly interest rate
         monthlyPayment = principalAmount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -termMonths))); //calculated monthly payment
+        totalInsurance = Double.parseDouble(principalAmountTextField) * (Double.parseDouble(insuranceRateTextField) / 100);
+
 
         if (principalAmount > 0 && interestRate != 0 && termMonths != 0) {
 
@@ -72,20 +74,21 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
         //MyComponent.setChartValues(85, 10, 5); 
         int principalAmountPercent = (Integer.parseInt(principalAmountTextField) * 100) / (int) totalPayments;
         int totalInterestsPercent = ((int) totalInterests * 100) / (int) totalPayments;
+        double totalInsurancePercents =  totalInsurance* 100 /  totalPayments;
+        System.out.println(totalInsurancePercents);
 
-        MyComponent.setChartValues(principalAmountPercent, totalInterestsPercent, 1); //first parameter needs to take insurance in account
+        MyComponent.setChartValues(principalAmountPercent, totalInterestsPercent, totalInsurancePercents); //first parameter needs to take insurance in account
         // percent = (n * 100.0f) / v;
-        
+
         printGraphButton = new javax.swing.JButton();
         printGraphButton.setText("Imprimer");
-          printGraphButton.addActionListener(new java.awt.event.ActionListener() {
+        printGraphButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-             //   printGraphButtonActionPerformed(evt);
-              printJavaComponent();
+                //   printGraphButtonActionPerformed(evt);
+                printJavaComponent();
             }
         });
 
-        
         panel.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(300, 500));
         panel.add(new MyComponent());
@@ -187,34 +190,36 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
     }
 
     public void printJavaComponent() {
-    PrinterJob job = PrinterJob.getPrinterJob();
-    job.setJobName("Print Java Component");
- 
-    job.setPrintable (new Printable() {    
-        public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-            if (pageIndex > 0) {
-                return(NO_SUCH_PAGE);
-            } else {
-                Graphics2D g2d = (Graphics2D)g;
-                g2d.translate(pageFormat.getImageableX(), 
-                pageFormat.getImageableY());
- 
-                panel.paint(g2d);
- 
-                return(PAGE_EXISTS); 
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Java Component");
+
+        job.setPrintable(new Printable() {
+            public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+                if (pageIndex > 0) {
+                    return (NO_SUCH_PAGE);
+                } else {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.translate(pageFormat.getImageableX(),
+                            pageFormat.getImageableY());
+
+                    //prints only a jpanel
+                    panel.paint(g2d);
+                //print the whole JFrame
+                    //  f.paint(g2d);
+
+                    return (PAGE_EXISTS);
+                }
+            }
+        });
+
+        if (job.printDialog()) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                System.err.println(e.getMessage());
             }
         }
-    });
-         
-    if (job.printDialog()) {
-        try {
-            job.print();
-        } catch (PrinterException e) {
-            System.err.println(e.getMessage()); 
-        }
     }
-}
-   
 
     @Override
     public void mouseClicked(MouseEvent e) {
