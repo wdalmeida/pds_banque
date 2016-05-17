@@ -17,6 +17,7 @@ import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenManageCust;
 import java.awt.Color;
+import java.util.regex.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -54,11 +55,11 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.postalCode = txtPc;
         this.tableCustomer = tableCust;
         this.error = lblError;
-        this.smc= smc0;
-        this.simulation=false;
+        this.smc = smc0;
+        this.simulation = false;
     }
-    
-     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError, boolean aSimulation) {
+
+    public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError, boolean aSimulation) {
         this.db = AccessDB.getAccessDB();
         this.btnBack = btnBack0;
         this.btnSubmit = btnSubmit0;
@@ -70,8 +71,8 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.postalCode = txtPc;
         this.tableCustomer = tableCust;
         this.error = lblError;
-        this.smc= smc0;
-        this.simulation= aSimulation;
+        this.smc = smc0;
+        this.simulation = aSimulation;
     }
 
     @Override
@@ -119,8 +120,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if (e.getSource() == btnBack) {
+        } else if (e.getSource() == btnBack) {
             smc.dispose();
             ScreenHome newWindow = new ScreenHome(idConsultant);
         }
@@ -145,10 +145,9 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     private ArrayList<String[]> search() {
         ArrayList<String[]> customers = null;
-        //check if PC = 5 figures
-        //check last first = regex *[a-z][A-Z][-']
+
         if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !postalCode.getText().isEmpty()) {
-            System.out.println("Les 3 sont non vides");
+
             try {
                 customers = db.getCustomer(lastName.getText(), firstName.getText(), postalCode.getText());
                 System.out.println("Nom - prenom - code postal");
@@ -203,16 +202,38 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (postalCode.getText().length() >= 5) {
+        System.out.println("Les 3 sont non vides");
+        if ((lastName.getText().length() < 50 && e.getSource() == lastName) || (firstName.getText().length() < 50 && e.getSource() == firstName)) {
+            Pattern p = Pattern.compile("[a-zA-Z'\\s-éèïçÀÁÂÆÇÈÉÊËÌÍÎÏÑÒÓÔŒÙÚÛÜÝŸàáâæçèéêëìíîïñòóôœùúûüýÿ]");
+            Matcher mName = p.matcher(String.valueOf(e.getKeyChar()));
+            if (!mName.matches()) {
+                e.consume();
+                System.out.println("consume name");
+            }
+        } else if (lastName.getText().length() >= 50 && e.getSource() == lastName && lastName.getSelectedText() == null) {
+            e.consume();
+        } else if (firstName.getText().length() >= 50 && e.getSource() == firstName && firstName.getSelectedText() == null) {
+            e.consume();
+        }
+        if (e.getSource() == postalCode && postalCode.getText().length() < 5) {
+            Pattern p = Pattern.compile("[0-9]");
+            Matcher mPostalCode = p.matcher(String.valueOf(e.getKeyChar()));
+            if (!mPostalCode.matches()) {
+                e.consume();
+                System.out.println("consume pc" + e.getKeyChar());
+            }
+        } else if (postalCode.getText().length() >= 5 && postalCode.getSelectedText() == null) {
             e.consume();
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e
+    ) {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e
+    ) {
     }
 }
