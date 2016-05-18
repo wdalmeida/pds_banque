@@ -230,7 +230,7 @@ public class AccessDB implements Constantes {
                 if (rs.first()) {
                     System.out.println(" rs first : "+rs.getRow());
                     while (rs.next()) {
-                        System.out.println(" rs next "+rs.getRow());
+                        System.out.println("rs next "+rs.getRow());
                         simulationLoans.add(rs.getRow());                        
                     }
                 }

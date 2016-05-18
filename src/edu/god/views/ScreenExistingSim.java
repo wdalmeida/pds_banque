@@ -6,6 +6,7 @@
 package edu.god.views;
 
 //import edu.god.controllers.ControllerScreenCompareSimulation;
+import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
 import edu.god.models.AccessDB;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         getData(idCustomer);
         
         tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim,idCustomer,idConsultant));
-      //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
+        System.out.println("idCustomer = " + Integer.parseInt(idCustomer));
+        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
     
     public void getData(String idCustomer) {

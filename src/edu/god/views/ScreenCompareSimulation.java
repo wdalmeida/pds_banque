@@ -6,7 +6,6 @@
 package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
-import edu.god.entities.SimulationTable;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,9 +28,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
         initComponents();
         this.idCustomer = idCustomer0;
-        this.db = AccessDB.getAccessDB();
-        System.out.println("customer = "+idCustomer0);
-        loadDataInTable(db.getSimulationsLoanOfCustomer(idCustomer0));
+        System.out.println(" SCS customer = "+idCustomer0);
+        loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
         this.setVisible(true);
         btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose));
     }
