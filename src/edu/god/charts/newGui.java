@@ -1,4 +1,4 @@
-package charts;
+package edu.god.charts;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,10 +31,10 @@ public class newGui extends JFrame implements Printable {
     double principalAmount;
     double interestRate;
     double totalInterestsValue;
+    double insuranceRate;
     String monthlyPayment;
     String totalPayment;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
- 
 
     //every Swing component is located inside the initComponents method
     public newGui() {
@@ -67,6 +67,10 @@ public class newGui extends JFrame implements Printable {
         startDatePicker = new org.jdesktop.swingx.JXDatePicker();
         jLabel8 = new javax.swing.JLabel();
         endDateTextField = new javax.swing.JTextField();
+        insuranceRateLabel = new javax.swing.JLabel();
+        insuranceRateTextfield = new javax.swing.JTextField();
+        totalInsuranceLabel = new javax.swing.JLabel();
+        totalInsuranceTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +111,10 @@ public class newGui extends JFrame implements Printable {
 
         jLabel8.setText("Date de fin de prêt");
 
+        insuranceRateLabel.setText("Taux d'assurance");
+
+        totalInsuranceLabel.setText("Total de l'assurance");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,36 +127,44 @@ public class newGui extends JFrame implements Printable {
                         .addGap(336, 336, 336))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel4)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel3))
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel6))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(37, 37, 37)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(35, 35, 35)
-                                        .addComponent(jLabel8))))
-                            .addComponent(tableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
+                                        .addGap(196, 196, 196)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel6)))
+                                    .addComponent(tableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel3))
+                                    .addComponent(insuranceRateLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(52, 52, 52))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel4)))
+                                .addGap(35, 35, 35))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(196, 196, 196)
+                                .addComponent(totalInsuranceLabel)
+                                .addGap(41, 41, 41)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(endDateTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalInsuranceTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                    .addComponent(insuranceRateTextfield, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(principalAmountTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(interestRateTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(termMonthsTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(totalInterestsTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                                    .addComponent(totalInterestsTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(endDateTextField, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(163, 163, 163)
                                 .addComponent(graphButton)))
                         .addContainerGap())))
@@ -156,46 +172,57 @@ public class newGui extends JFrame implements Printable {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(142, Short.MAX_VALUE)
+                .addContainerGap(127, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tableButton)
                             .addComponent(graphButton))
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6))
+                        .addGap(190, 190, 190))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(principalAmountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(principalAmountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(insuranceRateLabel)
+                            .addComponent(insuranceRateTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(interestRateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(termMonthsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addGap(41, 41, 41)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(termMonthsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(startDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
-                        .addComponent(monthlyPaymentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalPaymentsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(totalInterestsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(endDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totalInterestsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totalInsuranceLabel)
+                            .addComponent(totalInsuranceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(endDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)))
                 .addComponent(printWindowButton)
                 .addGap(56, 56, 56))
         );
@@ -208,8 +235,9 @@ public class newGui extends JFrame implements Printable {
 
         try { //checks whether the entered values for principal amount, interest rate and term (in months) are numeric or not
 
-            float pAmount, iRate, tMonths;
+            float pAmount, iRate, aRate, tMonths;
             pAmount = Float.parseFloat(principalAmountTextField.getText());
+            aRate = Float.parseFloat(insuranceRateTextfield.getText());
             iRate = Float.parseFloat(interestRateTextField.getText());
             tMonths = Float.parseFloat(termMonthsTextField.getText());
 
@@ -220,19 +248,22 @@ public class newGui extends JFrame implements Printable {
         }
         amortizationCalculation am = new amortizationCalculation();
         String payInfo = null;
-        payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText());
+        payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         String mPay = payInfo.split("####")[0]; // monthly payment
         String tPay = payInfo.split("####")[1]; //total payment
         String tInterests = payInfo.split("####")[2]; //total interests
+        String mInsurance = payInfo.split("####")[3];  //monthly insurance
+        String tInsurance = payInfo.split("####")[4]; //total insurance
 
         monthlyPaymentTextField.setText(mPay); //monthly payment
         totalPaymentsTextField.setText(tPay);  //total payment
-        totalInterestsTextField.setText(tInterests);
+        totalInterestsTextField.setText(tInterests); //total interests
+        totalInsuranceTextField.setText(tInsurance); //total insurance
 
         amortizationTable amT = new amortizationTable(); // an object of the amortization table
-        amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText());
-        
+        amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
+
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
 
     }//GEN-LAST:event_tableButtonActionPerformed
@@ -256,7 +287,7 @@ public class newGui extends JFrame implements Printable {
         }
         amortizationCalculation am = new amortizationCalculation();
         String payInfo = null;
-        payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText());
+        payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         String mPay = payInfo.split("####")[0]; // monthly payment
         String tPay = payInfo.split("####")[1]; //total payment
@@ -268,7 +299,7 @@ public class newGui extends JFrame implements Printable {
         tMonths = Integer.parseInt(termMonthsTextField.getText());
 
         amortizationGraph amG = new amortizationGraph();
-        amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText());
+        amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText(), insuranceRateTextfield.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
 
@@ -385,6 +416,8 @@ public class newGui extends JFrame implements Printable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField endDateTextField;
     private javax.swing.JButton graphButton;
+    private javax.swing.JLabel insuranceRateLabel;
+    private javax.swing.JTextField insuranceRateTextfield;
     private javax.swing.JTextField interestRateTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -400,6 +433,8 @@ public class newGui extends JFrame implements Printable {
     private org.jdesktop.swingx.JXDatePicker startDatePicker;
     private javax.swing.JButton tableButton;
     private javax.swing.JTextField termMonthsTextField;
+    private javax.swing.JLabel totalInsuranceLabel;
+    private javax.swing.JTextField totalInsuranceTextField;
     private javax.swing.JTextField totalInterestsTextField;
     private javax.swing.JTextField totalPaymentsTextField;
     // End of variables declaration//GEN-END:variables
