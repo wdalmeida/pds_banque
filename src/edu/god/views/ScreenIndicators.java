@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import javax.swing.JTabbedPane;
+
 
 /**
  *
@@ -30,14 +32,14 @@ public class ScreenIndicators extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        javax.swing.JComboBox<String> agencyBox = new javax.swing.JComboBox<>();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        AgencyComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        indicatorTable = new javax.swing.JTable();
-        selectAgencyLabel = new javax.swing.JLabel();
-        indicateurBar = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        IndicatorJtable = new javax.swing.JTable();
+        refreshJButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -47,79 +49,102 @@ public class ScreenIndicators extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        agencyBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maison mère", "Agence" }));
-        agencyBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agencyBoxActionPerformed(evt);
-            }
-        });
+        AgencyComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agency", " " }));
 
-        indicatorTable.setModel(new javax.swing.table.DefaultTableModel(
+        IndicatorJtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null}
             },
             new String [] {
-                "Indicateur", "Valeur", "Entité"
+                "Indicateur", "Valeur", "Agence"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class
-            };
+        ));
+        jScrollPane1.setViewportView(IndicatorJtable);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        refreshJButton.setText("Rafraichir");
+        refreshJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshJButtonActionPerformed(evt);
             }
         });
-        indicatorTable.setRowHeight(20);
-        indicatorTable.setRowMargin(10);
-        jScrollPane1.setViewportView(indicatorTable);
 
-        selectAgencyLabel.setText("Sélectionner l'agence");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(AgencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(142, 142, 142)
+                .addComponent(refreshJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(176, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(AgencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(refreshJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
-        jMenu3.setText("Indicateur");
-        indicateurBar.add(jMenu3);
+        jTabbedPane1.addTab("Indicateurs", jPanel1);
 
-        jMenu4.setText("Indicateur Multicritère");
-        indicateurBar.add(jMenu4);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 428, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 334, Short.MAX_VALUE)
+        );
 
-        jMenu5.setText("Graphique d'évolution");
-        indicateurBar.add(jMenu5);
+        jTabbedPane1.addTab("Indicateurs Dynamiques", jPanel2);
 
-        setJMenuBar(indicateurBar);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 428, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 334, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Graphiques d'évolutions", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(selectAgencyLabel)
-                .addGap(18, 18, 18)
-                .addComponent(agencyBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agencyBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectAgencyLabel))
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void agencyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agencyBoxActionPerformed
+    private void refreshJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshJButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_agencyBoxActionPerformed
-
+    }//GEN-LAST:event_refreshJButtonActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -156,16 +181,18 @@ public class ScreenIndicators extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuBar indicateurBar;
-    private javax.swing.JTable indicatorTable;
+    private javax.swing.JComboBox<String> AgencyComboBox;
+    private javax.swing.JTable IndicatorJtable;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel selectAgencyLabel;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton refreshJButton;
     // End of variables declaration//GEN-END:variables
+    private javax.swing.JTabbedPane tabbed;
 
 }
