@@ -6,7 +6,6 @@
 package edu.god.views;
 
 //import edu.god.controllers.ControllerScreenCompareSimulation;
-import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
 import edu.god.models.AccessDB;
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
         getData(idCustomer);
         
-        tblSims.addMouseListener(new ControllerScreenExistingSim(this, lblTitle, tblSims, btnValidate, btnValidate,idCustomer,idConsultant));
-        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
+        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim,idCustomer,idConsultant));
+      //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
     
     public void getData(String idCustomer) {
@@ -69,17 +68,18 @@ public class ScreenExistingSim extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
-        btnValidate = new javax.swing.JButton();
+        btnModified = new javax.swing.JButton();
         SPSim = new javax.swing.JScrollPane();
         tblSims = new javax.swing.JTable();
         btnCompareSimulation = new javax.swing.JButton();
         btnNewSim = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblTitle.setText("Simulation enregistré pour ");
 
-        btnValidate.setText("Valider");
+        btnModified.setText("Valider");
 
         tblSims.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,6 +98,8 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
         btnNewSim.setText("Nouvelle simulation");
 
+         btnCancel.setText("Annuler");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,10 +112,14 @@ public class ScreenExistingSim extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(btnNewSim)
-                .addGap(18, 18, 18)
-                .addComponent(btnValidate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnModified)
                 .addGap(18, 18, 18)
                 .addComponent(btnCompareSimulation)
+                .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(202, 202, 202)
+                .addComponent(btnCancel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -125,7 +131,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
                 .addComponent(SPSim, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnValidate)
+                    .addComponent(btnModified)
                     .addComponent(btnCompareSimulation)
                     .addComponent(btnNewSim))
                 .addGap(64, 64, 64))
@@ -137,9 +143,10 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPSim;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCompareSimulation;
+    private javax.swing.JButton btnModified;
     private javax.swing.JButton btnNewSim;
-    private javax.swing.JButton btnValidate;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblSims;
     // End of variables declaration//GEN-END:variables

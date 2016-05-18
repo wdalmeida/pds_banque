@@ -6,6 +6,7 @@
 package edu.god.controllers;
 
 import edu.god.models.AccessDB;
+import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
 import java.awt.Color;
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +40,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JTextField txtTotalInsurance;
     private final JTextField txtCost;
     private final JButton btnSave;
-    
+
     private final JPanel left;
     private final JComboBox cbxLoan;
     private final JTextField txtAmount;
@@ -49,9 +51,12 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JXDatePicker txtDate;
     private final JTextField txtCapital;
     private final JButton btnCalculate;
-    
-    
-    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError) {
+    private final boolean modify;
+
+    private final int idCons;
+    private final String idCust;
+
+    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String idCustomer) {
         this.sls = sls;
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyOfInsurance = txtMonthlyOfInsurance;
@@ -71,7 +76,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         this.btnSave = btnSave;
         this.btnHome = btnHome;
         this.left = panelLeft;
-        error=lblError;
+        error = lblError;
+        modify = modified;
+        idCons = idConsultant;
+        idCust = idCustomer;
     }
 
     @Override
@@ -82,10 +90,44 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 calculLoan();
                 btnSave.setEnabled(true);
             } else if (e.getSource() == btnSave) {
-                if (id != null) {
+                if (modify) {
                     try {
                         int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, id, id, id, id, id, id, id, id, id);
-                        // Dialog
+                        if (updateLoanSim == 1) {
+                            String option[] = {"Accueil", "Comparer des simulations", "Nouvelle simulation"};
+                            int click = JOptionPane.showOptionDialog(sls, "La simulation a été enregistré", "Ajout simulation",
+                                    JOptionPane.YES_NO_CANCEL_OPTION,
+                                    JOptionPane.INFORMATION_MESSAGE,
+                                    null,
+                                    option,
+                                    option[0]);
+                            switch (click) {
+                                case JOptionPane.YES_OPTION:
+                                    sls.dispose();
+                                    try {
+                                        ScreenLoanSim newWindow = new ScreenLoanSim(idCons, idCust, false);
+                                    } catch (ParseException ex) {
+                                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                                    }   break;
+                                case JOptionPane.NO_OPTION:
+                                    {
+                                        sls.dispose();
+                                        ScreenHome newWindow = new ScreenHome(idCons);
+                                        break;
+                                    }
+                                case JOptionPane.CANCEL_OPTION:
+                                    {
+                                        sls.dispose();
+                                        ScreenExistingSim newWindow = new ScreenExistingSim(idCons, idCust);
+                                        break;
+                                    }
+                                default:
+                                    break;
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(sls, "L'ajout de la simulation a échoué", "Ajout simulation", JOptionPane.ERROR);
+
+                        }
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -100,7 +142,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
             }
         } else if (e.getSource() == btnHome) {
             sls.dispose();
-            ScreenHome newWindow = new ScreenHome(0);
+            ScreenHome newWindow = new ScreenHome(Integer.parseInt(id));
         } else {
             error.setText("Veuillez saisir tous les champs obligatoires");
         }
@@ -167,18 +209,19 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(e.getKeyCode()== KeyEvent.VK_PERIOD)
-            txtAmount.setText(txtAmount.getText()+",");
+        if (e.getKeyCode() == KeyEvent.VK_PERIOD) {
+            txtAmount.setText(txtAmount.getText() + ",");
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

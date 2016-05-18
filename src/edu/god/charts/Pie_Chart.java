@@ -1,6 +1,6 @@
-package charts;
+package edu.god.charts;
 
-import charts.*;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,11 +24,11 @@ class Pie_Chart {
 
 class MyComponent extends JComponent {
 
-    static int principalAmount;
-    static int totalInterests;
-    static int totalInsurance;
+    static double principalAmount;
+    static double totalInterests;
+    static double totalInsurance;
 
-    public static void setChartValues(int value1, int value2, int value3) {
+    public static void setChartValues(double value1, double value2, double value3) {
         MyComponent.principalAmount = value1;
         MyComponent.totalInterests = value2;
         MyComponent.totalInsurance = value3;
