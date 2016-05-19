@@ -16,8 +16,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -54,7 +61,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final boolean modify;
 
     private final int idCons;
-    private final String idCust;
+    private String idCust;
 
     public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String idCustomer) {
         this.sls = sls;
@@ -79,7 +86,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         error = lblError;
         modify = modified;
         idCons = idConsultant;
-        idCust = idCustomer;
+        if (modify) {
+            id = idCustomer;
+        } else {
+            idCust = idCustomer;
+        }
     }
 
     @Override
@@ -90,51 +101,21 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 calculLoan();
                 btnSave.setEnabled(true);
             } else if (e.getSource() == btnSave) {
+               String date = LocalDate.now().toString();
                 if (modify) {
                     try {
-                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, id, id, id, id, id, id, id, id, id);
-                        if (updateLoanSim == 1) {
-                            String option[] = {"Accueil", "Comparer des simulations", "Nouvelle simulation"};
-                            int click = JOptionPane.showOptionDialog(sls, "La simulation a été enregistré", "Ajout simulation",
-                                    JOptionPane.YES_NO_CANCEL_OPTION,
-                                    JOptionPane.INFORMATION_MESSAGE,
-                                    null,
-                                    option,
-                                    option[0]);
-                            switch (click) {
-                                case JOptionPane.YES_OPTION:
-                                    sls.dispose();
-                                    try {
-                                        ScreenLoanSim newWindow = new ScreenLoanSim(idCons, idCust, false);
-                                    } catch (ParseException ex) {
-                                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
-                                    }   break;
-                                case JOptionPane.NO_OPTION:
-                                    {
-                                        sls.dispose();
-                                        ScreenHome newWindow = new ScreenHome(idCons);
-                                        break;
-                                    }
-                                case JOptionPane.CANCEL_OPTION:
-                                    {
-                                        sls.dispose();
-                                        ScreenExistingSim newWindow = new ScreenExistingSim(idCons, idCust);
-                                        break;
-                                    }
-                                default:
-                                    break;
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(sls, "L'ajout de la simulation a échoué", "Ajout simulation", JOptionPane.ERROR);
-
-                        }
+                        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
+                        System.out.println("idtype = " + idType);
+                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
+                        showDialog(updateLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     try {
-                        AccessDB.getAccessDB().insertLoanSim(id, id, id, id, id, id, id, id, id, id);
-                        // Dialog
+                        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
+                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Cree le "+ date, idCons, idCust, "1", "1", idType);
+                        showDialog(insertLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -175,16 +156,16 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     private boolean fieldsNotEmpty() {
         boolean notEmpty = true;
-        ArrayList<JTextField> textFields = null;
+        ArrayList<JTextField> textFields = new ArrayList<>();
         for (Component aField : left.getComponents()) {
             if (aField.getClass() == JTextField.class && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
-        for (int i = textFields.size(); 0 < i; i--) {
-            if (textFields.get(i).getText().isEmpty()) {
-                textFields.get(i).requestFocus();
-                textFields.get(i).setBorder(BorderFactory.createLineBorder(Color.RED));
+        for (int i = textFields.size(); i > 0; i--) {
+            if (textFields.get(i - 1).getText().isEmpty()) {
+                textFields.get(i - 1).requestFocus();
+                textFields.get(i - 1).setBorder(BorderFactory.createLineBorder(Color.RED));
                 notEmpty = false;
             }
         }
@@ -192,16 +173,16 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     }
 
     private void resetAfterError() {
-        ArrayList<JTextField> textFields = null;
+        ArrayList<JTextField> textFields = new ArrayList<>();
         for (Component aField : left.getComponents()) {
             if (aField.getClass() == JTextField.class && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
-        for (int i = textFields.size(); 0 < i; i--) {
-            if (textFields.get(i).getText().isEmpty()) {
-                textFields.get(i).requestFocus();
-                textFields.get(i).setBorder(UIManager.getBorder("TextField.border"));
+        for (int i = textFields.size(); i > 0; i--) {
+            if (textFields.get(i - 1).getText().isEmpty()) {
+                textFields.get(i - 1).requestFocus();
+                textFields.get(i - 1).setBorder(UIManager.getBorder("TextField.border"));
             }
         }
         error.setText("");
@@ -222,6 +203,46 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void showDialog(int sqlResponse) throws SQLException {
+        if (idCust == null) {
+            idCust = AccessDB.getAccessDB().getIdCustInSim(id);
+        }
+        if (sqlResponse == 1) {
+            String option[] = {"Accueil", "Comparer des simulations", "Nouvelle simulation"};
+            int click = JOptionPane.showOptionDialog(sls, "La simulation a été enregistré", "Ajout simulation",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    option,
+                    option[0]);
+            switch (click) {
+                case JOptionPane.CANCEL_OPTION:
+                    sls.dispose();
+                    try {
+                        ScreenLoanSim newWindow = new ScreenLoanSim(idCons, idCust, false);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case JOptionPane.YES_OPTION: {
+                    sls.dispose();
+                    ScreenHome newWindow = new ScreenHome(idCons);
+                    break;
+                }
+                case JOptionPane.NO_OPTION: {
+                    sls.dispose();
+                    ScreenExistingSim newWindow = new ScreenExistingSim(idCons, idCust);
+                    break;
+                }
+                default:
+                    break;
+            }
+        } else {
+            JOptionPane.showMessageDialog(sls, "L'ajout de la simulation a échoué", "Ajout simulation", JOptionPane.ERROR_MESSAGE);
+
+        }
     }
 
 }

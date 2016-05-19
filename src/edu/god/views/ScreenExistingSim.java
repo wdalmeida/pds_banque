@@ -50,20 +50,19 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
         System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "montant", "mensuailté", "IDCONSULTANT"};
+        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "mensualité", "Durée en mois"}; // add montant
         DefaultTableModel model = new DefaultTableModel(title, 0) {
             @Override
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
             }
         };
-        for (String[] sim : simulations) {
+        simulations.stream().forEach((sim) -> {
             model.addRow(sim);
-        }
+        });
         tblSims.setModel(model);
         TableColumnModel tcm = tblSims.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
-        tcm.removeColumn(tcm.getColumn(tblSims.getColumnCount() - 1));
     }
 
     /**
