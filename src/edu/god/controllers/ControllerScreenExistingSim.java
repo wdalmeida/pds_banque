@@ -30,13 +30,12 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final JTable tblSim;
     private final JButton btnModified;
     private final JButton btnCancel;
-    private final JButton btnCompare;
     private final JButton btnCreate;
     private final AccessDB db;
     private final String idCust;
     private final int idCon;
 
-    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable Simtab, JButton next, JButton cancel, JButton compare, JButton create, String idCu, int idCo) {
+    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable Simtab, JButton next, JButton cancel, JButton create, String idCu, int idCo) {
         this.ses = ses;
         this.tblSim = Simtab;
         this.btnModified = next;
@@ -44,7 +43,6 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         this.db = AccessDB.getAccessDB();
         idCon = idCo;
         idCust = idCu;
-        btnCompare = compare;
         btnCreate = create;
     }
 
@@ -69,7 +67,6 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else if (e.getSource() == btnCompare) {
         }
     }
 

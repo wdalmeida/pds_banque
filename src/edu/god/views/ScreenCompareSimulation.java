@@ -9,9 +9,7 @@ import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -28,29 +26,24 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
         initComponents();
         this.idCustomer = idCustomer0;
-        System.out.println(" SCS customer = "+idCustomer0);
         loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
         this.setVisible(true);
-        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose));
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this,btnClose));
     }
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
-        System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"Choix", "Type", "Capital", "Interet", "Mensualite pret", "Mensualite assurance", "Total a rembourser", "Durée"}; // column names
+        String title[] = {"Choix","Type", "Capital", "Interet","Mensualité pret","Mensualite assurance","Durée","Total à rembourser"}; // column names
         DefaultTableModel model = new DefaultTableModel(title, 0) {
             @Override
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
             }
-        };
+        };        
         for (String[] sim : simulations) {
-            System.out.println("Simulation : "+sim);
+            
             model.addRow(sim);
         }
         tableCompareSims.setModel(model);
-        TableColumnModel tcm = tableCompareSims.getColumnModel();
-        tcm.removeColumn(tcm.getColumn(0));
-        tcm.removeColumn(tcm.getColumn(tableCompareSims.getColumnCount() - 1));
     }
 
     /**
@@ -74,13 +67,10 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
         tableCompareSims.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Numero", "Type", "Capital", "Interet", "Mensualite pret", "Mensualite assurance", "Somme total à rembourser", "Duree"
+
             }
         ));
         jScrollPane2.setViewportView(tableCompareSims);
@@ -95,21 +85,21 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(359, 359, 359)
-                        .addComponent(btnClose)))
-                .addContainerGap(330, Short.MAX_VALUE))
+                        .addComponent(btnClose))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(60, 60, 60)
+                .addGap(55, 55, 55)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
                 .addComponent(btnClose)
                 .addGap(30, 30, 30))
         );

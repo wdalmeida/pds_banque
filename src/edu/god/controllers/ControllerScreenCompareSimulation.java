@@ -33,8 +33,8 @@ public class ControllerScreenCompareSimulation implements ActionListener {
         this.idCustomer = idCustomer0;
     }
 
-    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
-        this.btnCompareSimulation = btnClose0;
+   public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
+        this.btnClose = btnClose0;
         this.screenCompareSimulation = screenCompareSimulation0;
     }
 
@@ -42,13 +42,11 @@ public class ControllerScreenCompareSimulation implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCompareSimulation) {
             try {
-                System.out.println("bouton Compare Simulation");
                 ScreenCompareSimulation scs = new ScreenCompareSimulation(idCustomer);
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnClose) {
-            System.out.println("bouton Close Compare Simulation");
             screenCompareSimulation.dispose();
             screenCompareSimulation.setVisible(false);
         }
