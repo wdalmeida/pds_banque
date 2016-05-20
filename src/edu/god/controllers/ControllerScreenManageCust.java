@@ -15,8 +15,10 @@ import edu.god.models.AccessDB;
 import edu.god.views.ScreenCreateCust;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
+import edu.god.views.ScreenLoanSim;
 import edu.god.views.ScreenManageCust;
 import java.awt.Color;
+import java.text.ParseException;
 import java.util.regex.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -57,6 +59,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.error = lblError;
         this.smc = smc0;
         this.simulation = false;
+        idConsultant = idC0;
     }
 
     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError, boolean aSimulation) {
@@ -73,19 +76,15 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         this.error = lblError;
         this.smc = smc0;
         this.simulation = aSimulation;
+        idConsultant = idC0;
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        resetAfterError();
         if (e.getSource() == btnSubmit) {
-            lastName.setBorder(UIManager.getBorder("TextField.border"));
-            firstName.setBorder(UIManager.getBorder("TextField.border"));
-            postalCode.setBorder(UIManager.getBorder("TextField.border"));
-            error.setText("");
-
             System.out.println("bouton submit");
-            btnUpdateCust.setVisible(false);
-            btnDeleteCust.setVisible(false);
             ArrayList<String[]> customers = search();
 
             if (customers != null) {
@@ -96,12 +95,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
                     DefaultTableModel dtm = (DefaultTableModel) tableCustomer.getModel();
                     dtm.setRowCount(0);
                     String option[] = {"Ajouter un client", "Retour"};
-                    int click = JOptionPane.showOptionDialog(smc, "Aucun client ne correspond à votre recherche", "Client inconnu",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            option,
-                            option[1]);
+                    int click = JOptionPane.showOptionDialog(smc, "Aucun client ne correspond à votre recherche", "Client inconnu", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, option, option[1]);
                     if (click == JOptionPane.YES_OPTION) {
                         smc.dispose();
                         try {
@@ -180,24 +174,40 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2 && simulation) {
             smc.dispose();
-            ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
+            ArrayList<String[]> checkSim = AccessDB.getAccessDB().getDateTypeSims(tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
+            if (checkSim != null) {
+                System.out.println(idConsultant);
+                ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
+
+            } else {
+                try {
+                    ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString(), false);
+                } catch (SQLException | ParseException ex) {
+                    Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
         }
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e
+    ) {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e
+    ) {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e
+    ) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e
+    ) {
     }
 
     @Override
@@ -235,5 +245,12 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     @Override
     public void keyReleased(KeyEvent e
     ) {
+    }
+
+    private void resetAfterError() {
+        lastName.setBorder(UIManager.getBorder("TextField.border"));
+        firstName.setBorder(UIManager.getBorder("TextField.border"));
+        postalCode.setBorder(UIManager.getBorder("TextField.border"));
+        error.setText("");
     }
 }

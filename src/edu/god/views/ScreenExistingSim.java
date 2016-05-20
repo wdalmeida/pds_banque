@@ -32,12 +32,13 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
         getData(idCustomer);
 
-        btnCancel.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnNewSim, idCustomer, idConsultant));
-        btnModified.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnNewSim, idCustomer, idConsultant));
+        btnCancel.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnModified.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer), btnCompareSimulation));
-        btnNewSim.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnNewSim, idCustomer, idConsultant));
+        btnNewSim.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
 
-        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnNewSim, idCustomer, idConsultant));
+        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+
     }
 
     public void getData(String idCustomer) {
@@ -49,20 +50,19 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
         System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "montant", "mensuailté", "IDCONSULTANT"};
+        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "mensualité", "Durée en mois"}; // add montant
         DefaultTableModel model = new DefaultTableModel(title, 0) {
             @Override
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
             }
         };
-        for (String[] sim : simulations) {
+        simulations.stream().forEach((sim) -> {
             model.addRow(sim);
-        }
+        });
         tblSims.setModel(model);
         TableColumnModel tcm = tblSims.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
-        tcm.removeColumn(tcm.getColumn(tblSims.getColumnCount() - 1));
     }
 
     /**

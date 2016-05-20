@@ -31,7 +31,11 @@ public class ScreenHome extends javax.swing.JFrame {
         btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
         btnSimulateLoan.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
 
+        btnCreateCustomer.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        btnSimulateLoan.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        
         this.setVisible(true);
+        System.out.println(idC);
     }
 
     public void getConsultantInfo(int IdC) {

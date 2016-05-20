@@ -35,9 +35,9 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final String idCust;
     private final int idCon;
 
-    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable Simtab, JButton next, JButton cancel, JButton create, String idCu, int idCo) {
+    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable simTab, JButton next, JButton cancel, JButton compare, JButton create, String idCu, int idCo) {
         this.ses = ses;
-        this.tblSim = Simtab;
+        this.tblSim = simTab;
         this.btnModified = next;
         this.btnCancel = cancel;
         this.db = AccessDB.getAccessDB();
@@ -62,7 +62,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         } else if (e.getSource() == btnCreate) {
             ses.dispose();
             try {
-                ScreenLoanSim newWindow = new ScreenLoanSim(idCon, tblSim.getModel().getValueAt(tblSim.getSelectedRow(), 0).toString(), false);
+                ScreenLoanSim newWindow = new ScreenLoanSim(idCon, idCust, false);
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
