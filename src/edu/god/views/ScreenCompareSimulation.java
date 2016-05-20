@@ -6,13 +6,10 @@
 package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
-import edu.god.entities.SimulationTable;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -29,30 +26,19 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
         initComponents();
         this.idCustomer = idCustomer0;
-        this.db = AccessDB.getAccessDB();
-        System.out.println("customer = "+idCustomer0);
-        loadDataInTable(db.getSimulationsLoanOfCustomer(idCustomer0));
+        loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
         this.setVisible(true);
-        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose));
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this,btnClose));
     }
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
-        System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"Choix", "Type", "Capital", "Interet", "Mensualite pret", "Mensualite assurance", "Total a rembourser", "Durée"}; // column names
-        DefaultTableModel model = new DefaultTableModel(title, 0) {
-            @Override
-            public boolean isCellEditable(int rowIndex, int mColIndex) {
-                return false;
-            }
-        };
-        for (String[] sim : simulations) {
-            System.out.println("Simulation : "+sim);
+        DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
+        
+        //tableCompareSims.setEnabled(false);
+        for (String[] sim : simulations) {            
             model.addRow(sim);
         }
         tableCompareSims.setModel(model);
-        TableColumnModel tcm = tableCompareSims.getColumnModel();
-        tcm.removeColumn(tcm.getColumn(0));
-        tcm.removeColumn(tcm.getColumn(tableCompareSims.getColumnCount() - 1));
     }
 
     /**
@@ -76,16 +62,31 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
         tableCompareSims.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Numero", "Type", "Capital", "Interet", "Mensualite pret", "Mensualite assurance", "Somme total à rembourser", "Duree"
+                "Choix", "Type", "Capital", "Interet", "Mens Pret", "Mens Ass", "Duree", "Total à rembourser"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tableCompareSims);
+        if (tableCompareSims.getColumnModel().getColumnCount() > 0) {
+            tableCompareSims.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(7).setPreferredWidth(100);
+        }
 
         btnClose.setText("Fermer");
 
@@ -97,21 +98,21 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(359, 359, 359)
-                        .addComponent(btnClose)))
-                .addContainerGap(330, Short.MAX_VALUE))
+                        .addComponent(btnClose))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(60, 60, 60)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
+                .addGap(55, 55, 55)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
                 .addComponent(btnClose)
                 .addGap(30, 30, 30))
         );

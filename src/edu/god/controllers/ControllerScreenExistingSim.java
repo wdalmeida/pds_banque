@@ -31,7 +31,6 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final JTable tblSim;
     private final JButton btnModified;
     private final JButton btnCancel;
-    private final JButton btnCompare;
     private final JButton btnCreate;
     private final String idCust;
     private final int idCon;
@@ -55,7 +54,6 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         this.btnCancel = cancel;
         idCon = idCo;
         idCust = idCu;
-        btnCompare = compare;
         btnCreate = create;
     }
 
@@ -80,7 +78,6 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else if (e.getSource() == btnCompare) {
         }
     }
 

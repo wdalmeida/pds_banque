@@ -14,6 +14,8 @@ import java.sql.*;
 import java.util.*;
 import edu.god.common.contents.*;
 import edu.god.entities.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class AccessDB implements Constantes {
 
@@ -231,23 +233,53 @@ public class AccessDB implements Constantes {
 
     public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
-        ArrayList simulationLoans = new ArrayList();
+        ArrayList<String[]> res = new ArrayList();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
+        //int cpt = 1;
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    System.out.println(" rs first : " + rs.getRow());
-                    while (rs.next()) {
-                        System.out.println(" rs next " + rs.getRow());
-                        simulationLoans.add(rs.getRow());
+
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount() + 3;
+                    String test[] = new String[nbColumn];
+                    rs.beforeFirst();
+                    for (int cpt = 1; rs.next(); cpt++) {
+
+                        test[0] = Integer.toString(cpt);
+                        System.out.println("test[0]: " + test[0]);
+                        test[1] = rs.getString(1);
+                        System.out.println("test[1]: " + test[1]);
+                        test[2] = nf.format(Integer.parseInt(rs.getString(2)));
+                        System.out.println("test[2]: " + test[2]);
+                        test[3] = rs.getString(3);
+                        System.out.println("test[3]: " + test[3]);
+
+                        monthlyInterestRate = Integer.parseInt(rs.getString(3)) / 12.0;
+                        monthlyPayment = Integer.parseInt(rs.getString(2)) * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -Integer.parseInt(rs.getString(5))))) + Integer.parseInt(rs.getString(4));
+
+                        test[4] = nf.format(Double.parseDouble(Double.toString(monthlyPayment)));
+                        System.out.println("test[4]: " + test[4]);
+                        test[5] = rs.getString(4);
+                        System.out.println("test[5]: " + test[5]);
+                        test[6] = rs.getString(5);
+                        System.out.println("test[6]: " + test[6]);
+                        annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
+                        test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
+                        System.out.println("test[7]: " + test[7]);
+                        System.out.println("");
+                        System.out.println("");
+                        res.add(test);
                     }
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
-        return simulationLoans;
+        return res;
     }
 
     /**
