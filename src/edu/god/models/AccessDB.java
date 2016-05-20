@@ -226,7 +226,6 @@ public class AccessDB implements Constantes {
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
         ArrayList<String[]> res = new ArrayList();
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
-            DecimalFormat df = new DecimalFormat("0.00");
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
         //int cpt = 1;
         try {
@@ -238,8 +237,8 @@ public class AccessDB implements Constantes {
                     int nbColumn = metadata.getColumnCount() + 3;
                     String test[] = new String[nbColumn];
                     rs.beforeFirst();
-                    for(int cpt =1; rs.next(); cpt++) {
-                        
+                    for (int cpt = 1; rs.next(); cpt++) {
+
                         test[0] = Integer.toString(cpt);
                         System.out.println("test[0]: " + test[0]);
                         test[1] = rs.getString(1);

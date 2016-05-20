@@ -32,15 +32,10 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     }
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
-        String title[] = {"Choix","Type", "Capital", "Interet","Mensualité pret","Mensualite assurance","Durée","Total à rembourser"}; // column names
-        DefaultTableModel model = new DefaultTableModel(title, 0) {
-            @Override
-            public boolean isCellEditable(int rowIndex, int mColIndex) {
-                return false;
-            }
-        };        
-        for (String[] sim : simulations) {
-            
+        DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
+        
+        //tableCompareSims.setEnabled(false);
+        for (String[] sim : simulations) {            
             model.addRow(sim);
         }
         tableCompareSims.setModel(model);
@@ -70,10 +65,28 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "Choix", "Type", "Capital", "Interet", "Mens Pret", "Mens Ass", "Duree", "Total à rembourser"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tableCompareSims);
+        if (tableCompareSims.getColumnModel().getColumnCount() > 0) {
+            tableCompareSims.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(7).setPreferredWidth(100);
+        }
 
         btnClose.setText("Fermer");
 
@@ -88,9 +101,9 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                         .addGap(359, 359, 359)
                         .addComponent(btnClose))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,8 +111,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(55, 55, 55)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
                 .addComponent(btnClose)
                 .addGap(30, 30, 30))
         );

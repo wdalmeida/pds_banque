@@ -57,7 +57,6 @@ public class amortizationTable extends JFrame {
             //sets the currency
             //NumberFormat nf = NumberFormat.getCurrencyInstance();
             NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
-            DecimalFormat df = new DecimalFormat("0.00");
 
             for (int numberOfTerms = 0; numberOfTerms < termMonths; numberOfTerms++) {
                 Object data[] = new Object[6];
