@@ -16,15 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -63,7 +57,34 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final int idCons;
     private String idCust;
 
-    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String idCustomer) {
+    /**
+     * Default constructor
+     *
+     * @param sls ScreenLoanSim
+     * @param txtMonthlyWInsurance JTextField
+     * @param txtMonthlyOfInsurance JTextField
+     * @param txtMonthlyInsurance JTextField
+     * @param txtTotal JTextField
+     * @param txtTotalInsurance JTextField
+     * @param txtCost JTextField
+     * @param cbxLoan
+     * @param txtAmount JTextField
+     * @param txtRate JTextField
+     * @param txtInsurance JTextField
+     * @param txtAmountInsurance JTextField
+     * @param txtDuration JTextField
+     * @param txtDate
+     * @param txtCapital JTextField
+     * @param btnCalculate JButton
+     * @param btnSave JButton
+     * @param btnHome JButton
+     * @param panelLeft JPanel
+     * @param lblError JLabel
+     * @param modified boolean
+     * @param idConsultant int
+     * @param aId String
+     */
+    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId) {
         this.sls = sls;
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyOfInsurance = txtMonthlyOfInsurance;
@@ -86,10 +107,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         error = lblError;
         modify = modified;
         idCons = idConsultant;
+        //
         if (modify) {
-            id = idCustomer;
+            id = aId;
         } else {
-            idCust = idCustomer;
+            idCust = aId;
         }
     }
 
@@ -98,11 +120,17 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         resetAfterError();
         if (fieldsNotEmpty()) {
             if (e.getSource() == btnCalculate) {
-                calculLoan();
-                btnSave.setEnabled(true);
+                try {
+                    if (checkLoanProperty()) {
+                        calculLoan();
+                        btnSave.setEnabled(true);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else if (e.getSource() == btnSave) {
-               String date = LocalDate.now().toString();
-                if (modify) {
+                String date = LocalDate.now().toString();
+                if (modify) { // if the user choose an existing simulation to modified it. CASE UPDATE
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
                         System.out.println("idtype = " + idType);
@@ -111,24 +139,27 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
+                } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Cree le "+ date, idCons, idCust, "1", "1", idType);
+                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
                         showDialog(insertLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+            } else if (e.getSource() == btnHome) {
+                sls.dispose();
+                ScreenHome newWindow = new ScreenHome(Integer.parseInt(id));
             }
-        } else if (e.getSource() == btnHome) {
-            sls.dispose();
-            ScreenHome newWindow = new ScreenHome(Integer.parseInt(id));
-        } else {
+        } else { // end of if( fieldsNotEmpty()) ...
             error.setText("Veuillez saisir tous les champs obligatoires");
         }
     }
 
+    /**
+     * the method calcul the loan with the data previously input
+     */
     private void calculLoan() {
         Float amount = Float.parseFloat(txtAmount.getText());
         Float rate = Float.parseFloat(txtRate.getText());
@@ -154,6 +185,12 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         txtCost.setText(cost.toString());
     }
 
+    /**
+     * The method return true if one of the field is EMPTY and return false when
+     * all the fields aren't empty (the correct situation)
+     *
+     * @return notEmpty boolean
+     */
     private boolean fieldsNotEmpty() {
         boolean notEmpty = true;
         ArrayList<JTextField> textFields = new ArrayList<>();
@@ -172,6 +209,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         return notEmpty;
     }
 
+    /**
+     * The method set the border to the default color and the label to empty
+     */
     private void resetAfterError() {
         ArrayList<JTextField> textFields = new ArrayList<>();
         for (Component aField : left.getComponents()) {
@@ -188,23 +228,13 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         error.setText("");
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_PERIOD) {
-            txtAmount.setText(txtAmount.getText() + ",");
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     * The method pop up a dialog to confirm or not that the action (insert or
+     * update is done)
+     *
+     * @param sqlResponse int
+     * @throws SQLException
+     */
     private void showDialog(int sqlResponse) throws SQLException {
         if (idCust == null) {
             idCust = AccessDB.getAccessDB().getIdCustInSim(id);
@@ -243,6 +273,43 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
             JOptionPane.showMessageDialog(sls, "L'ajout de la simulation a échoué", "Ajout simulation", JOptionPane.ERROR_MESSAGE);
 
         }
+    }
+
+    /**
+     * The method retrieve the param for the selected type of loan and check if
+     * the input values are correct.
+     * Return true if the values are good 
+     *
+     * @throws SQLException
+     * @return checking boolean
+     */
+    private boolean checkLoanProperty() throws SQLException {
+        boolean checking = false;
+        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
+        int param[] = AccessDB.getAccessDB().getParambyID(idType);
+        int minAmount = param[0], maxAmount = param[1], minDuration = param[2], maxDuration = param[3];
+        if (Integer.parseInt(txtAmount.getText()) >= minAmount && Integer.parseInt(txtAmount.getText()) <= maxAmount) {
+            if (Integer.parseInt(txtDuration.getText()) >= minDuration && Integer.parseInt(txtDuration.getText()) <= maxDuration) {
+                checking = true;
+            }
+        }
+
+        return checking;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) { // TODO TEST
+        if (e.getKeyChar()=='.') {
+            txtAmount.setText(txtAmount.getText() + ",");
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 
 }

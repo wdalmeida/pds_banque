@@ -27,9 +27,9 @@ public class ScreenLoanSim extends JFrame {
     /**
      * Creates new form ScreenLoanSim
      *
-     * @param idConsultant
-     * @param id
-     * @param simulation
+     * @param idConsultant int
+     * @param id String
+     * @param simulation boolean
      * @throws java.sql.SQLException
      * @throws java.text.ParseException
      */
@@ -39,24 +39,36 @@ public class ScreenLoanSim extends JFrame {
 
         lblError.setText("");
         lblError.setForeground(Color.red);
-        setVisible(true);
         btnSave.setEnabled(false);
+        
+        //load the combobox
         ArrayList<String> loanTypes = AccessDB.getAccessDB().getLoanType();
         cbxLoan.removeAllItems();
+        cbxLoan.addItem("Sélectionner");
         for (String loanType : loanTypes) {
             cbxLoan.addItem(loanType);
         }
-        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation,idConsultant,id));
+        
+        // add ActionListener
+        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+       
+        // if the simulation exist load in the fied the saved data
         if (simulation) {
             loadForm(id);
         }
         txtRate.setText("2");//////////// ou COLINE SI CREATION
-
+        setVisible(true);
     }
 
+    /**
+     * the method load the fields with the data saved in the database for a given simulation
+     * 
+     * @param idSim String
+     * @throws ParseException 
+     */
     public void loadForm(String idSim) throws ParseException {
         AccessDB db = AccessDB.getAccessDB();
         ArrayList<String> simData = db.getSimByID(idSim);

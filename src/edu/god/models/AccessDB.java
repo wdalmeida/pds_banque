@@ -189,6 +189,15 @@ public class AccessDB implements Constantes {
         return null;
     }
 
+    /**
+     *Return customers by the last and first name and the postal code 
+     * 
+     * @param lastN String
+     * @param firstN String
+     * @param pc String
+     * @return res ArrayList<String>
+     * @throws SQLException
+     */
     public ArrayList<String[]> getCustomer(String lastN, String firstN, String pc) throws SQLException {
         String query = "SELECT id_Customer,title_Customer,last_Name_Customer,first_Name_Customer,street_Customer"
                 + ",pc_Customer,city_Customer,phone_Customer,email_Customer,birthday_Customer,nationality_Customer"
@@ -241,16 +250,37 @@ public class AccessDB implements Constantes {
         return simulationLoans;
     }
 
-    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {
+    /**
+     * Return the customer id with all the parameter required to insert him
+     *
+     * @param title String
+     * @param lastN String
+     * @param firstN String
+     * @param salary Float
+     * @param street String
+     * @param pc String
+     * @param city String
+     * @param phone String
+     * @param email String
+     * @param birthday String
+     * @param owner boolean
+     * @param nation String
+     * @param idConsultant int
+     * @param status int
+     * @return res String
+     */
+    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int status) {
         String query = "SELECT id_Customer"
-                + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
+                + " FROM Customer WHERE title_Customer=? AND last_Name_Customer=? AND first_Name_Customer=? AND salary_Customer=? AND street_Customer=?"
+                + " AND pc_Customer=? AND city_Customer=? AND phone_Customer=? AND email_Customer=? AND birthday_Customer=? AND nationality_Customer=? "
+                + " AND nationality_Customer=? AND id_Consultant=? AND statut=? ; ";
         String res = "";
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setString(1, title);
             queryPrep.setString(2, lastN);
             queryPrep.setString(3, firstN);
-            queryPrep.setString(4, salary.toString());
+            queryPrep.setFloat(4, salary);
             queryPrep.setString(5, street);
             queryPrep.setString(6, pc);
             queryPrep.setString(7, city);
@@ -260,7 +290,6 @@ public class AccessDB implements Constantes {
             queryPrep.setBoolean(11, owner);
             queryPrep.setString(12, nation);
             queryPrep.setInt(13, idConsultant);
-            queryPrep.setInt(14, user);
             queryPrep.setInt(15, status);
 
             try (ResultSet rs = queryPrep.executeQuery()) {
@@ -275,6 +304,12 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return the last and the first name of a customer
+     *
+     * @param idCustomer String
+     * @return res Strin[]
+     */
     public String[] getLastFirstNameCustomer(String idCustomer) {
         String query = "SELECT title_Customer, last_Name_Customer, first_Name_Customer"
                 + " FROM Customer WHERE id_Customer =? ; ";
@@ -297,6 +332,13 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return the id, the type, the date, the rate,the monthly and the duration
+     * for all the sim of the given customer
+     *
+     * @param idCustomer String
+     * @return res ArrayList<String>
+     */
     public ArrayList<String[]> getDateTypeSims(String idCustomer) {
         String query = "SELECT id_Sim, description_LoanRef, date_Sim,percentage_Rate,monthly_Sim, duration_Sim "
                 + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate WHERE id_Customer =? ; ";
@@ -325,6 +367,12 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return all the simulation for a simulation
+     *
+     * @param idSim String
+     * @return res ArrayList<String>
+     */
     public ArrayList<String> getSimByID(String idSim) {
         String query = "SELECT id_Sim,capital_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,amount_Insurance, description_LoanRef,percentage_Rate, id_Customer "
                 + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate,Insurance WHERE id_Sim =? ;";
@@ -349,6 +397,12 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return all the type of loan
+     *
+     * @return res ArrayList<String>
+     * @throws SQLException
+     */
     public ArrayList<String> getLoanType() throws SQLException {
         ArrayList<String> res = new ArrayList();
         Statement stmt = conn.createStatement();
@@ -363,9 +417,23 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * The method insert a new simulation in the database
+     *
+     * @param capital String
+     * @param amount String
+     * @param duration String
+     * @param date String
+     * @param statut String
+     * @param idConsultant int
+     * @param idCustomer String
+     * @param idInsurance String
+     * @param idRate String
+     * @param loanType String
+     * @return
+     * @throws SQLException
+     */
     public int insertLoanSim(String capital, String amount, String duration, String date, String statut, int idConsultant, String idCustomer, String idInsurance, String idRate, String loanType) throws SQLException {
-        //  java.util.Date utilDate = new java.util.Date();
-        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
         String query = "INSERT INTO LoanSimulation (capital_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,id_Consultant,id_Customer,id_Insurance,id_Rate,id_LoanRef) VALUES (?,?,?,?,?,?,?,?,?,?) ; ";
         System.out.println(query);
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -383,9 +451,24 @@ public class AccessDB implements Constantes {
         return queryPrep.executeUpdate();
     }
 
+    /**
+     * The method update a simulation in the table LoanSimulation with the given
+     * parameter
+     *
+     * @param idSim String
+     * @param capital String
+     * @param amount String
+     * @param duration String
+     * @param date String
+     * @param statut String
+     * @param idConsultant int
+     * @param idInsurance String
+     * @param idRate String
+     * @param loanType String
+     * @return int
+     * @throws SQLException
+     */
     public int updateLoanSim(String idSim, String capital, String amount, String duration, String date, String statut, int idConsultant, String idInsurance, String idRate, String loanType) throws SQLException {
-        //  java.util.Date utilDate = new java.util.Date();
-        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
         String query = "UPDATE LoanSimulation set capital_Sim=?, monthly_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, id_Consultant=?, id_Insurance=? ,id_Rate=?, id_LoanRef=? WHERE id_Sim=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setString(1, capital);
@@ -403,6 +486,13 @@ public class AccessDB implements Constantes {
         return queryPrep.executeUpdate();
     }
 
+    /**
+     * Return the customer id which match with simulation
+     *
+     * @param id String id of a simulation
+     * @return res String
+     * @throws SQLException
+     */
     public String getIdCustInSim(String id) throws SQLException {
         String res = null;
         String query = "SELECT id_Customer from LoanSimulation where id_Sim=? ;";
@@ -417,6 +507,13 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return the id of the description
+     *
+     * @param selectedItem String
+     * @return res String
+     * @throws SQLException
+     */
     public String getIdLoanType(String selectedItem) throws SQLException {
         String res = null;
         String query = "SELECT id_LoanRef from LoanRef where description_LoanRef=? ;";
@@ -429,6 +526,36 @@ public class AccessDB implements Constantes {
         System.out.println("requete = " + queryPrep.toString());
         System.out.println(res);
 
+        return res;
+    }
+
+    /**
+     * Return a table which contains the delimeter values for a simulation's
+     * type
+     *
+     * @param idType String
+     * @return res int[]
+     */
+    public int[] getParambyID(String idType) {
+        String query = "SELECT minAmount, maxAmount, minDuration, maxDuration"
+                + " FROM LoanParam WHERE id_LoanRef =? ; ";
+        int res[] = new int[4];
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idType);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getInt(1);
+                    res[1] = rs.getInt(2);
+                    res[2] = rs.getInt(3);
+                    res[3] = rs.getInt(4);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
         return res;
     }
 }
