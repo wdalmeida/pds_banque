@@ -4,6 +4,13 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import edu.god.models.AccessDB;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,6 +53,7 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
         jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setText("Consommation");
 
@@ -154,6 +162,10 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
             JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public void loadForm(String idSim) throws ParseException {
+        AccessDB db = AccessDB.getAccessDB();
+        ArrayList<String> simData = db.getSimByID(idSim);
+    }
     /**
      * @param args the command line arguments
      */

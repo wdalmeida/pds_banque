@@ -192,8 +192,8 @@ public class AccessDB implements Constantes {
     }
 
     /**
-     *Return customers by the last and first name and the postal code 
-     * 
+     * Return customers by the last and first name and the postal code
+     *
      * @param lastN String
      * @param firstN String
      * @param pc String
@@ -232,47 +232,41 @@ public class AccessDB implements Constantes {
     }
 
     public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
+
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
         ArrayList<String[]> res = new ArrayList();
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
-        //int cpt = 1;
+        int cpt = 1;
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-
                     ResultSetMetaData metadata = rs.getMetaData();
                     int nbColumn = metadata.getColumnCount() + 3;
-                    String test[] = new String[nbColumn];
+
                     rs.beforeFirst();
-                    for (int cpt = 1; rs.next(); cpt++) {
-
+                    while (rs.next()) {
+                        String test[] = new String[nbColumn];
                         test[0] = Integer.toString(cpt);
-                        System.out.println("test[0]: " + test[0]);
                         test[1] = rs.getString(1);
-                        System.out.println("test[1]: " + test[1]);
                         test[2] = nf.format(Integer.parseInt(rs.getString(2)));
-                        System.out.println("test[2]: " + test[2]);
                         test[3] = rs.getString(3);
-                        System.out.println("test[3]: " + test[3]);
-
                         monthlyInterestRate = Integer.parseInt(rs.getString(3)) / 12.0;
                         monthlyPayment = Integer.parseInt(rs.getString(2)) * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -Integer.parseInt(rs.getString(5))))) + Integer.parseInt(rs.getString(4));
-
                         test[4] = nf.format(Double.parseDouble(Double.toString(monthlyPayment)));
-                        System.out.println("test[4]: " + test[4]);
                         test[5] = rs.getString(4);
-                        System.out.println("test[5]: " + test[5]);
                         test[6] = rs.getString(5);
-                        System.out.println("test[6]: " + test[6]);
+
                         annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
                         test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
-                        System.out.println("test[7]: " + test[7]);
+
+                        System.out.println("ma ligne" + Arrays.toString(test));
                         System.out.println("");
                         System.out.println("");
                         res.add(test);
+                        cpt++;
                     }
                 }
             }
@@ -537,6 +531,96 @@ public class AccessDB implements Constantes {
         System.out.println("requete = " + queryPrep.toString());
         System.out.println(res);
         return res;
+    }
+
+    /*Get rates Consumption */
+    public String getratesConsumption(String ratesCon) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesConsumption from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesCon);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesConsumption");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Personnel */
+    public String getratesPersonnel(String ratesPer) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesPersonel from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesPer);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesPersonel");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Property */
+    public String getratesProperty(String ratesPrope) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesPrope);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProperty");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Project */
+    public String getratesProj(String ratesProj) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProject from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesProj);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProject");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Repurchase */
+    public String getratesRepurchase(String ratesRepur) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesRepur);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesRepurchase");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Vehicles */
+    public String getratesVehicles(String ratesVeh) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesVeh);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesVehicles");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
     }
 
     /**

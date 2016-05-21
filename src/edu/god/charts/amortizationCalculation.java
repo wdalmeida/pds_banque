@@ -3,7 +3,6 @@ package edu.god.charts;
 import java.text.DecimalFormat;
 
 public class amortizationCalculation {
-
     //Method used to do the amortization calculation
     //Input: Principal Amount, Interest Rate and Term (in months)
     //Output: Monthly Payment and Total Payment

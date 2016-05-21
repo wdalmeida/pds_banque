@@ -9,6 +9,7 @@ import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,23 +23,24 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      */
     private int idCustomer;
     private AccessDB db;
-    
+
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
         initComponents();
         this.idCustomer = idCustomer0;
         loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
         this.setVisible(true);
-        btnClose.addActionListener(new ControllerScreenCompareSimulation(this,btnClose));
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose));
     }
 
     public void loadDataInTable(ArrayList<String[]> simulations) {
         DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
-        
-        //tableCompareSims.setEnabled(false);
-        for (String[] sim : simulations) {            
+        tableCompareSims.setModel(model);
+
+        for (String[] sim : simulations) {
+            System.out.println("ligne = "+Arrays.toString(sim));
             model.addRow(sim);
         }
-        tableCompareSims.setModel(model);
+
     }
 
     /**
@@ -54,6 +56,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableCompareSims = new javax.swing.JTable();
         btnClose = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +94,10 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
         btnClose.setText("Fermer");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setText("Veullez selectionner une simulation");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,7 +110,12 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                         .addComponent(btnClose))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1)
+                        .addGap(37, 37, 37)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -111,8 +124,12 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(55, 55, 55)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
                 .addComponent(btnClose)
                 .addGap(30, 30, 30))
         );
@@ -123,6 +140,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tableCompareSims;
