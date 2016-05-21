@@ -134,7 +134,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
                         System.out.println("idtype = " + idType);
-                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
+                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(),txtMonthlyInsurance.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
                         showDialog(updateLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,7 +142,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
+                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(),txtMonthlyInsurance.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
                         showDialog(insertLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -277,8 +277,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     /**
      * The method retrieve the param for the selected type of loan and check if
-     * the input values are correct.
-     * Return true if the values are good 
+     * the input values are correct. Return true if the values are good
      *
      * @throws SQLException
      * @return checking boolean
@@ -291,7 +290,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         if (Integer.parseInt(txtAmount.getText()) >= minAmount && Integer.parseInt(txtAmount.getText()) <= maxAmount) {
             if (Integer.parseInt(txtDuration.getText()) >= minDuration && Integer.parseInt(txtDuration.getText()) <= maxDuration) {
                 checking = true;
+            } else {
+                JOptionPane.showMessageDialog(sls, "La durée du prêt doit être compris entre " + minDuration + " et " + maxDuration, "Information", JOptionPane.INFORMATION_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(sls, "Le montant du prêt doit être compris entre " + minAmount + " et " + maxAmount, "Information", JOptionPane.INFORMATION_MESSAGE);
         }
 
         return checking;
@@ -299,7 +302,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) { // TODO TEST
-        if (e.getKeyChar()=='.') {
+        if (e.getKeyChar() == '.') {
             txtAmount.setText(txtAmount.getText() + ",");
         }
     }

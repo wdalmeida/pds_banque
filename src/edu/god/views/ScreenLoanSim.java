@@ -72,13 +72,13 @@ public class ScreenLoanSim extends JFrame {
     public void loadForm(String idSim) throws ParseException {
         AccessDB db = AccessDB.getAccessDB();
         ArrayList<String> simData = db.getSimByID(idSim);
-        cbxLoan.setSelectedItem(simData.get(7));
-        txtAmount.setText("10000");
-        txtInsurance.setText(simData.get(6));/////////
-        txtAmountInsurance.setText(simData.get(6));//////////
-        txtDuration.setText(simData.get(3));
+        cbxLoan.setSelectedItem(simData.get(8));
+        txtAmount.setText(simData.get(2));
+        txtInsurance.setText(simData.get(7));/////////
+        txtAmountInsurance.setText(simData.get(7));//////////
+        txtDuration.setText(simData.get(4));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-        txtDate.setDate(new Date(format.parse(simData.get(4)).getTime()));
+        txtDate.setDate(new Date(format.parse(simData.get(5)).getTime()));
         txtCapital.setText(simData.get(1));
     }
 

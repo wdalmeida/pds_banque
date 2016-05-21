@@ -153,8 +153,8 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     }
 
     /**
-     *Load the table with the different customers' informations
-     * 
+     * Load the table with the different customers' informations
+     *
      * @param customers ArrayList<String[]>
      */
     public void loadDataInTable(ArrayList<String[]> customers) {
@@ -176,20 +176,23 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     /**
      * Search the matching customer and check if the fields aren't empty
-     * 
+     *
      * @return res ArrayList<String[]>
      */
     private ArrayList<String[]> search() {
         ArrayList<String[]> customers = null;
 
-        if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !postalCode.getText().isEmpty()) {
-
+        if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !postalCode.getText().isEmpty() && postalCode.getText().length() == 5) {
             try {
                 customers = db.getCustomer(lastName.getText(), firstName.getText(), postalCode.getText());
                 System.out.println("Nom - prenom - code postal");
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (postalCode.getText().length() < 5) {
+            error.setText("le code postal doit être composé de 5 chiffres");
+            postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
+
         } else {
             error.setText("Veuillez saisir tous les champs");
             if (lastName.getText().isEmpty()) {
