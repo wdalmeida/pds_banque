@@ -191,6 +191,7 @@ public class AccessDB implements Constantes {
         return null;
     }
 
+     
     public ArrayList<String[]> getCustomer(String lastN, String firstN, String pc) throws SQLException {
         String query = "SELECT id_Customer,title_Customer,last_Name_Customer,first_Name_Customer,street_Customer"
                 + ",pc_Customer,city_Customer,phone_Customer,email_Customer,birthday_Customer,nationality_Customer"
@@ -442,7 +443,93 @@ public class AccessDB implements Constantes {
         System.out.println(res);
         return res;
     }
-
+/*Get rates Consumption */
+        public String getratesConsumption(String ratesCon) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesConsumption from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesCon);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesConsumption");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    
+        /*Get rates Personnel */
+        public String getratesPersonnel(String ratesPer) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesPersonel from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesPer);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesPersonel");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+        /*Get rates Property */
+        public String getratesProperty(String ratesPrope) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesPrope);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesProperty");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+        
+        /*Get rates Project */
+        public String getratesProj(String ratesProj) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesProject from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesProj);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesProject");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+        /*Get rates Repurchase */
+        public String getratesRepurchase(String ratesRepur) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesRepur);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesRepurchase");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+        /*Get rates Vehicles */
+        public String getratesVehicles(String ratesVeh) throws SQLException {
+            String chiff =null;
+            String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, ratesVeh);
+        ResultSet resultat = queryPrep.executeQuery();
+         if (resultat.first()) {
+            chiff = resultat.getString("RatesVehicles");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+        
     public String getIdLoanType(String selectedItem) throws SQLException {
         String res = null;
         String query = "SELECT id_LoanRef from LoanRef where description_LoanRef=? ;";
