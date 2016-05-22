@@ -37,13 +37,17 @@ public class ScreenManageCust extends javax.swing.JFrame {
 
         //add MouseListener
         tblCustomer.addMouseListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError, simulation));
-        
+
         //add ActionLitener
         btnCreate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError, simulation));
         btnUpdate.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError, simulation));
         btnDelete.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError, simulation));
         btnSubmit.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
         btnBack.addActionListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+
+        // add focus listener
+        btnSubmit.addFocusListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
+        btnBack.addFocusListener(new ControllerScreenManageCust(this, txtLastName, txtFirstName, txtPc, idC0, btnCreate, btnUpdate, btnDelete, btnSubmit, btnBack, tblCustomer, lblError));
 
         lblError.setText("");
         lblError.setForeground(Color.red);

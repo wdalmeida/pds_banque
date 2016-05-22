@@ -8,15 +8,10 @@ package edu.god.views;
 import edu.god.controllers.ControllerLoanSim;
 import edu.god.models.AccessDB;
 import java.awt.Color;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.swing.*;
-import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
@@ -50,10 +45,10 @@ public class ScreenLoanSim extends JFrame {
         }
         
         // add ActionListener
-        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
        
         // if the simulation exist load in the fied the saved data
         if (simulation) {
@@ -75,10 +70,7 @@ public class ScreenLoanSim extends JFrame {
         cbxLoan.setSelectedItem(simData.get(8));
         txtAmount.setText(simData.get(2));
         txtInsurance.setText(simData.get(7));/////////
-        txtAmountInsurance.setText(simData.get(7));//////////
         txtDuration.setText(simData.get(4));
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-        txtDate.setDate(new Date(format.parse(simData.get(5)).getTime()));
         txtCapital.setText(simData.get(1));
     }
 
@@ -100,12 +92,8 @@ public class ScreenLoanSim extends JFrame {
         txtRate = new javax.swing.JTextField();
         lblinsurance = new javax.swing.JLabel();
         txtInsurance = new javax.swing.JTextField();
-        lblAmountInsurance = new javax.swing.JLabel();
-        txtAmountInsurance = new javax.swing.JTextField();
         lblDuration = new javax.swing.JLabel();
         txtDuration = new javax.swing.JTextField();
-        lblDate = new javax.swing.JLabel();
-        txtDate = new JXDatePicker();
         lblCapital = new javax.swing.JLabel();
         txtCapital = new javax.swing.JTextField();
         btnCaculate = new javax.swing.JButton();
@@ -152,13 +140,7 @@ public class ScreenLoanSim extends JFrame {
 
         txtInsurance.setName("rateInsurance"); // NOI18N
 
-        lblAmountInsurance.setText("Montant de l'assurance");
-
-        txtAmountInsurance.setName("AmountInsurance"); // NOI18N
-
         lblDuration.setText("Durée en mois");
-
-        lblDate.setText("Première écheance");
 
         lblCapital.setText("Apport initial");
 
@@ -171,37 +153,33 @@ public class ScreenLoanSim extends JFrame {
         PLeftLayout.setHorizontalGroup(
             PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(PLeftLayout.createSequentialGroup()
-                .add(PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(47, 47, 47)
+                .add(PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(lblCapital)
                     .add(PLeftLayout.createSequentialGroup()
-                        .add(50, 50, 50)
-                        .add(PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(lblCapital)
-                            .add(lblDuration)
-                            .add(lblAmountInsurance)
-                            .add(lblinsurance)
-                            .add(lblRate)
-                            .add(lblAmount)
-                            .add(lblLoan)
-                            .add(lblDate)
-                            .add(cbxLoan, 0, 200, Short.MAX_VALUE)
-                            .add(txtAmount)
-                            .add(txtRate)
-                            .add(txtInsurance)
-                            .add(txtAmountInsurance)
-                            .add(txtDuration)
-                            .add(txtDate)
-                            .add(txtCapital)))
-                    .add(PLeftLayout.createSequentialGroup()
-                        .add(97, 97, 97)
-                        .add(btnCaculate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(PLeftLayout.createSequentialGroup()
-                        .add(129, 129, 129)
-                        .add(lblError)))
-                .add(50, 50, 50))
+                        .add(46, 46, 46)
+                        .add(PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(btnCaculate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(PLeftLayout.createSequentialGroup()
+                                .add(32, 32, 32)
+                                .add(lblError))))
+                    .add(lblDuration)
+                    .add(lblinsurance)
+                    .add(lblRate)
+                    .add(lblAmount)
+                    .add(lblLoan)
+                    .add(cbxLoan, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(txtAmount)
+                    .add(txtRate)
+                    .add(txtInsurance)
+                    .add(txtDuration)
+                    .add(txtCapital, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 200, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         PLeftLayout.setVerticalGroup(
             PLeftLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(PLeftLayout.createSequentialGroup()
+                .add(56, 56, 56)
                 .add(lblLoan)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cbxLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -217,27 +195,19 @@ public class ScreenLoanSim extends JFrame {
                 .add(lblinsurance)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtInsurance, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
-                .add(lblAmountInsurance)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtAmountInsurance, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
+                .add(27, 27, 27)
                 .add(lblDuration)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtDuration, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
-                .add(lblDate)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
+                .add(28, 28, 28)
                 .add(lblCapital)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtCapital, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(33, 33, 33)
                 .add(lblError)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnCaculate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(53, 53, 53))
         );
 
         PRight.setBackground(new java.awt.Color(255, 255, 255));
@@ -298,7 +268,7 @@ public class ScreenLoanSim extends JFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, PRightLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(btnSave, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(97, 97, 97))
+                .add(95, 95, 95))
         );
         PRightLayout.setVerticalGroup(
             PRightLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -327,9 +297,9 @@ public class ScreenLoanSim extends JFrame {
                 .add(lblTotalLoan)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtTotalLoan, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 44, Short.MAX_VALUE)
                 .add(btnSave, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 32, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(20, 20, 20))
         );
 
         btnBack.setText("Retour");
@@ -353,10 +323,10 @@ public class ScreenLoanSim extends JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(PRight, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
-                    .add(PLeft, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(PRight, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                    .add(PLeft, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnBack, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -372,9 +342,7 @@ public class ScreenLoanSim extends JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbxLoan;
     private javax.swing.JLabel lblAmount;
-    private javax.swing.JLabel lblAmountInsurance;
     private javax.swing.JLabel lblCapital;
-    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDuration;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblLoan;
@@ -387,9 +355,7 @@ public class ScreenLoanSim extends JFrame {
     private javax.swing.JLabel lblTotalLoan;
     private javax.swing.JLabel lblinsurance;
     private javax.swing.JTextField txtAmount;
-    private javax.swing.JTextField txtAmountInsurance;
     private javax.swing.JTextField txtCapital;
-    private JXDatePicker txtDate;
     private javax.swing.JTextField txtDuration;
     private javax.swing.JTextField txtInsurance;
     private javax.swing.JTextField txtMonthly;

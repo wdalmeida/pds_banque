@@ -11,8 +11,6 @@ import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -26,7 +24,7 @@ import javax.swing.JTable;
  *
  * @author Warren
  */
-public class ControllerScreenExistingSim implements ActionListener, MouseListener, FocusListener {
+public class ControllerScreenExistingSim implements ActionListener, MouseListener {
 
     private final ScreenExistingSim ses;
     private final JTable tblSim;
@@ -38,8 +36,8 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final int idCon;
 
     /**
-     *Default constructor
-     * 
+     * Default constructor
+     *
      * @param ses ScreenExistingSim
      * @param simTab JTable
      * @param next JButton
@@ -81,7 +79,11 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnCompareSimulation) {
-            ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
+            try {
+                ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -111,14 +113,5 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        ses.getRootPane().setDefaultButton((JButton) e.getSource());
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
     }
 }
