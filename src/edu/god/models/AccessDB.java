@@ -230,7 +230,11 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-
+ /**
+  * return all simulation of a customer
+  * @param idCustomer
+  * @return res ArrayList<String>
+  */
     public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
 
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
@@ -261,10 +265,6 @@ public class AccessDB implements Constantes {
 
                         annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
                         test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
-
-                        System.out.println("ma ligne" + Arrays.toString(test));
-                        System.out.println("");
-                        System.out.println("");
                         res.add(test);
                         cpt++;
                     }

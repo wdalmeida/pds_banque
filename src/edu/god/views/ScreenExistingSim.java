@@ -45,7 +45,6 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
         //Add mouseListener
         tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
-        //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
 
     /**
