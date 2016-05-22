@@ -55,11 +55,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="PRight" pref="564" max="32767" attributes="0"/>
-                  <Component id="PLeft" pref="564" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="PRight" pref="531" max="32767" attributes="0"/>
+                  <Component id="PLeft" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="btnBack" min="-2" pref="40" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -79,45 +79,40 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="lblCapital" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblCapital" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblDuration" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAmountInsurance" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblinsurance" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblRate" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAmount" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLoan" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblDate" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbxLoan" alignment="0" pref="200" max="32767" attributes="0"/>
-                              <Component id="txtAmount" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtRate" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtInsurance" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtAmountInsurance" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtDuration" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtDate" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtCapital" alignment="0" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnCaculate" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="lblError" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-                          <Component id="btnCaculate" min="-2" pref="100" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
-                          <Component id="lblError" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="lblDuration" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblinsurance" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblRate" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAmount" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblLoan" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxLoan" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtAmount" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtRate" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtInsurance" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtDuration" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtCapital" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                   <Component id="lblLoan" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cbxLoan" min="-2" max="-2" attributes="0"/>
@@ -133,27 +128,19 @@
                   <Component id="lblinsurance" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtInsurance" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="lblAmountInsurance" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtAmountInsurance" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Component id="lblDuration" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtDuration" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="lblDate" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtDate" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="lblCapital" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtCapital" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="lblError" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="btnCaculate" min="-2" pref="32" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -212,29 +199,12 @@
             <Property name="name" type="java.lang.String" value="rateInsurance" noResource="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblAmountInsurance">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Montant de l&apos;assurance"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtAmountInsurance">
-          <Properties>
-            <Property name="name" type="java.lang.String" value="AmountInsurance" noResource="true"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="lblDuration">
           <Properties>
             <Property name="text" type="java.lang.String" value="Dur&#xe9;e en mois"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtDuration">
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblDate">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Premi&#xe8;re &#xe9;cheance"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtDate">
         </Component>
         <Component class="javax.swing.JLabel" name="lblCapital">
           <Properties>
@@ -292,7 +262,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -323,9 +293,9 @@
                   <Component id="lblTotalLoan" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtTotalLoan" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="44" max="32767" attributes="0"/>
                   <Component id="btnSave" min="-2" pref="32" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

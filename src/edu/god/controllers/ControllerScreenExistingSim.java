@@ -25,7 +25,7 @@ import javax.swing.JTable;
  *
  * @author Warren
  */
-public class ControllerScreenExistingSim implements ActionListener, MouseListener, FocusListener {
+public class ControllerScreenExistingSim implements ActionListener, MouseListener {
 
     private final ScreenExistingSim ses;
     private final JTable tblSim;
@@ -36,8 +36,8 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final int idCon;
 
     /**
-     *Default constructor
-     * 
+     * Default constructor
+     *
      * @param ses ScreenExistingSim
      * @param simTab JTable
      * @param next JButton
@@ -107,14 +107,5 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        ses.getRootPane().setDefaultButton((JButton) e.getSource());
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
     }
 }

@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -35,8 +37,8 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JButton btnHome;
     private final JLabel error;
     private final JTextField txtMonthlyWInsurance;
-    private final JTextField txtMonthlyOfInsurance;
     private final JTextField txtMonthlyInsurance;
+    private final JTextField txtMonthly;
     private final JTextField txtTotal;
     private final JTextField txtTotalInsurance;
     private final JTextField txtCost;
@@ -47,9 +49,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JTextField txtAmount;
     private final JTextField txtRate;
     private final JTextField txtInsurance;
-    private final JTextField txtAmountInsurance;
     private final JTextField txtDuration;
-    private final JXDatePicker txtDate;
     private final JTextField txtCapital;
     private final JButton btnCalculate;
     private final boolean modify;
@@ -62,8 +62,8 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      *
      * @param sls ScreenLoanSim
      * @param txtMonthlyWInsurance JTextField
-     * @param txtMonthlyOfInsurance JTextField
      * @param txtMonthlyInsurance JTextField
+     * @param txtMonthly
      * @param txtTotal JTextField
      * @param txtTotalInsurance JTextField
      * @param txtCost JTextField
@@ -71,9 +71,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * @param txtAmount JTextField
      * @param txtRate JTextField
      * @param txtInsurance JTextField
-     * @param txtAmountInsurance JTextField
      * @param txtDuration JTextField
-     * @param txtDate
      * @param txtCapital JTextField
      * @param btnCalculate JButton
      * @param btnSave JButton
@@ -84,11 +82,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * @param idConsultant int
      * @param aId String
      */
-    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyOfInsurance, JTextField txtMonthlyInsurance, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtAmountInsurance, JTextField txtDuration, JXDatePicker txtDate, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId) {
+    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyInsurance, JTextField txtMonthly, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtDuration, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId) {
         this.sls = sls;
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
-        this.txtMonthlyOfInsurance = txtMonthlyOfInsurance;
         this.txtMonthlyInsurance = txtMonthlyInsurance;
+        this.txtMonthly = txtMonthly;
         this.txtTotal = txtTotal;
         this.txtTotalInsurance = txtTotalInsurance;
         this.txtCost = txtCost;
@@ -96,9 +94,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         this.txtAmount = txtAmount;
         this.txtRate = txtRate;
         this.txtInsurance = txtInsurance;
-        this.txtAmountInsurance = txtAmountInsurance;
         this.txtDuration = txtDuration;
-        this.txtDate = txtDate;
         this.txtCapital = txtCapital;
         this.btnCalculate = btnCalculate;
         this.btnSave = btnSave;
@@ -134,7 +130,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
                         System.out.println("idtype = " + idType);
-                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(),txtMonthlyInsurance.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
+                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
                         showDialog(updateLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,7 +138,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
                     try {
                         String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(),txtMonthlyInsurance.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
+                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
                         showDialog(insertLoanSim);
                     } catch (SQLException ex) {
                         Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,7 +146,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 }
             } else if (e.getSource() == btnHome) {
                 sls.dispose();
-                ScreenHome newWindow = new ScreenHome(Integer.parseInt(id));
+                ScreenHome newWindow = new ScreenHome(idCons);
             }
         } else { // end of if( fieldsNotEmpty()) ...
             error.setText("Veuillez saisir tous les champs obligatoires");
@@ -161,28 +157,32 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * the method calcul the loan with the data previously input
      */
     private void calculLoan() {
-        Float amount = Float.parseFloat(txtAmount.getText());
-        Float rate = Float.parseFloat(txtRate.getText());
-        Float rateInsurance = Float.parseFloat(txtInsurance.getText());
-        Float amountInsurance = Float.parseFloat(txtAmountInsurance.getText());
-        Float duration = Float.parseFloat(txtDuration.getText());
-        String date = txtDate.getDate().toString();
-        Float capital = Float.parseFloat(txtCapital.getText());
+        float amount = Float.parseFloat(txtAmount.getText());
+        float rate = Float.parseFloat(txtRate.getText());
+        float insurance = Float.parseFloat(txtInsurance.getText());
+        float duration = Float.parseFloat(txtDuration.getText());
+        float capital = Float.parseFloat(txtCapital.getText());
 
-        Float monthlyWInsurance = (amount - capital) / duration;
-        Float monthlyOfInsurance = 0.0f;
-        Float monthlyInsurance = 0.0f;
+        float interestRate = rate / 100;
+        float insussuranceRate = insurance / 100;
+        
+        float monthlyInterestRate = interestRate / 12; 
+        float monthlyInssuranceRate = insussuranceRate / 12;
+        
+        double monthlyWInsurance = amount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -duration)));
+        float monthlyOfInsurance = amount*monthlyInssuranceRate;
+        double monthlyInsurance = monthlyWInsurance+monthlyOfInsurance;
 
-        Float totalInsurance = 0.0f;
-        Float cost = amount * (rate / 100);
-        Float total = cost - amount;
+        float totalInsurance = amount * insussuranceRate/100 ;
+        float cost = amount * rate / 100;
+        float total = cost - amount;
 
-        txtMonthlyWInsurance.setText(monthlyWInsurance.toString());
-        txtMonthlyOfInsurance.setText("");
-        txtMonthlyInsurance.setText("");
-        txtTotal.setText(total.toString());
-        txtTotalInsurance.setText("");
-        txtCost.setText(cost.toString());
+        txtMonthlyWInsurance.setText(String.valueOf(monthlyWInsurance));
+        txtMonthlyInsurance.setText(String.valueOf(monthlyOfInsurance));
+        txtMonthly.setText(String.valueOf(monthlyInsurance));
+        txtTotal.setText(String.valueOf(total));
+        txtTotalInsurance.setText(String.valueOf(totalInsurance));
+        txtCost.setText(String.valueOf(cost));
     }
 
     /**
@@ -301,9 +301,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { // TODO TEST
-        if (e.getKeyChar() == '.') {
-            txtAmount.setText(txtAmount.getText() + ",");
+    public void keyTyped(KeyEvent e) {
+        Pattern p = Pattern.compile("[0-9.]");
+        Matcher m = p.matcher(String.valueOf(e.getKeyChar()));
+        if(!m.matches()){
+            e.consume();
         }
     }
 
