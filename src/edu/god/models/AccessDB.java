@@ -235,8 +235,7 @@ public class AccessDB implements Constantes {
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
                     ResultSetMetaData metadata = rs.getMetaData();
-                    int nbColumn = metadata.getColumnCount() + 3;
-                    
+                    int nbColumn = metadata.getColumnCount() + 3;                    
                     rs.beforeFirst();
                     while (rs.next()) {
                         String test[] = new String[nbColumn];                      
@@ -252,10 +251,6 @@ public class AccessDB implements Constantes {
 
                         annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
                         test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
-
-                        System.out.println("ma ligne" + Arrays.toString(test));
-                        System.out.println("");
-                        System.out.println("");
                         res.add(test);
                         cpt++;
                     }
