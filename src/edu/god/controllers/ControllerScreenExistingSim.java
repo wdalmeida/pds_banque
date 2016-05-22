@@ -5,12 +5,13 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.AccessDB;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -24,23 +25,33 @@ import javax.swing.JTable;
  *
  * @author Warren
  */
-public class ControllerScreenExistingSim implements ActionListener, MouseListener {
+public class ControllerScreenExistingSim implements ActionListener, MouseListener, FocusListener {
 
     private final ScreenExistingSim ses;
     private final JTable tblSim;
     private final JButton btnModified;
     private final JButton btnCancel;
     private final JButton btnCreate;
-    private final AccessDB db;
     private final String idCust;
     private final int idCon;
 
+    /**
+     *Default constructor
+     * 
+     * @param ses ScreenExistingSim
+     * @param simTab JTable
+     * @param next JButton
+     * @param cancel JButton
+     * @param compare JButton
+     * @param create JButton
+     * @param idCu String
+     * @param idCo int
+     */
     public ControllerScreenExistingSim(ScreenExistingSim ses, JTable simTab, JButton next, JButton cancel, JButton compare, JButton create, String idCu, int idCo) {
         this.ses = ses;
         this.tblSim = simTab;
         this.btnModified = next;
         this.btnCancel = cancel;
-        this.db = AccessDB.getAccessDB();
         idCon = idCo;
         idCust = idCu;
         btnCreate = create;
@@ -84,21 +95,26 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        ses.getRootPane().setDefaultButton((JButton) e.getSource());
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
     }
 }

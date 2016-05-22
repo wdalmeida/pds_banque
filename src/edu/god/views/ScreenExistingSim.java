@@ -5,7 +5,7 @@
  */
 package edu.god.views;
 
-import edu.god.controllers.ControllerScreenCompareSimulation;
+//import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
 import edu.god.models.AccessDB;
 import java.util.ArrayList;
@@ -22,35 +22,53 @@ public class ScreenExistingSim extends javax.swing.JFrame {
     /**
      * Creates new form ScreenExistingSim
      *
-     * @param idConsultant
-     * @param idCustomer
+     * @param idConsultant int
+     * @param idCustomer String
      */
     public ScreenExistingSim(int idConsultant, String idCustomer) {
         initComponents();
-        setTitle(idConsultant + " - " + idCustomer);
         setVisible(true);
         loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
         getData(idCustomer);
 
+        //Add actionListener
         btnCancel.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnModified.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
-        btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer), btnCompareSimulation));
+        btnCompareSimulation.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnNewSim.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
 
-        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        //Add focusListener
+        btnCancel.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnModified.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnCompareSimulation.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnNewSim.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
 
+        //Add mouseListener
+        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
 
-    public void getData(String idCustomer) {
+    /**
+     * The method retrieve the customer last and first name
+     * 
+     * @param idCustomer String
+     */
+    private void getData(String idCustomer) {
         AccessDB bdd = AccessDB.getAccessDB();
         String[] consultant = bdd.getLastFirstNameCustomer(idCustomer);
         lblTitle.setText(lblTitle.getText() + consultant[0] + "." + consultant[1] + " " + consultant[2]);
 
     }
 
-    public void loadDataInTable(ArrayList<String[]> simulations) {
+    /**
+     * The method search and display some information about the customer's simulations
+     * 
+     * 
+     * @param simulations ArrayList<String[]>
+     */
+    private void loadDataInTable(ArrayList<String[]> simulations) {
         System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "mensualité", "Durée en mois"}; // add montant
+        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "mensualité", "Durée en mois"}; // add montant du pret 
         DefaultTableModel model = new DefaultTableModel(title, 0) {
             @Override
             public boolean isCellEditable(int rowIndex, int mColIndex) {
@@ -83,6 +101,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Liste des simulations du client");
 
         lblTitle.setText("Simulation enregistré pour ");
 
@@ -119,11 +138,11 @@ public class ScreenExistingSim extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(btnNewSim)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnModified)
                 .addGap(18, 18, 18)
                 .addComponent(btnCompareSimulation)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
                 .addGap(197, 197, 197)
                 .addComponent(btnCancel)
