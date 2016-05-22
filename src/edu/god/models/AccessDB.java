@@ -691,4 +691,30 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
+    
+     public String getRateAverage() throws SQLException {
+        String rateStr = null;
+        Double rate= 0.0;
+        String query = "SELECT percentage_Rate from Rate";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        //queryPrep.setString(1, agency);
+        ResultSet rs = queryPrep.executeQuery();
+        if (rs.first()) {
+            rate = rs.getDouble("percentage_Rate");
+        }
+        return rateStr = rate.toString();
+    }
+     
+     public String getLoanNumber() throws SQLException {
+        int nbrLoan = 0;
+        String loanCount = null;
+        String query = "SELECT distinct Count(*) as loan_Number from Loan";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        //queryPrep.setString(1, agency);
+        ResultSet rs = queryPrep.executeQuery();
+        if (rs.first()) {
+            nbrLoan = rs.getInt("loan_Number");
+        }
+        return loanCount = Integer.toString(nbrLoan);
+    }
 }
