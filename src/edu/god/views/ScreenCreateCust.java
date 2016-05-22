@@ -25,8 +25,8 @@ public class ScreenCreateCust extends JFrame {
     /**
      * Creates new form ScreenCreateCust
      *
-     * @param idC0
-     * @param sim
+     * @param idC0 int
+     * @param sim boolean
      * @throws java.sql.SQLException
      */
     public ScreenCreateCust(int idC0, boolean sim) throws SQLException {
@@ -57,6 +57,7 @@ public class ScreenCreateCust extends JFrame {
         choiceStatus.stream().forEach((choiceStatu) -> {
             status.addItem(choiceStatu);
         });
+        // if the user has click on "simulate a loan" and choose to create a new user
         if (sim) {
             btnSubmit.addActionListener(new ControllerScreenCreateCust(this, title, lastName, firstName, birthday, nationality, phoneNumber, email, owner, salary, status, street, city, postalCode, idC0, btnSubmit, btnBack,sim));
         } else {

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="Title" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="359" max="-2" attributes="0"/>
+                      <Component id="btnClose" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" alignment="0" min="-2" pref="770" max="-2" attributes="0"/>
+                          <Component id="lblsubtitle" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblMonthlyLoan" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblCapital" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblRate" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMonthlyInsurance" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDuration" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblTotalAmount" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblRatioDebt" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="capitalSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="rateSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyLoanSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyInsuranceSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="durationSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalAmountSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="ratioDebtSimul1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="totalAmountSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="durationSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyInsuranceSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyLoanSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="rateSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="capitalSimul2" min="-2" max="-2" attributes="0"/>
+                          <Component id="ratioDebtSimul2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="ratioDebtSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capitalSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rateSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyLoanSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyInsuranceSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="durationSimul3" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalAmountSimul3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="203" max="-2" attributes="0"/>
+                      <Component id="lblSimulation1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="lblSimulation2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="lblSimulation3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="311" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="Title" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+              <Component id="lblsubtitle" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jScrollPane2" min="-2" pref="130" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblSimulation1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSimulation2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="lblSimulation3" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblCapital" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capitalSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="capitalSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblRate" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rateSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rateSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblMonthlyLoan" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyLoanSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyLoanSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblMonthlyInsurance" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyInsuranceSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="monthlyInsuranceSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblDuration" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="durationSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="durationSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblTotalAmount" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalAmountSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalAmountSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="capitalSimul3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="rateSimul3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="monthlyLoanSimul3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="monthlyInsuranceSimul3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="durationSimul3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="totalAmountSimul3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblRatioDebt" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ratioDebtSimul1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ratioDebtSimul2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ratioDebtSimul3" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="157" max="32767" attributes="0"/>
+              <Component id="btnClose" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="Title">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Comparaison Simulation"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tableCompareSims">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="8" rowCount="0">
+                <Column editable="false" title="Choix" type="java.lang.Object"/>
+                <Column editable="false" title="Type" type="java.lang.Object"/>
+                <Column editable="false" title="Capital" type="java.lang.Object"/>
+                <Column editable="false" title="Interet" type="java.lang.Object"/>
+                <Column editable="false" title="Mens Pret" type="java.lang.Object"/>
+                <Column editable="false" title="Mens Ass" type="java.lang.Object"/>
+                <Column editable="false" title="Duree" type="java.lang.Object"/>
+                <Column editable="false" title="Total &#xe0; rembourser" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="ScreenCompareSimulation_tableCompareSims"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="btnClose">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fermer"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblsubtitle">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Veullez selectionner 1 &#xe0; 3 simulations &#xe0; comparer :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCapital">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Capital"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblRate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Interet"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMonthlyLoan">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mensualite Pret"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMonthlyInsurance">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mensualite Assurance"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDuration">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Duree"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTotalAmount">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Total &#xe0; rembourser"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSimulation1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Simulation 1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="capitalSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="rateSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyLoanSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyInsuranceSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="durationSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totalAmountSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSimulation2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Simulation 2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="capitalSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="rateSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyLoanSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyInsuranceSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="durationSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totalAmountSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSimulation3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Simulation 3"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="capitalSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="rateSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyLoanSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="monthlyInsuranceSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="durationSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totalAmountSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblRatioDebt">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Taux d&apos;endettement"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="ratioDebtSimul1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="11111"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="ratioDebtSimul2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="22222"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="ratioDebtSimul3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="33333"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,8 +27,9 @@ public class ScreenLoanSim extends JFrame {
     /**
      * Creates new form ScreenLoanSim
      *
-     * @param idConsultant
-     * @param idSim
+     * @param idConsultant int
+     * @param id String
+     * @param simulation boolean
      * @throws java.sql.SQLException
      * @throws java.text.ParseException
      */
@@ -39,34 +39,46 @@ public class ScreenLoanSim extends JFrame {
 
         lblError.setText("");
         lblError.setForeground(Color.red);
-        setVisible(true);
         btnSave.setEnabled(false);
+        
+        //load the combobox
         ArrayList<String> loanTypes = AccessDB.getAccessDB().getLoanType();
         cbxLoan.removeAllItems();
+        cbxLoan.addItem("Sélectionner");
         for (String loanType : loanTypes) {
             cbxLoan.addItem(loanType);
         }
-        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation,idConsultant,id));
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation,idConsultant,id));
+        
+        // add ActionListener
+        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtAmountInsurance, txtDuration, txtDate, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+       
+        // if the simulation exist load in the fied the saved data
         if (simulation) {
             loadForm(id);
         }
-
+        txtRate.setText("2");//////////// ou COLINE SI CREATION
+        setVisible(true);
     }
 
+    /**
+     * the method load the fields with the data saved in the database for a given simulation
+     * 
+     * @param idSim String
+     * @throws ParseException 
+     */
     public void loadForm(String idSim) throws ParseException {
         AccessDB db = AccessDB.getAccessDB();
         ArrayList<String> simData = db.getSimByID(idSim);
-        cbxLoan.setSelectedItem(simData.get(simData.size() - 1));
+        cbxLoan.setSelectedItem(simData.get(8));
         txtAmount.setText(simData.get(2));
-        txtRate.setText(simData.get(2));//////////// ou COLINE SI CREATION
-        txtInsurance.setText(simData.get(3));/////////
-        txtAmountInsurance.setText(simData.get(1));//////////
-        txtDuration.setText(simData.get(1));
+        txtInsurance.setText(simData.get(7));/////////
+        txtAmountInsurance.setText(simData.get(7));//////////
+        txtDuration.setText(simData.get(4));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-        txtDate.setDate(new Date(format.parse(simData.get(4)).getTime()));
+        txtDate.setDate(new Date(format.parse(simData.get(5)).getTime()));
         txtCapital.setText(simData.get(1));
     }
 
@@ -83,34 +95,34 @@ public class ScreenLoanSim extends JFrame {
         lblLoan = new javax.swing.JLabel();
         cbxLoan = new javax.swing.JComboBox<>();
         lblAmount = new javax.swing.JLabel();
-        txtAmount = new javax.swing.JFormattedTextField(NumberFormat.getNumberInstance());
+        txtAmount = new javax.swing.JTextField();
         lblRate = new javax.swing.JLabel();
-        txtRate = new javax.swing.JFormattedTextField(NumberFormat.getPercentInstance());
+        txtRate = new javax.swing.JTextField();
         lblinsurance = new javax.swing.JLabel();
-        txtInsurance = new javax.swing.JFormattedTextField(NumberFormat.getPercentInstance());
+        txtInsurance = new javax.swing.JTextField();
         lblAmountInsurance = new javax.swing.JLabel();
-        txtAmountInsurance = new javax.swing.JFormattedTextField(NumberFormat.getNumberInstance());
+        txtAmountInsurance = new javax.swing.JTextField();
         lblDuration = new javax.swing.JLabel();
-        txtDuration = new javax.swing.JFormattedTextField(NumberFormat.getIntegerInstance());
+        txtDuration = new javax.swing.JTextField();
         lblDate = new javax.swing.JLabel();
         txtDate = new JXDatePicker();
         lblCapital = new javax.swing.JLabel();
-        txtCapital = new javax.swing.JFormattedTextField(NumberFormat.getNumberInstance());
+        txtCapital = new javax.swing.JTextField();
         btnCaculate = new javax.swing.JButton();
         lblError = new javax.swing.JLabel();
         PRight = new javax.swing.JPanel();
         lblMonthly = new javax.swing.JLabel();
-        txtMonthly = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtMonthly = new javax.swing.JTextField();
         lblMonthlyWInsurance = new javax.swing.JLabel();
-        txtMonthlyWInsurance = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtMonthlyWInsurance = new javax.swing.JTextField();
         lblMonthlyInsurance = new javax.swing.JLabel();
-        txtMonthlyInsurance = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtMonthlyInsurance = new javax.swing.JTextField();
         lblTotalInterest = new javax.swing.JLabel();
-        txtTotalInterest = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtTotalInterest = new javax.swing.JTextField();
         lblTotalInsurance = new javax.swing.JLabel();
-        txtTotalInsurrance = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtTotalInsurrance = new javax.swing.JTextField();
         lblTotalLoan = new javax.swing.JLabel();
-        txtTotalLoan = new javax.swing.JFormattedTextField(NumberFormat.getCurrencyInstance());
+        txtTotalLoan = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
 
@@ -374,18 +386,18 @@ public class ScreenLoanSim extends JFrame {
     private javax.swing.JLabel lblTotalInterest;
     private javax.swing.JLabel lblTotalLoan;
     private javax.swing.JLabel lblinsurance;
-    private javax.swing.JFormattedTextField txtAmount;
-    private javax.swing.JFormattedTextField txtAmountInsurance;
-    private javax.swing.JFormattedTextField txtCapital;
+    private javax.swing.JTextField txtAmount;
+    private javax.swing.JTextField txtAmountInsurance;
+    private javax.swing.JTextField txtCapital;
     private JXDatePicker txtDate;
-    private javax.swing.JFormattedTextField txtDuration;
-    private javax.swing.JFormattedTextField txtInsurance;
-    private javax.swing.JFormattedTextField txtMonthly;
-    private javax.swing.JFormattedTextField txtMonthlyInsurance;
-    private javax.swing.JFormattedTextField txtMonthlyWInsurance;
-    private javax.swing.JFormattedTextField txtRate;
-    private javax.swing.JFormattedTextField txtTotalInsurrance;
-    private javax.swing.JFormattedTextField txtTotalInterest;
-    private javax.swing.JFormattedTextField txtTotalLoan;
+    private javax.swing.JTextField txtDuration;
+    private javax.swing.JTextField txtInsurance;
+    private javax.swing.JTextField txtMonthly;
+    private javax.swing.JTextField txtMonthlyInsurance;
+    private javax.swing.JTextField txtMonthlyWInsurance;
+    private javax.swing.JTextField txtRate;
+    private javax.swing.JTextField txtTotalInsurrance;
+    private javax.swing.JTextField txtTotalInterest;
+    private javax.swing.JTextField txtTotalLoan;
     // End of variables declaration//GEN-END:variables
 }

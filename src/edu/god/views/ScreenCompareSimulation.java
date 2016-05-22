@@ -1,0 +1,465 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package edu.god.views;
+
+import edu.god.controllers.ControllerScreenCompareSimulation;
+import edu.god.models.AccessDB;
+import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author florent
+ */
+public final class ScreenCompareSimulation extends javax.swing.JFrame {
+
+    /**
+     * Creates new form ScreenCompareSimulation
+     */
+    private int idCustomer;
+    private AccessDB db;
+    private static final int NBRPARAMETERS = 8;
+    private List<String> simul1;
+    private List<String> simul2;
+    private List<String> simul3;
+
+    public ScreenCompareSimulation(int idCustomer0) throws SQLException {
+        this.idCustomer = idCustomer0;
+        loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
+        this.setVisible(true);
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose)); // add ActionListener to btnClose
+        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(this, tableCompareSims, btnClose));  // Add MouseListener to tableCompareSims
+        simul1 = fillemptyList(); // initialize list
+        simul2 = fillemptyList();
+        simul3 = fillemptyList();
+    }
+
+    /**
+     * return a empty list
+     *
+     * @return temp List
+     */
+    public List fillemptyList() {
+        List<String> temp = new ArrayList<>();
+
+        for (int cpt = 0; cpt < NBRPARAMETERS; cpt++) {
+            temp.add("");
+        }
+        return temp;
+    }
+
+    /**
+     * Load data in the Jtable here tatableCompareSims
+     *
+     * @param simulations
+     */
+    public void loadDataInTable(ArrayList<String[]> simulations) {
+        DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
+        tableCompareSims.setModel(model);
+
+        for (String[] sim : simulations) {
+            model.addRow(sim);  // add all simulations of a specifique customer in the model of the JTable
+        }
+    }
+
+    /**
+     * Check if one of 3 list is filled, return false if the lists are empty or
+     * true if one of them is not empty
+     *
+     * @param row
+     * @return tmp
+     */
+    public boolean isSimulationfill(String row) {
+        boolean tmp = false;
+
+        if (simul1.get(0).equals(row)) {
+            tmp = true;
+        } else if (simul2.get(0).equals(row)) {
+            tmp = true;
+        } else if (simul3.get(0).equals(row)) {
+            tmp = true;
+        }
+        return tmp;
+    }
+
+    /**
+     * reset the order of the 3 lists
+     *
+     * @param simulation
+     * @param row
+     */
+    public void setSimulOrder(List simulation, String row) {
+        if (simul1.get(0).equals(row)) {
+            simul1 = simul2;
+            simul2 = simul3;
+            simul3 = simulation;
+        } else if (simul2.get(0).equals(row)) {
+            simul2 = simul3;
+            simul3 = simulation;
+        } else if (simul3.get(0).equals(row)) {
+            simul3 = simulation;
+        }
+    }
+
+    /**
+     * set JLabels for a simulation
+     *
+     * @param simulation
+     */
+    public void setJlabelSimul(List<String> simulation) {
+
+        if (!simul1.get(0).equals(simulation.get(0))) {
+            capitalSimul1.setText(simulation.get(1));
+            rateSimul1.setText(simulation.get(2));
+            monthlyLoanSimul1.setText(simulation.get(3));
+            monthlyInsuranceSimul1.setText(simulation.get(4));
+            durationSimul1.setText(simulation.get(5));
+            totalAmountSimul1.setText(simulation.get(6));
+            ratioDebtSimul1.setText(simulation.get(7));
+
+        } else if (!simul2.get(0).equals(simulation.get(0))) {
+            capitalSimul2.setText(simulation.get(1));
+            rateSimul2.setText(simulation.get(2));
+            monthlyLoanSimul2.setText(simulation.get(3));
+            monthlyInsuranceSimul2.setText(simulation.get(4));
+            durationSimul2.setText(simulation.get(5));
+            totalAmountSimul2.setText(simulation.get(6));
+            ratioDebtSimul2.setText(simulation.get(7));
+
+        } else if (!simul3.get(0).equals(simulation.get(0))) {
+            capitalSimul3.setText(simulation.get(1));
+            rateSimul3.setText(simulation.get(2));
+            monthlyLoanSimul3.setText(simulation.get(3));
+            monthlyInsuranceSimul3.setText(simulation.get(4));
+            durationSimul3.setText(simulation.get(5));
+            totalAmountSimul3.setText(simulation.get(6));
+            ratioDebtSimul3.setText(simulation.get(7));
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        Title = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableCompareSims = new javax.swing.JTable();
+        btnClose = new javax.swing.JButton();
+        lblsubtitle = new javax.swing.JLabel();
+        lblCapital = new javax.swing.JLabel();
+        lblRate = new javax.swing.JLabel();
+        lblMonthlyLoan = new javax.swing.JLabel();
+        lblMonthlyInsurance = new javax.swing.JLabel();
+        lblDuration = new javax.swing.JLabel();
+        lblTotalAmount = new javax.swing.JLabel();
+        lblSimulation1 = new javax.swing.JLabel();
+        capitalSimul1 = new javax.swing.JLabel();
+        rateSimul1 = new javax.swing.JLabel();
+        monthlyLoanSimul1 = new javax.swing.JLabel();
+        monthlyInsuranceSimul1 = new javax.swing.JLabel();
+        durationSimul1 = new javax.swing.JLabel();
+        totalAmountSimul1 = new javax.swing.JLabel();
+        lblSimulation2 = new javax.swing.JLabel();
+        capitalSimul2 = new javax.swing.JLabel();
+        rateSimul2 = new javax.swing.JLabel();
+        monthlyLoanSimul2 = new javax.swing.JLabel();
+        monthlyInsuranceSimul2 = new javax.swing.JLabel();
+        durationSimul2 = new javax.swing.JLabel();
+        totalAmountSimul2 = new javax.swing.JLabel();
+        lblSimulation3 = new javax.swing.JLabel();
+        capitalSimul3 = new javax.swing.JLabel();
+        rateSimul3 = new javax.swing.JLabel();
+        monthlyLoanSimul3 = new javax.swing.JLabel();
+        monthlyInsuranceSimul3 = new javax.swing.JLabel();
+        durationSimul3 = new javax.swing.JLabel();
+        totalAmountSimul3 = new javax.swing.JLabel();
+        lblRatioDebt = new javax.swing.JLabel();
+        ratioDebtSimul1 = new javax.swing.JLabel();
+        ratioDebtSimul2 = new javax.swing.JLabel();
+        ratioDebtSimul3 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Title.setText("Comparaison Simulation");
+
+        tableCompareSims.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Choix", "Type", "Capital", "Interet", "Mens Pret", "Mens Ass", "Duree", "Total à rembourser"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableCompareSims);
+        if (tableCompareSims.getColumnModel().getColumnCount() > 0) {
+            tableCompareSims.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableCompareSims.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tableCompareSims.getColumnModel().getColumn(7).setPreferredWidth(100);
+        }
+
+        btnClose.setText("Fermer");
+
+        lblsubtitle.setText("Veullez selectionner 1 à 3 simulations à comparer :");
+
+        lblCapital.setText("Capital");
+
+        lblRate.setText("Interet");
+
+        lblMonthlyLoan.setText("Mensualite Pret");
+
+        lblMonthlyInsurance.setText("Mensualite Assurance");
+
+        lblDuration.setText("Duree");
+
+        lblTotalAmount.setText("Total à rembourser");
+
+        lblSimulation1.setText("Simulation 1");
+
+        capitalSimul1.setText("11111");
+
+        rateSimul1.setText("11111");
+
+        monthlyLoanSimul1.setText("11111");
+
+        monthlyInsuranceSimul1.setText("11111");
+
+        durationSimul1.setText("11111");
+
+        totalAmountSimul1.setText("11111");
+
+        lblSimulation2.setText("Simulation 2");
+
+        capitalSimul2.setText("22222");
+
+        rateSimul2.setText("22222");
+
+        monthlyLoanSimul2.setText("22222");
+
+        monthlyInsuranceSimul2.setText("22222");
+
+        durationSimul2.setText("22222");
+
+        totalAmountSimul2.setText("22222");
+
+        lblSimulation3.setText("Simulation 3");
+
+        capitalSimul3.setText("33333");
+
+        rateSimul3.setText("33333");
+
+        monthlyLoanSimul3.setText("33333");
+
+        monthlyInsuranceSimul3.setText("33333");
+
+        durationSimul3.setText("33333");
+
+        totalAmountSimul3.setText("33333");
+
+        lblRatioDebt.setText("Taux d'endettement");
+
+        ratioDebtSimul1.setText("11111");
+
+        ratioDebtSimul2.setText("22222");
+
+        ratioDebtSimul3.setText("33333");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(359, 359, 359)
+                        .addComponent(btnClose))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblsubtitle)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblMonthlyLoan)
+                            .addComponent(lblCapital)
+                            .addComponent(lblRate)
+                            .addComponent(lblMonthlyInsurance)
+                            .addComponent(lblDuration)
+                            .addComponent(lblTotalAmount)
+                            .addComponent(lblRatioDebt))
+                        .addGap(90, 90, 90)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(capitalSimul1)
+                            .addComponent(rateSimul1)
+                            .addComponent(monthlyLoanSimul1)
+                            .addComponent(monthlyInsuranceSimul1)
+                            .addComponent(durationSimul1)
+                            .addComponent(totalAmountSimul1)
+                            .addComponent(ratioDebtSimul1))
+                        .addGap(81, 81, 81)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(totalAmountSimul2)
+                            .addComponent(durationSimul2)
+                            .addComponent(monthlyInsuranceSimul2)
+                            .addComponent(monthlyLoanSimul2)
+                            .addComponent(rateSimul2)
+                            .addComponent(capitalSimul2)
+                            .addComponent(ratioDebtSimul2))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ratioDebtSimul3)
+                            .addComponent(capitalSimul3)
+                            .addComponent(rateSimul3)
+                            .addComponent(monthlyLoanSimul3)
+                            .addComponent(monthlyInsuranceSimul3)
+                            .addComponent(durationSimul3)
+                            .addComponent(totalAmountSimul3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(203, 203, 203)
+                        .addComponent(lblSimulation1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSimulation2)
+                        .addGap(38, 38, 38)
+                        .addComponent(lblSimulation3)
+                        .addGap(311, 311, 311)))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Title)
+                .addGap(23, 23, 23)
+                .addComponent(lblsubtitle)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSimulation1)
+                            .addComponent(lblSimulation2)))
+                    .addComponent(lblSimulation3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCapital)
+                            .addComponent(capitalSimul1)
+                            .addComponent(capitalSimul2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblRate)
+                            .addComponent(rateSimul1)
+                            .addComponent(rateSimul2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblMonthlyLoan)
+                            .addComponent(monthlyLoanSimul1)
+                            .addComponent(monthlyLoanSimul2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblMonthlyInsurance)
+                            .addComponent(monthlyInsuranceSimul1)
+                            .addComponent(monthlyInsuranceSimul2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDuration)
+                            .addComponent(durationSimul1)
+                            .addComponent(durationSimul2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTotalAmount)
+                            .addComponent(totalAmountSimul1)
+                            .addComponent(totalAmountSimul2)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(capitalSimul3)
+                        .addGap(18, 18, 18)
+                        .addComponent(rateSimul3)
+                        .addGap(18, 18, 18)
+                        .addComponent(monthlyLoanSimul3)
+                        .addGap(18, 18, 18)
+                        .addComponent(monthlyInsuranceSimul3)
+                        .addGap(18, 18, 18)
+                        .addComponent(durationSimul3)
+                        .addGap(18, 18, 18)
+                        .addComponent(totalAmountSimul3)))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRatioDebt)
+                    .addComponent(ratioDebtSimul1)
+                    .addComponent(ratioDebtSimul2)
+                    .addComponent(ratioDebtSimul3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addComponent(btnClose)
+                .addGap(30, 30, 30))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Title;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JLabel capitalSimul1;
+    private javax.swing.JLabel capitalSimul2;
+    private javax.swing.JLabel capitalSimul3;
+    private javax.swing.JLabel durationSimul1;
+    private javax.swing.JLabel durationSimul2;
+    private javax.swing.JLabel durationSimul3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCapital;
+    private javax.swing.JLabel lblDuration;
+    private javax.swing.JLabel lblMonthlyInsurance;
+    private javax.swing.JLabel lblMonthlyLoan;
+    private javax.swing.JLabel lblRate;
+    private javax.swing.JLabel lblRatioDebt;
+    private javax.swing.JLabel lblSimulation1;
+    private javax.swing.JLabel lblSimulation2;
+    private javax.swing.JLabel lblSimulation3;
+    private javax.swing.JLabel lblTotalAmount;
+    private javax.swing.JLabel lblsubtitle;
+    private javax.swing.JLabel monthlyInsuranceSimul1;
+    private javax.swing.JLabel monthlyInsuranceSimul2;
+    private javax.swing.JLabel monthlyInsuranceSimul3;
+    private javax.swing.JLabel monthlyLoanSimul1;
+    private javax.swing.JLabel monthlyLoanSimul2;
+    private javax.swing.JLabel monthlyLoanSimul3;
+    private javax.swing.JLabel rateSimul1;
+    private javax.swing.JLabel rateSimul2;
+    private javax.swing.JLabel rateSimul3;
+    private javax.swing.JLabel ratioDebtSimul1;
+    private javax.swing.JLabel ratioDebtSimul2;
+    private javax.swing.JLabel ratioDebtSimul3;
+    private javax.swing.JTable tableCompareSims;
+    private javax.swing.JLabel totalAmountSimul1;
+    private javax.swing.JLabel totalAmountSimul2;
+    private javax.swing.JLabel totalAmountSimul3;
+    // End of variables declaration//GEN-END:variables
+}

@@ -20,7 +20,7 @@ import java.text.ParseException;
  *
  * @author florent
  */
-public class ControllerScreenHome implements ActionListener {
+public class ControllerScreenHome implements ActionListener, FocusListener {
 
     private AccessDB bdd;
     private JButton btnCreateCustomer;
@@ -64,5 +64,15 @@ public class ControllerScreenHome implements ActionListener {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        screenHome.getRootPane().setDefaultButton((JButton) e.getSource());
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

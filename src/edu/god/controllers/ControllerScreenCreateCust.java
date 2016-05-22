@@ -110,10 +110,13 @@ public class ControllerScreenCreateCust implements ActionListener {
                 String dateString = sqlDate.toString();
 
                 ClientJavaInsert.clientTcpInsert(encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
-                String idCustomer = bdd.getIDCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
+                String idCustomer = bdd.getIDCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex());
                 JOptionPane.showMessageDialog(scc, "Le client a été ajouté", "Ajout client", JOptionPane.INFORMATION_MESSAGE);
+                // if the boolean is true, the next window will be loan simulation
+                if(goToSim){
                 scc.dispose();
                 ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant,idCustomer,false);
+                }
                 //Object obj = encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
 
                 // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)

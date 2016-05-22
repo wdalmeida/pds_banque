@@ -16,7 +16,8 @@ import javax.swing.JFrame;
  */
 public class ScreenHome extends javax.swing.JFrame {
 
-    private AccessDB bdd;
+    private final AccessDB bdd;
+    private int idConsultant ;
 
     /**
      * Creates new form ScreenHome
@@ -28,9 +29,14 @@ public class ScreenHome extends javax.swing.JFrame {
         this.bdd = AccessDB.getAccessDB();
         this.getConsultantInfo(idC);
         /*get information about a Consultant */
+        // Add ActionListener
         btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
         btnSimulateLoan.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
-
+        
+        //Add FocusListener
+        btnCreateCustomer.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        btnSimulateLoan.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        
         this.setVisible(true);
     }
 
@@ -127,7 +133,7 @@ public class ScreenHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame ScreenType = new ScreenType();
+        JFrame ScreenType = new ScreenType(idConsultant);
         ScreenType.setVisible(true);
         this.dispose();
         this.setVisible(false);

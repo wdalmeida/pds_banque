@@ -4,6 +4,16 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import edu.god.models.AccessDB;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,14 +21,18 @@ import javax.swing.JOptionPane;
  * @author Coline
  */
 public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
-
+    private final AccessDB bdd;
+    private int idConsultant;
     /**
      * Creates new form ScreenModifyRates
      */
-    public ScreenModifyRatesConsumption() {
-        initComponents();
+    public ScreenModifyRatesConsumption(int idConsultant) throws SQLException {
+           initComponents();
+       this.bdd =AccessDB.getAccessDB();
+        String idAgency = bdd.getidAgency(idConsultant);
+        jTextField1.setText(bdd.getratesConsumption(idAgency));
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,6 +60,7 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
         jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
 
         jLabel1.setText("Consommation");
 
@@ -142,9 +157,9 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+            
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ScreenType screenT =new ScreenType();
+        ScreenType screenT =new ScreenType(idConsultant);
         screenT.setVisible(true);
         this. setVisible(false);
         this.dispose();
@@ -154,40 +169,12 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
             JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ScreenModifyRatesConsumption.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ScreenModifyRatesConsumption().setVisible(true);
-            }
-        });
+    public void loadForm(String idSim) throws ParseException {
+        AccessDB db = AccessDB.getAccessDB();
+        ArrayList<String> simData = db.getSimByID(idSim);
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

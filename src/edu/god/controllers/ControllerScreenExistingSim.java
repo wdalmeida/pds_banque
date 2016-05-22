@@ -5,12 +5,14 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.AccessDB;
+import edu.god.views.ScreenCompareSimulation;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
@@ -24,27 +26,37 @@ import javax.swing.JTable;
  *
  * @author Warren
  */
-public class ControllerScreenExistingSim implements ActionListener, MouseListener {
+public class ControllerScreenExistingSim implements ActionListener, MouseListener, FocusListener {
 
     private final ScreenExistingSim ses;
     private final JTable tblSim;
     private final JButton btnModified;
     private final JButton btnCancel;
-    private final JButton btnCompare;
     private final JButton btnCreate;
-    private final AccessDB db;
+    private final JButton btnCompareSimulation;
     private final String idCust;
     private final int idCon;
 
-    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable Simtab, JButton next, JButton cancel, JButton compare, JButton create, String idCu, int idCo) {
+    /**
+     *Default constructor
+     * 
+     * @param ses ScreenExistingSim
+     * @param simTab JTable
+     * @param next JButton
+     * @param cancel JButton
+     * @param compare JButton
+     * @param create JButton
+     * @param idCu String
+     * @param idCo int
+     */
+    public ControllerScreenExistingSim(ScreenExistingSim ses, JTable simTab, JButton next, JButton cancel, JButton compare, JButton create, String idCu, int idCo) {
         this.ses = ses;
-        this.tblSim = Simtab;
+        this.tblSim = simTab;
         this.btnModified = next;
         this.btnCancel = cancel;
-        this.db = AccessDB.getAccessDB();
+        this.btnCompareSimulation = compare;
         idCon = idCo;
         idCust = idCu;
-        btnCompare = compare;
         btnCreate = create;
     }
 
@@ -64,12 +76,12 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         } else if (e.getSource() == btnCreate) {
             ses.dispose();
             try {
-                ScreenLoanSim newWindow = new ScreenLoanSim(idCon, tblSim.getModel().getValueAt(tblSim.getSelectedRow(), 0).toString(), false);
+                ScreenLoanSim newWindow = new ScreenLoanSim(idCon, idCust, false);
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } else if (e.getSource() == btnCompare) {
+        } else if (e.getSource() == btnCompareSimulation) {
+            ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
         }
     }
 
@@ -87,21 +99,26 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        ses.getRootPane().setDefaultButton((JButton) e.getSource());
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
     }
 }

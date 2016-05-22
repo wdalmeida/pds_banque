@@ -21,44 +21,67 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenExistingSim
-     * @param idConsultant
-     * @param idCustomer
+     *
+     * @param idConsultant int
+     * @param idCustomer String
      */
     public ScreenExistingSim(int idConsultant, String idCustomer) {
         initComponents();
-        setTitle(idConsultant+" - "+idCustomer);
         setVisible(true);
         loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
         getData(idCustomer);
-        
-        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim,idCustomer,idConsultant));
-      //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation());
+
+        //Add actionListener
+        btnCancel.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnModified.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnCompareSimulation.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnNewSim.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+
+        //Add focusListener
+        btnCancel.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnModified.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnCompareSimulation.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+        btnNewSim.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
+
+        //Add mouseListener
+        tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
     }
-    
-    public void getData(String idCustomer) {
+
+    /**
+     * The method retrieve the customer last and first name
+     * 
+     * @param idCustomer String
+     */
+    private void getData(String idCustomer) {
         AccessDB bdd = AccessDB.getAccessDB();
         String[] consultant = bdd.getLastFirstNameCustomer(idCustomer);
-        lblTitle.setText(lblTitle.getText()+ consultant[0]+"." + consultant[1] + " " + consultant[2]);
-   
+        lblTitle.setText(lblTitle.getText() + consultant[0] + "." + consultant[1] + " " + consultant[2]);
+
     }
-    public void loadDataInTable(ArrayList<String[]> simulations) {
+
+    /**
+     * The method search and display some information about the customer's simulations
+     * 
+     * 
+     * @param simulations ArrayList<String[]>
+     */
+    private void loadDataInTable(ArrayList<String[]> simulations) {
         System.out.println(Arrays.toString(simulations.toArray()));
-        String title[] = {"IDSIM","Type", "Date", "taux d'interet", "montant", "mensuailté","IDCONSULTANT"};
+        String title[] = {"IDSIM", "Type", "Date", "taux d'interet", "mensualité", "Durée en mois"}; // add montant du pret 
         DefaultTableModel model = new DefaultTableModel(title, 0) {
             @Override
             public boolean isCellEditable(int rowIndex, int mColIndex) {
                 return false;
             }
         };
-        for (String[] sim : simulations) {
+        simulations.stream().forEach((sim) -> {
             model.addRow(sim);
-        }
+        });
         tblSims.setModel(model);
         TableColumnModel tcm = tblSims.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
-        tcm.removeColumn(tcm.getColumn(tblSims.getColumnCount()-1));
-
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,6 +100,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Liste des simulations du client");
 
         lblTitle.setText("Simulation enregistré pour ");
 
@@ -119,7 +143,7 @@ public class ScreenExistingSim extends javax.swing.JFrame {
                 .addComponent(btnCompareSimulation)
                 .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
-                .addGap(202, 202, 202)
+                .addGap(197, 197, 197)
                 .addComponent(btnCancel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

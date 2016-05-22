@@ -14,6 +14,8 @@ import java.sql.*;
 import java.util.*;
 import edu.god.common.contents.*;
 import edu.god.entities.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class AccessDB implements Constantes {
 
@@ -189,6 +191,15 @@ public class AccessDB implements Constantes {
         return null;
     }
 
+    /**
+     * Return customers by the last and first name and the postal code
+     *
+     * @param lastN String
+     * @param firstN String
+     * @param pc String
+     * @return res ArrayList<String>
+     * @throws SQLException
+     */
     public ArrayList<String[]> getCustomer(String lastN, String firstN, String pc) throws SQLException {
         String query = "SELECT id_Customer,title_Customer,last_Name_Customer,first_Name_Customer,street_Customer"
                 + ",pc_Customer,city_Customer,phone_Customer,email_Customer,birthday_Customer,nationality_Customer"
@@ -203,9 +214,9 @@ public class AccessDB implements Constantes {
                 if (rs.first()) {
                     ResultSetMetaData metadata = rs.getMetaData();
                     int nbColumn = metadata.getColumnCount();
-                    String test[] = new String[nbColumn];
                     rs.beforeFirst();
                     while (rs.next()) {
+                        String test[] = new String[nbColumn];
                         for (int i = 0; i < nbColumn; i++) {
                             test[i] = rs.getString(i + 1);
                         }
@@ -219,42 +230,83 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-    
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) throws SQLException {
-        String query = "";
-        ResultSet resultat = null;
-        ArrayList simulationLoans = new ArrayList();
+ /**
+  * return all simulation of a customer
+  * @param idCustomer
+  * @return res ArrayList<String>
+  */
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
 
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
+        ArrayList<String[]> res = new ArrayList();
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
+        int cpt = 1;
         try {
-            query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer='"+idCustomer+"'";
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                    simulationLoans.add(rs.getRow());
-                    System.out.println(rs.getRow());
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount() + 3;
+
+                    rs.beforeFirst();
                     while (rs.next()) {
-                        simulationLoans.add(rs.getRow());
-                        System.out.println(rs.getRow());
+                        String test[] = new String[nbColumn];
+                        test[0] = Integer.toString(cpt);
+                        test[1] = rs.getString(1);
+                        test[2] = nf.format(Integer.parseInt(rs.getString(2)));
+                        test[3] = rs.getString(3);
+                        monthlyInterestRate = Integer.parseInt(rs.getString(3)) / 12.0;
+                        monthlyPayment = Integer.parseInt(rs.getString(2)) * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -Integer.parseInt(rs.getString(5))))) + Integer.parseInt(rs.getString(4));
+                        test[4] = nf.format(Double.parseDouble(Double.toString(monthlyPayment)));
+                        test[5] = rs.getString(4);
+                        test[6] = rs.getString(5);
+
+                        annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
+                        test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
+                        res.add(test);
+                        cpt++;
                     }
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Erreur ! La requete" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
-        return simulationLoans;
+        return res;
     }
 
-    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {
+    /**
+     * Return the customer id with all the parameter required to insert him
+     *
+     * @param title String
+     * @param lastN String
+     * @param firstN String
+     * @param salary Float
+     * @param street String
+     * @param pc String
+     * @param city String
+     * @param phone String
+     * @param email String
+     * @param birthday String
+     * @param owner boolean
+     * @param nation String
+     * @param idConsultant int
+     * @param status int
+     * @return res String
+     */
+    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int status) {
         String query = "SELECT id_Customer"
-                + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
+                + " FROM Customer WHERE title_Customer=? AND last_Name_Customer=? AND first_Name_Customer=? AND salary_Customer=? AND street_Customer=?"
+                + " AND pc_Customer=? AND city_Customer=? AND phone_Customer=? AND email_Customer=? AND birthday_Customer=? AND nationality_Customer=? "
+                + " AND nationality_Customer=? AND id_Consultant=? AND statut=? ; ";
         String res = "";
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setString(1, title);
             queryPrep.setString(2, lastN);
             queryPrep.setString(3, firstN);
-            queryPrep.setString(4, salary.toString());
+            queryPrep.setFloat(4, salary);
             queryPrep.setString(5, street);
             queryPrep.setString(6, pc);
             queryPrep.setString(7, city);
@@ -264,7 +316,6 @@ public class AccessDB implements Constantes {
             queryPrep.setBoolean(11, owner);
             queryPrep.setString(12, nation);
             queryPrep.setInt(13, idConsultant);
-            queryPrep.setInt(14, user);
             queryPrep.setInt(15, status);
 
             try (ResultSet rs = queryPrep.executeQuery()) {
@@ -279,6 +330,12 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return the last and the first name of a customer
+     *
+     * @param idCustomer String
+     * @return res Strin[]
+     */
     public String[] getLastFirstNameCustomer(String idCustomer) {
         String query = "SELECT title_Customer, last_Name_Customer, first_Name_Customer"
                 + " FROM Customer WHERE id_Customer =? ; ";
@@ -301,9 +358,16 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return the id, the type, the date, the rate,the monthly and the duration
+     * for all the sim of the given customer
+     *
+     * @param idCustomer String
+     * @return res ArrayList<String>
+     */
     public ArrayList<String[]> getDateTypeSims(String idCustomer) {
-        String query = "SELECT id_Sim, description_LoanRef, date_Sim,id_Rate,monthly_Sim, duration_Sim "
-                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Customer =? ; ";
+        String query = "SELECT id_Sim, description_LoanRef, date_Sim,percentage_Rate,monthly_Sim, duration_Sim "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate WHERE id_Customer =? ; ";
         ArrayList<String[]> res = new ArrayList();
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -312,9 +376,9 @@ public class AccessDB implements Constantes {
                 if (rs.first()) {
                     ResultSetMetaData metadata = rs.getMetaData();
                     int nbColumn = metadata.getColumnCount();
-                    String test[] = new String[nbColumn];
                     rs.beforeFirst();
                     while (rs.next()) {
+                        String test[] = new String[nbColumn];
                         for (int i = 0; i < nbColumn; i++) {
                             test[i] = rs.getString(i + 1);
                         }
@@ -329,9 +393,15 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return all the simulation for a simulation
+     *
+     * @param idSim String
+     * @return res ArrayList<String>
+     */
     public ArrayList<String> getSimByID(String idSim) {
-        String query = "SELECT LoanSimulation.*, description_LoanRef "
-                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Sim =? ;";
+        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,amount_Insurance, description_LoanRef,percentage_Rate, id_Customer "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate,Insurance WHERE id_Sim =? ;";
         ArrayList<String> res = new ArrayList();
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -353,6 +423,12 @@ public class AccessDB implements Constantes {
         return res;
     }
 
+    /**
+     * Return all the type of loan
+     *
+     * @return res ArrayList<String>
+     * @throws SQLException
+     */
     public ArrayList<String> getLoanType() throws SQLException {
         ArrayList<String> res = new ArrayList();
         Statement stmt = conn.createStatement();
@@ -367,37 +443,252 @@ public class AccessDB implements Constantes {
         return res;
     }
 
-    public int insertLoanSim(String capital, String amount, String duration, String date, String statut, String idConsultant, String idCustomer, String idInsurance, String idRate ,String loanType) throws SQLException {
-        //  java.util.Date utilDate = new java.util.Date();
-        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
-        String query = "INSERT INTO LoanSimulation ('capital_Sim','total_Amount_Sim','duration_Sim','date_Sim','statut_Sim','id_Consultant,'id_Customer','id_Insurance','id_Rate','id_LoanRef') VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+    /**
+     * The method insert a new simulation in the database
+     *
+     * @param capital String
+     * @param amount String
+     * @param monthly String
+     * @param duration String
+     * @param date String
+     * @param statut String
+     * @param idConsultant int
+     * @param idCustomer String
+     * @param idInsurance String
+     * @param idRate String
+     * @param loanType String
+     * @return
+     * @throws SQLException
+     */
+    public int insertLoanSim(String capital, String amount, String monthly, String duration, String date, String statut, int idConsultant, String idCustomer, String idInsurance, String idRate, String loanType) throws SQLException {
+        String query = "INSERT INTO LoanSimulation (capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,id_Consultant,id_Customer,id_Insurance,id_Rate,id_LoanRef) VALUES (?,?,?,?,?,?,?,?,?,?) ; ";
+        System.out.println(query);
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setString(1, capital);
         queryPrep.setString(2, amount);
-        queryPrep.setString(3, duration);
-        queryPrep.setString(4, date);
-        queryPrep.setString(5, statut);
-        queryPrep.setString(6, idConsultant);
-        queryPrep.setString(7, idCustomer);
-        queryPrep.setString(8, idInsurance);
-        queryPrep.setString(9, idRate);
-        queryPrep.setString(10, loanType);
+        queryPrep.setString(3, monthly);
+        queryPrep.setString(4, duration);
+        queryPrep.setString(5, date);
+        queryPrep.setString(6, statut);
+        queryPrep.setInt(7, idConsultant);
+        queryPrep.setString(8, idCustomer);
+        queryPrep.setString(9, idInsurance);
+        queryPrep.setString(10, idRate);
+        queryPrep.setString(11, loanType);
+        System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
     }
-    public int updateLoanSim(String idSim, String capital, String amount, String duration, String date, String statut, String idConsultant, String idInsurance, String idRate ,String loanType) throws SQLException {
-        //  java.util.Date utilDate = new java.util.Date();
-        //  java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
-        String query = "UPDATE LoanSimulation set capital_Sim=?, total_Amount_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, idConsultant=?, id_Insurance=? ,id_Rate=? WHERE id_Sim=? ;";
+
+    /**
+     * The method update a simulation in the table LoanSimulation with the given
+     * parameter
+     *
+     * @param idSim String
+     * @param capital String
+     * @param amount String
+     * @param monthly String
+     * @param duration String
+     * @param date String
+     * @param statut String
+     * @param idConsultant int
+     * @param idInsurance String
+     * @param idRate String
+     * @param loanType String
+     * @return int
+     * @throws SQLException
+     */
+    public int updateLoanSim(String idSim, String capital, String amount, String monthly, String duration, String date, String statut, int idConsultant, String idInsurance, String idRate, String loanType) throws SQLException {
+        String query = "UPDATE LoanSimulation set capital_Sim=?,amount_Sim,monthly_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, id_Consultant=?, id_Insurance=? ,id_Rate=?, id_LoanRef=? WHERE id_Sim=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setString(1, capital);
         queryPrep.setString(2, amount);
-        queryPrep.setString(3, duration);
-        queryPrep.setString(4, date);
-        queryPrep.setString(5, statut);
-        queryPrep.setString(6, idConsultant);
+        queryPrep.setString(3, monthly);
+        queryPrep.setString(4, duration);
+        queryPrep.setString(5, date);
+        queryPrep.setString(6, statut);
+        queryPrep.setInt(7, idConsultant);
         queryPrep.setString(8, idInsurance);
         queryPrep.setString(9, idRate);
         queryPrep.setString(10, loanType);
+        queryPrep.setString(11, idSim);
+
+        System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
+    }
+
+    /**
+     * Return the customer id which match with simulation
+     *
+     * @param id String id of a simulation
+     * @return res String
+     * @throws SQLException
+     */
+    public String getIdCustInSim(String id) throws SQLException {
+        String res = null;
+        String query = "SELECT id_Customer from LoanSimulation where id_Sim=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, id);
+        ResultSet rs = queryPrep.executeQuery();
+        if (rs.first()) {
+            res = rs.getString("id_Customer");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(res);
+        return res;
+    }
+
+    /*Get rates Consumption */
+    public String getratesConsumption(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesConsumption from Agency where id_agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesConsumption");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Personnel */
+    public String getratesPersonal(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesPersonel from Agency where id_agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesPersonel");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Property */
+    public String getratesProperty(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProperty");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Project */
+    public String getratesProj(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProject from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProject");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Repurchase */
+    public String getratesRepurchase(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesRepurchase");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+
+    /*Get rates Vehicles */
+    public String getratesVehicles(String idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesVehicles");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+ /*Get id agency user*/
+    public String getidAgency(int idConsultant) throws SQLException {
+        String chiff = null;
+        String query = "SELECT idAgency FROM Consultant where id_Consultant=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idConsultant);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("id_Agency");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    /**
+     * Return the id of the description
+     *
+     * @param selectedItem String
+     * @return res String
+     * @throws SQLException
+     */
+    public String getIdLoanType(String selectedItem) throws SQLException {
+        String res = null;
+        String query = "SELECT id_LoanRef from LoanRef where description_LoanRef=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, selectedItem);
+        ResultSet rs = queryPrep.executeQuery();
+        if (rs.first()) {
+            res = rs.getString("id_LoanRef");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(res);
+
+        return res;
+    }
+
+    /**
+     * Return a table which contains the delimeter values for a simulation's
+     * type
+     *
+     * @param idType String
+     * @return res int[]
+     */
+    public int[] getParambyID(String idType) {
+        String query = "SELECT min_Amount_LoanRef, max_Amount_LoanRef, min_Duration_LoanRef, max_Duration_LoanRef"
+                + " FROM LoanRef WHERE id_LoanRef =? ; ";
+        int res[] = new int[4];
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idType);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getInt(1);
+                    res[1] = rs.getInt(2);
+                    res[2] = rs.getInt(3);
+                    res[3] = rs.getInt(4);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
     }
 }
