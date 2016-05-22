@@ -22,8 +22,6 @@ import javax.swing.JTable;
  * @author florent
  */
 public class ControllerScreenCompareSimulation implements ActionListener, MouseListener {
-
-    private JButton btnCompareSimulation;
     private JButton btnClose;
     private ScreenCompareSimulation screenCompareSimulation;
     private int idCustomer;
@@ -34,14 +32,9 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
     private List<String> simulation;
 
     /**
-     * @param idCustomer0
-     * @param btnCompareSimulation0
+     * @param screenCompareSimulation0
+     * @param btnClose0
      */
-    public ControllerScreenCompareSimulation(int idCustomer0, JButton btnCompareSimulation0) {
-        this.btnCompareSimulation = btnCompareSimulation0;
-        this.idCustomer = idCustomer0;
-    }
-
     public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
         this.btnClose = btnClose0;
         this.screenCompareSimulation = screenCompareSimulation0;
@@ -55,14 +48,8 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnCompareSimulation) {
-            try {
-                ScreenCompareSimulation scs = new ScreenCompareSimulation(idCustomer);
-            } catch (SQLException ex) {
-                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (e.getSource() == btnClose) {
+    public void actionPerformed(ActionEvent e) {        
+        if (e.getSource() == btnClose) {
             screenCompareSimulation.dispose();
             screenCompareSimulation.setVisible(false);
         }
@@ -83,27 +70,22 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 1) {
-            if (!screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) 
-            {
+            if (!screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) {
                 this.setListSimulation(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 3), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 4), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 5), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 6), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 7));
-                
-                if (!firstSimul && !secondSimul && !thirdSimul) 
-                {
+
+                if (!firstSimul && !secondSimul && !thirdSimul) {
                     screenCompareSimulation.setJlabelSimul(simulation);
                     firstSimul = true;
-                } else if (firstSimul && !secondSimul && !thirdSimul) 
-                {
+                } else if (firstSimul && !secondSimul && !thirdSimul) {
                     screenCompareSimulation.setJlabelSimul(simulation);
                     secondSimul = true;
-                } else if (firstSimul && secondSimul && !thirdSimul) 
-                {
+                } else if (firstSimul && secondSimul && !thirdSimul) {
                     screenCompareSimulation.setJlabelSimul(simulation);
                     thirdSimul = true;
                 }
-            }else if (screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) 
-            {
-                this.setListSimulation("","","","","","","");
-                screenCompareSimulation.setSimulOrder(simulation,tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString());
+            } else if (screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) {
+                this.setListSimulation("", "", "", "", "", "", "");
+                screenCompareSimulation.setSimulOrder(simulation, tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString());
             }
         }
     }

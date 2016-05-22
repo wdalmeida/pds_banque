@@ -5,6 +5,7 @@
  */
 package edu.god.controllers;
 
+import edu.god.views.ScreenCompareSimulation;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
@@ -32,6 +33,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
     private final JButton btnModified;
     private final JButton btnCancel;
     private final JButton btnCreate;
+    private final JButton btnCompareSimulation;
     private final String idCust;
     private final int idCon;
 
@@ -56,6 +58,10 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         idCust = idCu;
         btnCreate = create;
     }
+    public ControllerScreenExistingSim(String idCustomer0,JButton btnCompareSimulation0 ) {
+        idCust = idCustomer0;
+        btnCompareSimulation = btnCompareSimulation0;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -77,7 +83,8 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+        } else if (e.getSource() == btnCompareSimulation) {
+            ScreenCompareSimulation scs = new ScreenCompareSimulation(idCustomer);
         }
     }
 
