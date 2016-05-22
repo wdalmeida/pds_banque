@@ -16,14 +16,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author florent
  */
-public class ScreenCompareSimulation extends javax.swing.JFrame {
+public final class ScreenCompareSimulation extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenCompareSimulation
      */
     private int idCustomer;
     private AccessDB db;
-    private static final int nbrParemeters = 8;
+    private static final int NBRPARAMETERS = 8;
     private List<String> simul1;
     private List<String> simul2;
     private List<String> simul3;
@@ -32,22 +32,32 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         this.idCustomer = idCustomer0;
         loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
         this.setVisible(true);
-        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose));
-        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(this, tableCompareSims, btnClose));
-        simul1 = fillemptyList();
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose)); // add ActionListener to btnClose
+        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(this, tableCompareSims, btnClose));  // Add MouseListener to tableCompareSims
+        simul1 = fillemptyList(); // initialize list
         simul2 = fillemptyList();
         simul3 = fillemptyList();
     }
 
+    /**
+     * return a empty list
+     *
+     * @return temp List
+     */
     public List fillemptyList() {
         List<String> temp = new ArrayList<>();
 
-        for (int cpt = 0; cpt < nbrParemeters; cpt++) {
+        for (int cpt = 0; cpt < NBRPARAMETERS; cpt++) {
             temp.add("");
         }
         return temp;
     }
 
+    /**
+     * Load data in the Jtable here tatableCompareSims
+     *
+     * @param simulations
+     */
     public void loadDataInTable(ArrayList<String[]> simulations) {
         DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
         tableCompareSims.setModel(model);
@@ -57,6 +67,13 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Check if one of 3 list is filled, return false if the lists are empty or
+     * true if one of them is not empty
+     *
+     * @param row
+     * @return tmp
+     */
     public boolean isSimulationfill(String row) {
         boolean tmp = false;
 
@@ -70,6 +87,12 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         return tmp;
     }
 
+    /**
+     * reset the order of the 3 lists
+     *
+     * @param simulation
+     * @param row
+     */
     public void setSimulOrder(List simulation, String row) {
         if (simul1.get(0).equals(row)) {
             simul1 = simul2;
@@ -83,10 +106,14 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * set JLabels for a simulation
+     *
+     * @param simulation
+     */
     public void setJlabelSimul(List<String> simulation) {
-        
-        if (!simul1.get(0).equals(simulation.get(0))) 
-        {
+
+        if (!simul1.get(0).equals(simulation.get(0))) {
             capitalSimul1.setText(simulation.get(1));
             rateSimul1.setText(simulation.get(2));
             monthlyLoanSimul1.setText(simulation.get(3));
@@ -95,8 +122,7 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             totalAmountSimul1.setText(simulation.get(6));
             ratioDebtSimul1.setText(simulation.get(7));
 
-        } else if (!simul2.get(0).equals(simulation.get(0))) 
-        {
+        } else if (!simul2.get(0).equals(simulation.get(0))) {
             capitalSimul2.setText(simulation.get(1));
             rateSimul2.setText(simulation.get(2));
             monthlyLoanSimul2.setText(simulation.get(3));
@@ -104,9 +130,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul2.setText(simulation.get(5));
             totalAmountSimul2.setText(simulation.get(6));
             ratioDebtSimul2.setText(simulation.get(7));
-            
-        } else if (!simul3.get(0).equals(simulation.get(0))) 
-        {
+
+        } else if (!simul3.get(0).equals(simulation.get(0))) {
             capitalSimul3.setText(simulation.get(1));
             rateSimul3.setText(simulation.get(2));
             monthlyLoanSimul3.setText(simulation.get(3));

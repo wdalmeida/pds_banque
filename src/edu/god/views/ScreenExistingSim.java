@@ -6,7 +6,6 @@
 package edu.god.views;
 
 //import edu.god.controllers.ControllerScreenCompareSimulation;
-import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
 import edu.god.models.AccessDB;
 import java.util.ArrayList;
@@ -35,13 +34,13 @@ public class ScreenExistingSim extends javax.swing.JFrame {
         //Add actionListener
         btnCancel.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnModified.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
-        btnCompareSimulation.addActionListener(new ControllerScreenExistingSim(idCustomer,btnCompareSimulation));
+        btnCompareSimulation.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnNewSim.addActionListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
 
         //Add focusListener
         btnCancel.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnModified.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
-        btnCompareSimulation.addFocusListener(new ControllerScreenExistingSim(idCustomer,btnCompareSimulation));
+        btnCompareSimulation.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
         btnNewSim.addFocusListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
 
         //Add mouseListener

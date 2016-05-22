@@ -10,10 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
@@ -22,6 +19,7 @@ import javax.swing.JTable;
  * @author florent
  */
 public class ControllerScreenCompareSimulation implements ActionListener, MouseListener {
+
     private JButton btnClose;
     private ScreenCompareSimulation screenCompareSimulation;
     private int idCustomer;
@@ -41,20 +39,38 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
         simulation = screenCompareSimulation.fillemptyList();
     }
 
+    /**
+     * use to fill up the JTable 
+     * @param screenCompareSimulation0
+     * @param tableCompareSims0
+     * @param btnClose0
+     */
     public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, JButton btnClose0) {
         this.btnClose = btnClose0;
         this.screenCompareSimulation = screenCompareSimulation0;
         this.tableCompareSims = tableCompareSims0;
+        simulation = screenCompareSimulation.fillemptyList();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {        
+    public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnClose) {
             screenCompareSimulation.dispose();
             screenCompareSimulation.setVisible(false);
         }
     }
 
+    /**
+     * fill a temporary list to add to a simulation after
+     *
+     * @param ligne
+     * @param capital
+     * @param rate
+     * @param monthlyLoan
+     * @param monthlyInsurance
+     * @param duration
+     * @param totalPayment
+     */
     public void setListSimulation(Object ligne, Object capital, Object rate, Object monthlyLoan, Object monthlyInsurance, Object duration, Object totalPayment) {
 
         simulation.add(ligne.toString());

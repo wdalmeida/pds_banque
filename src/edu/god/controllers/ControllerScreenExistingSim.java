@@ -54,13 +54,10 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
         this.tblSim = simTab;
         this.btnModified = next;
         this.btnCancel = cancel;
+        this.btnCompareSimulation = compare;
         idCon = idCo;
         idCust = idCu;
         btnCreate = create;
-    }
-    public ControllerScreenExistingSim(String idCustomer0,JButton btnCompareSimulation0 ) {
-        idCust = idCustomer0;
-        btnCompareSimulation = btnCompareSimulation0;
     }
 
     @Override
@@ -84,7 +81,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnCompareSimulation) {
-            ScreenCompareSimulation scs = new ScreenCompareSimulation(idCustomer);
+            ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
         }
     }
 
