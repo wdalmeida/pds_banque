@@ -6,12 +6,15 @@
 package edu.god.controllers;
 
 import edu.god.entities.Indicator;
+import edu.god.entities.IndicatorTable;
 import edu.god.models.AccessDB;
 import edu.god.views.ScreenIndicators;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -45,7 +48,17 @@ public class ControllerScreenIndicator implements ActionListener{
     
     public void actionPerformed(ActionEvent e) {
         
+        if (e.getSource() == refreshJButton){
+            try {
+                indicatorJtable.setModel(new IndicatorTable());
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           indicatorJtable.setVisible(true);
         }
+            
+        }   
+    
         
    
     
