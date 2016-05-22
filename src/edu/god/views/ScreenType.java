@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package edu.god.views;
+import edu.god.models.AccessDB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.nio.file.Files.*;
 import static java.rmi.Naming.*;
+import java.sql.SQLException;
 import static java.util.Collections.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
@@ -17,12 +21,15 @@ import javax.swing.JFrame;
  * @author Coline
  */
 public class ScreenType extends javax.swing.JFrame {
-
+    private final AccessDB bdd;
+    private int idConsultant;
     /**
      * Creates new form ScreenType
      */
-    public ScreenType() {
+    public ScreenType(int idConsultant) {
         initComponents();
+        this.bdd =AccessDB.getAccessDB();
+        this.idConsultant=idConsultant;
     }
 
     /**
@@ -106,46 +113,80 @@ public class ScreenType extends javax.swing.JFrame {
 
                 String s = (String) jComboBox1.getSelectedItem();
                 switch (s) {
+                    /*Clic on case Consuption*/
                     case "Consommation":
-                        ScreenModifyRatesConsumption screen = new ScreenModifyRatesConsumption();
-                        screen.setVisible(true);
+                        ScreenModifyRatesConsumption screen;
+       try {
+           /*window if choice Consumption*/
+           screen = new ScreenModifyRatesConsumption(idConsultant);
+           screen.setVisible(true);
+           /*not visible window screentype*/
                        this. setVisible(false);
                        this.dispose();
+       } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }
                         break;
+/*Clic on case Personal*/
                     case "Personel":
-                        ScreenModifyRatesPersonal screenP = new ScreenModifyRatesPersonal();
-                        screenP.setVisible(true);
+                        ScreenModifyRatesPersonal screenP;
+       try {
+           screenP = new ScreenModifyRatesPersonal(idConsultant);
+           screenP.setVisible(true);
                        this. setVisible(false);
                        this.dispose();// Ce qui se passe
-
+       } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       /*Clic on case Property*/
                     case "Immobilier":
-                         ScreenModifyRatesProperty screenI = new ScreenModifyRatesProperty();
-                        screenI.setVisible(true);
+                         ScreenModifyRatesProperty screenI;
+       try {
+           screenI = new ScreenModifyRatesProperty(idConsultant);
+            screenI.setVisible(true);
                        this. setVisible(false);
                        this.dispose();
-
+       } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }                 
                         break;
+                        /*Clic on case Project*/
                     case "Travaux":
-                         ScreenModifyRatesProject screenT = new ScreenModifyRatesProject();
-                        screenT.setVisible(true);
+                         ScreenModifyRatesProject screenT;
+       try {
+           screenT = new ScreenModifyRatesProject(idConsultant);
+           screenT.setVisible(true);
                        this. setVisible(false);
                        this.dispose();
+       } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }
+            /*Clic on case Repurchase*/
                     case "Rachat de crédit":
-                          ScreenModifyRatesRepurchase screenR = new ScreenModifyRatesRepurchase();
+                        ScreenModifyRatesRepurchase screenR;
+                        try{
+                           screenR = new ScreenModifyRatesRepurchase(idConsultant);
                         screenR.setVisible(true);
                        this. setVisible(false);
                        this.dispose();
-
+                        } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }
                         break;
+            /*Clic on case Vehicles*/
                       case "Véhicules":
-                        ScreenModifyRatesVehicles screenV = new ScreenModifyRatesVehicles();
-                        screenV.setVisible(true);
+               ScreenModifyRatesVehicles screenV;
+       try {
+           screenV = new ScreenModifyRatesVehicles(idConsultant);
+           screenV.setVisible(true);
                        this. setVisible(false);
                        this.dispose();
-
+       } catch (SQLException ex) {
+           Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
+       }
                         break;
                     default:
-                        
+                                           
                         System.out.println("Vous devez selectionné un type de taux");
                         break;
                 
@@ -154,41 +195,7 @@ public class ScreenType extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ScreenType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ScreenType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ScreenType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ScreenType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ScreenType().setVisible(true);
-            }
-        });
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
