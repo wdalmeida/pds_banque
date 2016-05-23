@@ -50,21 +50,6 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(tableCompareSims, btnClose));  // Add MouseListener to tableCompareSims
 
     }
-
-    /**
-     * return a empty list
-     *
-     * @return temp List
-     *//*
-    public List fillemptyList() {
-        List<String> temp = new ArrayList<>();
-
-        for (int cpt = 0; cpt < NBRPARAMETERS; cpt++) {
-            temp.add("");
-        }
-        return temp;
-    }*/
-
     /**
      * Load data in the Jtable here tatableCompareSims
      *
@@ -88,9 +73,6 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      */
     public boolean isSimulationfill(String row) {
         boolean tmp = false;
-        System.out.println("simulation 1 " + simul1);
-        System.out.println("simulation 2 " + simul2);
-        System.out.println("simulation 3 " + simul3);
         if (!simul1.isEmpty()) {
             if (simul1.get(0).equals(row)) {
                 tmp = true;
@@ -136,6 +118,7 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param simulation
      */
     public void setJlabelSimul(List<String> simulation) {
+        System.out.println("methode");
         if (simul1.isEmpty()) {
             capitalSimul1.setText(simulation.get(1));
             rateSimul1.setText(simulation.get(2));
@@ -144,6 +127,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul1.setText(simulation.get(5));
             totalAmountSimul1.setText(simulation.get(6));
             ratioDebtSimul1.setText(simulation.get(7));
+            simul1=simulation;
+            System.out.println("simul1 " + Arrays.toString(simul1.toArray()));
         } else if (!simul2.isEmpty()) {
             capitalSimul2.setText(simulation.get(1));
             rateSimul2.setText(simulation.get(2));
@@ -152,6 +137,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul2.setText(simulation.get(5));
             totalAmountSimul2.setText(simulation.get(6));
             ratioDebtSimul2.setText(simulation.get(7));
+            simul2 = simulation;
+            System.out.println("simul2 empty"+Arrays.toString(simul2.toArray()));
         } else if (!simul3.isEmpty()) {
             capitalSimul3.setText(simulation.get(1));
             rateSimul3.setText(simulation.get(2));
@@ -160,6 +147,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul3.setText(simulation.get(5));
             totalAmountSimul3.setText(simulation.get(6));
             ratioDebtSimul3.setText(simulation.get(7));
+            simul3=simulation;
+            System.out.println("simul3 empty"+ Arrays.toString(simul3.toArray()));
         }
     }
 
@@ -212,6 +201,7 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         btnSubmit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Comparer Simulation");
 
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         title.setText("Comparaison Simulation");
@@ -320,14 +310,6 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(203, 203, 203)
-                .addComponent(lblSimulation1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSimulation2)
-                .addGap(38, 38, 38)
-                .addComponent(lblSimulation3)
-                .addContainerGap(381, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(359, 359, 359)
@@ -335,6 +317,14 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lblsubtitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(typeLoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnSubmit))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -353,8 +343,9 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                             .addComponent(monthlyInsuranceSimul1)
                             .addComponent(durationSimul1)
                             .addComponent(totalAmountSimul1)
-                            .addComponent(ratioDebtSimul1))
-                        .addGap(81, 81, 81)
+                            .addComponent(ratioDebtSimul1)
+                            .addComponent(lblSimulation1))
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(totalAmountSimul2)
                             .addComponent(durationSimul2)
@@ -362,8 +353,9 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                             .addComponent(monthlyLoanSimul2)
                             .addComponent(rateSimul2)
                             .addComponent(capitalSimul2)
-                            .addComponent(ratioDebtSimul2))
-                        .addGap(68, 68, 68)
+                            .addComponent(ratioDebtSimul2)
+                            .addComponent(lblSimulation2))
+                        .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ratioDebtSimul3)
                             .addComponent(capitalSimul3)
@@ -371,15 +363,8 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                             .addComponent(monthlyLoanSimul3)
                             .addComponent(monthlyInsuranceSimul3)
                             .addComponent(durationSimul3)
-                            .addComponent(totalAmountSimul3)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(typeLoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(btnSubmit)))
+                            .addComponent(totalAmountSimul3)
+                            .addComponent(lblSimulation3))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -396,11 +381,10 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblSimulation1)
-                        .addComponent(lblSimulation2))
-                    .addComponent(lblSimulation3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSimulation3)
+                    .addComponent(lblSimulation2)
+                    .addComponent(lblSimulation1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
