@@ -61,7 +61,7 @@ public class JsonDecoding {
         }
 
         String query = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`,`id_User`,`id_status`)  VALUES ('" + title_Customer + "','" + last_Name_Customer + "', '" + first_Name_Customer + "','" + salary_Customer + "','" + street_customer + "', '" + postalcode_customer + "', '" + city_customer + "', '" + phone_Customer + "', '" + email_Customer + "', '" + birthday_Customer + "', '" + ownerInt + "','" + nationality_customer + "','" + id_Consultant + "','" + id_User + "','" + id_status + "')";
-        System.out.println("Soit la requete SQL:" + '\n');
+        System.out.println("Soit la requete SQL flo:" + '\n');
         System.out.println(query);
 
         return query;

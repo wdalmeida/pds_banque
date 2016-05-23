@@ -104,7 +104,7 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-    public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
+   /* public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
         int res;
@@ -117,7 +117,7 @@ public class AccessDB implements Constantes {
         try {
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(cust.getBirthday().getTime());
-            query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`,`id_User`,`id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsultant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "')";
+            query2 = "INSERT INTO `Customer`(`title_Customer`, `last_Name_Customer`, `first_Name_Customer`, `salary_Customer`, `street_Customer`, `pc_Customer`, `city_Customer`, `phone_Customer`, `email_Customer`, `birthday_Customer`, `owner_Customer`, `nationality_Customer`, `id_Consultant`,`id_User`,`id_status`) VALUES ('" + cust.getTitle() + "','" + cust.getLastName() + "','" + cust.getFirstName() + "','" + cust.getSalary() + "','" + cust.getStreet() + "','" + cust.getPostalCode() + "','" + cust.getCity() + "','" + cust.getPhoneNumber() + "','" + cust.getEmail() + "','" + sqlDate + "','" + owner + "','" + cust.getNationality() + "','" + idConsultant + "','" + cust.getIdUser() + "','" + cust.getIdstatus() + "'); commit;";
             System.out.println(query2);
             res = this.declaration.executeUpdate(query2);
             System.out.println("res =" + res);
@@ -129,11 +129,11 @@ public class AccessDB implements Constantes {
                 System.out.println("Erreur dans l'insertion du nouveau Client");
             }
         } catch (SQLException e) {
-            System.out.println("Erreur ! La requ\u00EAte" + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            System.out.println("Erreur ! La requ\u00EAte insert " + query2 + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
         return tmp;
     }
-
+*/
     public int getIDConsultant(Customer cust) {
         int tmp = 0;
         String query1 = "test";
@@ -241,27 +241,15 @@ public class AccessDB implements Constantes {
         return simulationLoans;
     }
 
-    public String getIDCustomer(String title, String lastN, String firstN, Float salary, String street, String pc, String city, String phone, String email, String birthday, boolean owner, String nation, int idConsultant, int user, int status) {
+    public String getIDCustomer(String lastN, String firstN, String pc) {
         String query = "SELECT id_Customer"
                 + " FROM Customer WHERE last_Name_Customer =? AND first_Name_Customer=? AND pc_Customer=? ; ";
         String res = "";
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
-            queryPrep.setString(1, title);
-            queryPrep.setString(2, lastN);
-            queryPrep.setString(3, firstN);
-            queryPrep.setString(4, salary.toString());
-            queryPrep.setString(5, street);
-            queryPrep.setString(6, pc);
-            queryPrep.setString(7, city);
-            queryPrep.setString(8, phone);
-            queryPrep.setString(9, email);
-            queryPrep.setString(10, birthday);
-            queryPrep.setBoolean(11, owner);
-            queryPrep.setString(12, nation);
-            queryPrep.setInt(13, idConsultant);
-            queryPrep.setInt(14, user);
-            queryPrep.setInt(15, status);
+            queryPrep.setString(1, lastN);
+            queryPrep.setString(2, firstN);
+            queryPrep.setString(3, pc);
 
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
