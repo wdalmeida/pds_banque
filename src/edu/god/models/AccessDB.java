@@ -694,15 +694,15 @@ public class AccessDB implements Constantes {
     
      public String getRateAverage() throws SQLException {
         String rateStr = null;
-        Double rate= 0.0;
-        String query = "SELECT percentage_Rate from Rate";
+        String rate= null;
+        String query = "SELECT AVG(percentage_Rate) FROM Rate";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         //queryPrep.setString(1, agency);
         ResultSet rs = queryPrep.executeQuery();
         if (rs.first()) {
-            rate = rs.getDouble("percentage_Rate");
+            rate = rs.getString("AVG(percentage_Rate)");
         }
-        return rateStr = rate.toString();
+        return rateStr = rate ;
     }
      
      public String getLoanNumber() throws SQLException {

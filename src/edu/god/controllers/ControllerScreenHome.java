@@ -13,6 +13,7 @@ import javax.swing.*;
 import edu.god.models.AccessDB;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenCreateCust;
+import edu.god.views.ScreenIndicators;
 import edu.god.views.ScreenManageCust;
 import java.text.ParseException;
 
@@ -27,7 +28,7 @@ public class ControllerScreenHome implements ActionListener, FocusListener {
     private JButton btnSimulateLoan;
     private ScreenHome screenHome;
     private int idConsultant;
-
+    private JButton indicatorButton;
     /**
      *
      * @param screenHome0
@@ -35,12 +36,13 @@ public class ControllerScreenHome implements ActionListener, FocusListener {
      * @param btnCreateCustomer0
      * @param btnSimulateLoan0
      */
-    public ControllerScreenHome(ScreenHome screenHome0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0) {
+    public ControllerScreenHome(ScreenHome screenHome0,int idC,JButton btnCreateCustomer0, JButton btnSimulateLoan0, JButton indicatorButton) {
         this.bdd = AccessDB.getAccessDB();
         this.btnCreateCustomer = btnCreateCustomer0;
         this.btnSimulateLoan = btnSimulateLoan0;
         this.screenHome = screenHome0;
         this.idConsultant = idC;
+        this.indicatorButton = indicatorButton;
     }
 
     @Override
@@ -63,6 +65,15 @@ public class ControllerScreenHome implements ActionListener, FocusListener {
             } catch (ParseException ex) {
                 Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else if(e.getSource() == indicatorButton){
+            screenHome.dispose();
+            screenHome.setVisible(false);
+            try{
+                ScreenIndicators sci = new ScreenIndicators();
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    
         }
     }
 
