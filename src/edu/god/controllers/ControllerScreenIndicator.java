@@ -44,9 +44,21 @@ public class ControllerScreenIndicator implements ActionListener{
         this.jPanel3 = graphicPanel;
 
     }
+    
+    
+        public ControllerScreenIndicator(ScreenIndicators sci,JComboBox<String> indicatorComboBox, JTable indicatorJtable,JPanel indicatorPanel){
+            this.db= AccessDB.getAccessDB();
+            this.sci= sci;
+            this.jPanel1= indicatorPanel;
+            this.AgencyComboBox = indicatorComboBox;
+            this.indicatorJtable = indicatorJtable;
+        }
+        
     @Override
     
+    
     public void actionPerformed(ActionEvent e) {
+      
         
         if (e.getSource() == refreshJButton){
             try {

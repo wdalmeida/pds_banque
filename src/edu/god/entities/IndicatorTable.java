@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class IndicatorTable extends AbstractTableModel {
     
-    private List<Indicator> indicators;            
+    private List<Indicator> indicators = new ArrayList();            
     private String[] header = {"Indicateur","Valeur","Agence"};
     AccessDB db = AccessDB.getAccessDB();
     public IndicatorTable() throws SQLException {
@@ -28,7 +28,7 @@ public class IndicatorTable extends AbstractTableModel {
         
         indicators.add(new Indicator("Taux Moyen",db.getRateAverage(),"Paris"));
         indicators.add(new Indicator("Nombre de prêt",db.getLoanNumber(),"Paris"));
-
+        indicators.add(new Indicator("Nombre de prêt","2","Paris"));
         
     }
  

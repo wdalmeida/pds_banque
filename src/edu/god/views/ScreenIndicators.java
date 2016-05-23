@@ -26,9 +26,16 @@ public class ScreenIndicators extends javax.swing.JFrame {
      */
     public ScreenIndicators() throws SQLException {
         initComponents();
+        this.setVisible(true);
         rootPane.getContentPane().setBackground(Color.WHITE);
+        jPanel1.setBackground(Color.WHITE);
+        jPanel2.setBackground(Color.WHITE);
+        jPanel3.setBackground(Color.WHITE);
         IndicatorJtable.setModel(new IndicatorTable());
-    
+        AgencyComboBox.addActionListener(new ControllerScreenIndicator(this, AgencyComboBox, IndicatorJtable, jPanel1));
+        this.setTitle("Indicateur");
+        
+              
     }
 
     /**
