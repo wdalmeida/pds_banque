@@ -100,17 +100,19 @@ public class ControllerScreenCreateCust implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) { // TODO SION VIENS DE SIMULATION ALLER SUR LOAN SIM SINON RETOUR SUR ACUEUIL
-        //int res;
-        if (e.getSource() == btnSubmit) {
-            try {
+    public void actionPerformed(ActionEvent e) {
 
+        if (e.getSource() == btnSubmit) {
+
+            try {
                 this.customer = new Customer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), birthday.getDate(), nationality.getText(), phoneNumber.getText(), email.getText(), owner.isValid(), Float.valueOf(salary.getText()), status.getSelectedIndex(), street.getText(), city.getText(), postalCode.getText().substring(0, 5), idConsultant, -1); // -1 default number
                 java.sql.Date sqlDate = new java.sql.Date(birthday.getDate().getTime());
                 String dateString = sqlDate.toString();
 
-                ClientJavaInsert.clientTcpInsert(encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
+
                 String idCustomer = bdd.getIDCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex());
+                ClientJavInsert.clientTcpInsert("L", "1", encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
+
                 JOptionPane.showMessageDialog(scc, "Le client a été ajouté", "Ajout client", JOptionPane.INFORMATION_MESSAGE);
                 // if the boolean is true, the next window will be loan simulation
                 if(goToSim){
