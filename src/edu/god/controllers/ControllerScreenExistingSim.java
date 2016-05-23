@@ -81,7 +81,11 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnCompareSimulation) {
-            ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
+            try {
+                ScreenCompareSimulation scs = new ScreenCompareSimulation(Integer.parseInt(idCust)); // create new JFrame ScreenCompareSimulation
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

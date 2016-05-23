@@ -14,7 +14,6 @@ import java.sql.*;
 import java.util.*;
 import edu.god.common.contents.*;
 import edu.god.entities.*;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class AccessDB implements Constantes {
@@ -171,6 +170,23 @@ public class AccessDB implements Constantes {
         return null;
     }
 
+    public ArrayList<String> getTypeLoanCustomer(int idC) {
+        String query = "SELECT description_LoanRef FROM LoanRef Natural Join LoanSimulation Natural Join Rate where id_Customer="+idC+";";
+        try {
+            ArrayList<String> tab = new ArrayList<>();
+            try (ResultSet rs = this.declaration.executeQuery(query)) {
+                if (rs.first()) {
+                    tab.add(rs.getString(1));
+                }
+            }
+            return tab;
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return null;
+    }
+
+    
     public ArrayList<String> getStatus() throws SQLException {
         String query = "test";
         int i = 0;
@@ -230,14 +246,16 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
- /**
-  * return all simulation of a customer
-  * @param idCustomer
-  * @return res ArrayList<String>
-  */
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer) {
 
-        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=?;";;
+    /**
+     * return all simulation of a customer
+     *
+     * @param idCustomer
+     * @return res ArrayList<String>
+     */
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer, String type) {
+
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=? AND description_LoanRef=?;";
         ArrayList<String[]> res = new ArrayList();
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
@@ -245,6 +263,7 @@ public class AccessDB implements Constantes {
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idCustomer);
+            queryPrep.setString(2, type);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
                     ResultSetMetaData metadata = rs.getMetaData();
@@ -267,6 +286,7 @@ public class AccessDB implements Constantes {
                         test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
                         res.add(test);
                         cpt++;
+                        //System.out.println("Tableau BDD " + Arrays.toString);
                     }
                 }
             }

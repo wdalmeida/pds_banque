@@ -7,16 +7,20 @@ package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author florent
  */
-public final class ScreenCompareSimulation extends javax.swing.JFrame {
+public class ScreenCompareSimulation extends javax.swing.JFrame {
 
     /**
      * Creates new form ScreenCompareSimulation
@@ -27,23 +31,31 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
     private List<String> simul1;
     private List<String> simul2;
     private List<String> simul3;
+    private ArrayList<String> choiceTypeLoan;
 
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
+        initComponents();
         this.idCustomer = idCustomer0;
-        loadDataInTable(AccessDB.getAccessDB().getSimulationsLoanOfCustomer(idCustomer0));
+        this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
+        choiceTypeLoan.stream().forEach((choiceStatu) -> {
+            typeLoan.addItem(choiceStatu);
+        });
+        btnSubmit.addActionListener(new ControllerScreenCompareSimulation(this,tableCompareSims, idCustomer, typeLoan, btnSubmit));
+
+        simul1 = new ArrayList<>(); // initialize list
+        simul2 = new ArrayList<>();
+        simul3 = new ArrayList<>();
         this.setVisible(true);
         btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose)); // add ActionListener to btnClose
-        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(this, tableCompareSims, btnClose));  // Add MouseListener to tableCompareSims
-        simul1 = fillemptyList(); // initialize list
-        simul2 = fillemptyList();
-        simul3 = fillemptyList();
+        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(tableCompareSims, btnClose));  // Add MouseListener to tableCompareSims
+
     }
 
     /**
      * return a empty list
      *
      * @return temp List
-     */
+     *//*
     public List fillemptyList() {
         List<String> temp = new ArrayList<>();
 
@@ -51,7 +63,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
             temp.add("");
         }
         return temp;
-    }
+    }*/
 
     /**
      * Load data in the Jtable here tatableCompareSims
@@ -76,13 +88,21 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
      */
     public boolean isSimulationfill(String row) {
         boolean tmp = false;
-
-        if (simul1.get(0).equals(row)) {
-            tmp = true;
-        } else if (simul2.get(0).equals(row)) {
-            tmp = true;
-        } else if (simul3.get(0).equals(row)) {
-            tmp = true;
+        System.out.println("simulation 1 " + simul1);
+        System.out.println("simulation 2 " + simul2);
+        System.out.println("simulation 3 " + simul3);
+        if (!simul1.isEmpty()) {
+            if (simul1.get(0).equals(row)) {
+                tmp = true;
+            }
+        } else if (!simul2.isEmpty()) {
+            if (simul2.get(0).equals(row)) {
+                tmp = true;
+            }
+        } else if (!simul3.isEmpty()) {
+            if (simul3.get(0).equals(row)) {
+                tmp = true;
+            }
         }
         return tmp;
     }
@@ -94,14 +114,18 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param row
      */
     public void setSimulOrder(List simulation, String row) {
+        System.out.println("setSimulOrder");
         if (simul1.get(0).equals(row)) {
+            System.out.println("Simul1");
             simul1 = simul2;
             simul2 = simul3;
             simul3 = simulation;
         } else if (simul2.get(0).equals(row)) {
+            System.out.println("Simul2");
             simul2 = simul3;
             simul3 = simulation;
         } else if (simul3.get(0).equals(row)) {
+            System.out.println("Simul3");
             simul3 = simulation;
         }
     }
@@ -112,8 +136,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param simulation
      */
     public void setJlabelSimul(List<String> simulation) {
-
-        if (!simul1.get(0).equals(simulation.get(0))) {
+        if (simul1.isEmpty()) {
             capitalSimul1.setText(simulation.get(1));
             rateSimul1.setText(simulation.get(2));
             monthlyLoanSimul1.setText(simulation.get(3));
@@ -121,8 +144,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul1.setText(simulation.get(5));
             totalAmountSimul1.setText(simulation.get(6));
             ratioDebtSimul1.setText(simulation.get(7));
-
-        } else if (!simul2.get(0).equals(simulation.get(0))) {
+        } else if (!simul2.isEmpty()) {
             capitalSimul2.setText(simulation.get(1));
             rateSimul2.setText(simulation.get(2));
             monthlyLoanSimul2.setText(simulation.get(3));
@@ -130,8 +152,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
             durationSimul2.setText(simulation.get(5));
             totalAmountSimul2.setText(simulation.get(6));
             ratioDebtSimul2.setText(simulation.get(7));
-
-        } else if (!simul3.get(0).equals(simulation.get(0))) {
+        } else if (!simul3.isEmpty()) {
             capitalSimul3.setText(simulation.get(1));
             rateSimul3.setText(simulation.get(2));
             monthlyLoanSimul3.setText(simulation.get(3));
@@ -151,7 +172,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Title = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableCompareSims = new javax.swing.JTable();
         btnClose = new javax.swing.JButton();
@@ -187,11 +208,13 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
         ratioDebtSimul1 = new javax.swing.JLabel();
         ratioDebtSimul2 = new javax.swing.JLabel();
         ratioDebtSimul3 = new javax.swing.JLabel();
+        typeLoan = new javax.swing.JComboBox<>();
+        btnSubmit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Title.setText("Comparaison Simulation");
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Comparaison Simulation");
 
         tableCompareSims.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -287,11 +310,23 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
 
         ratioDebtSimul3.setText("33333");
 
+        typeLoan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Veullez selectionner un type de pret" }));
+
+        btnSubmit.setText("Valider");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(lblSimulation1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSimulation2)
+                .addGap(38, 38, 38)
+                .addComponent(lblSimulation3)
+                .addContainerGap(381, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -299,9 +334,7 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
                         .addComponent(btnClose))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblsubtitle)))
+                        .addComponent(lblsubtitle))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -340,30 +373,33 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
                             .addComponent(durationSimul3)
                             .addComponent(totalAmountSimul3)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(203, 203, 203)
-                        .addComponent(lblSimulation1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblSimulation2)
-                        .addGap(38, 38, 38)
-                        .addComponent(lblSimulation3)
-                        .addGap(311, 311, 311)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(typeLoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnSubmit)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Title)
-                .addGap(23, 23, 23)
+                .addComponent(title)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(typeLoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSubmit))
+                .addGap(51, 51, 51)
                 .addComponent(lblsubtitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSimulation1)
-                            .addComponent(lblSimulation2)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblSimulation1)
+                        .addComponent(lblSimulation2))
                     .addComponent(lblSimulation3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,9 +451,9 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
                     .addComponent(ratioDebtSimul1)
                     .addComponent(ratioDebtSimul2)
                     .addComponent(ratioDebtSimul3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(btnClose)
-                .addGap(30, 30, 30))
+                .addContainerGap())
         );
 
         pack();
@@ -425,8 +461,8 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Title;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnSubmit;
     private javax.swing.JLabel capitalSimul1;
     private javax.swing.JLabel capitalSimul2;
     private javax.swing.JLabel capitalSimul3;
@@ -458,8 +494,10 @@ public final class ScreenCompareSimulation extends javax.swing.JFrame {
     private javax.swing.JLabel ratioDebtSimul2;
     private javax.swing.JLabel ratioDebtSimul3;
     private javax.swing.JTable tableCompareSims;
+    private javax.swing.JLabel title;
     private javax.swing.JLabel totalAmountSimul1;
     private javax.swing.JLabel totalAmountSimul2;
     private javax.swing.JLabel totalAmountSimul3;
+    private javax.swing.JComboBox<String> typeLoan;
     // End of variables declaration//GEN-END:variables
 }
