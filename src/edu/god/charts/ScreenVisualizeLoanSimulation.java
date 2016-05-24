@@ -23,6 +23,8 @@ import javax.swing.SwingUtilities;
 /**
  *
  * @author Florian
+ * Main graphical user interface
+ * Enable input for simulation parameters
  */
 public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
 

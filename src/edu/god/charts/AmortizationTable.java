@@ -19,7 +19,13 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-//amortization table buton
+/**
+ * 
+ * @author Florian
+ * Draws the amortization table
+ * The input values are privided by an amortization calculation from the GUI
+ * 
+ */
 public class AmortizationTable extends JFrame {
 
     double interestPaid;
