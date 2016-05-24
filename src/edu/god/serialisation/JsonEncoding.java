@@ -57,7 +57,7 @@ System.out.println("title_Customer: " + title_Customer);
         
         System.out.print("Objet encodé:" + obj);
         //RequeteTCPJson(obj);
-        decodeCustomer(obj);
+        //decodeCustomer(obj);
         return obj;
         
         
