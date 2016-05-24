@@ -15,7 +15,12 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import javax.swing.*;
 
-
+/**
+ * 
+ * @author Florian
+ * New Frame, shows graphs of the simulation
+ * Draws a chart with a line for every month and a pie chart
+ */
 public class AmortizationGraph extends JPanel implements MouseListener, Printable {
 
     JScrollPane scrollingPane = null;
