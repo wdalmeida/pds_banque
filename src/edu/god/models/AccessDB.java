@@ -717,4 +717,17 @@ public class AccessDB implements Constantes {
         }
         return loanCount = Integer.toString(nbrLoan);
     }
+     
+      public String get() throws SQLException {
+        int nbrLoan = 0;
+        String loanCount = null;
+        String query = "SELECT distinct Count(*) as loan_Number from Loan";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        //queryPrep.setString(1, agency);
+        ResultSet rs = queryPrep.executeQuery();
+        if (rs.first()) {
+            nbrLoan = rs.getInt("loan_Number");
+        }
+        return loanCount = Integer.toString(nbrLoan);
+    }
 }
