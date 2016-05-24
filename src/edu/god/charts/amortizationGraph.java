@@ -24,7 +24,7 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
     JFrame f = new JFrame();
     private javax.swing.JButton printGraphButton;
 
-    double[] dGraph = new double[newGui.tMonths];
+    double[] dGraph = new double[ScreenVisualizeLoanSimulation.tMonths];
     final int PAD = 100;
     double monthlyPayment;
     double interestPaid;

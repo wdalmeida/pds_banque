@@ -246,7 +246,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        AmortizationCalculation am = new AmortizationCalculation();
+        amortizationCalculation am = new amortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -261,7 +261,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests); //total interests
         totalInsuranceTextField.setText(tInsurance); //total insurance
 
-        AmortizationTable amT = new AmortizationTable(); // an object of the amortization table
+        amortizationTable amT = new amortizationTable(); // an object of the amortization table
         amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
@@ -285,7 +285,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        AmortizationCalculation am = new AmortizationCalculation();
+        amortizationCalculation am = new amortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -298,7 +298,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests);
         tMonths = Integer.parseInt(termMonthsTextField.getText());
 
-        AmortizationGraph amG = new AmortizationGraph();
+        amortizationGraph amG = new amortizationGraph();
         amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText(), insuranceRateTextfield.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
