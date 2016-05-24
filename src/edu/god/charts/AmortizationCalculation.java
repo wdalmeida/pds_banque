@@ -4,9 +4,19 @@ import java.text.DecimalFormat;
 
 public class AmortizationCalculation {
 
-    //Method used to do the amortization calculation
-    //Input: Principal Amount, Interest Rate and Term (in months)
-    //Output: Monthly Payment and Total Payment
+
+    
+    /**
+     * 
+     * @param principalAmountTextField
+     * @param interestRateTextField
+     * @param insuranceRateTextField
+     * @param termMonthsTextField
+     * Method used to do the amortization calculation
+     * Input: Principal Amount, Interest Rate and Term (in months)
+     * Output: Monthly Payment and Total Payment
+     * @return 
+     */
     public String getpayInfo(String principalAmountTextField, String interestRateTextField, String insuranceRateTextField, String termMonthsTextField) {
 
         DecimalFormat df = new DecimalFormat("0.00");
