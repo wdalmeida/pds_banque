@@ -68,12 +68,7 @@ public class ControllerScreenHome implements ActionListener, FocusListener {
         }else if(e.getSource() == indicatorButton){
             screenHome.dispose();
             screenHome.setVisible(false);
-            
-            try {
-                ScreenIndicators sci = new ScreenIndicators(idConsultant);
-            } catch (SQLException ex) {
-                Logger.getLogger(ControllerScreenHome.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                        
             
                     
         }
