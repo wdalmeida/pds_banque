@@ -23,8 +23,10 @@ import javax.swing.SwingUtilities;
 /**
  *
  * @author Florian
+ * Main graphical user interface
+ * Enable input for simulation parameters
  */
-public class newGui extends JFrame implements Printable {
+public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
 
     //variable declaration
     public static int tMonths;
@@ -37,7 +39,7 @@ public class newGui extends JFrame implements Printable {
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     //every Swing component is located inside the initComponents method
-    public newGui() {
+    public ScreenVisualizeLoanSimulation() {
         super("Afficher et imprimer les résultats d'un calcul de prêt");
         initComponents();
 
@@ -246,7 +248,7 @@ public class newGui extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        amortizationCalculation am = new amortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -261,7 +263,7 @@ public class newGui extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests); //total interests
         totalInsuranceTextField.setText(tInsurance); //total insurance
 
-        amortizationTable amT = new amortizationTable(); // an object of the amortization table
+        AmortizationTable amT = new AmortizationTable(); // an object of the amortization table
         amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
@@ -285,7 +287,7 @@ public class newGui extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        amortizationCalculation am = new amortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -298,7 +300,7 @@ public class newGui extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests);
         tMonths = Integer.parseInt(termMonthsTextField.getText());
 
-        amortizationGraph amG = new amortizationGraph();
+        AmortizationGraph amG = new AmortizationGraph();
         amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText(), insuranceRateTextfield.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
@@ -382,20 +384,20 @@ public class newGui extends JFrame implements Printable {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(newGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenVisualizeLoanSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(newGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenVisualizeLoanSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(newGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenVisualizeLoanSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(newGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ScreenVisualizeLoanSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                newGui gui = new newGui();
+                ScreenVisualizeLoanSimulation gui = new ScreenVisualizeLoanSimulation();
                 gui.setVisible(true);
 
             }

@@ -15,8 +15,13 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import javax.swing.*;
 
-
-public class amortizationGraph extends JPanel implements MouseListener, Printable {
+/**
+ * 
+ * @author Florian
+ * New Frame, shows graphs of the simulation
+ * Draws a chart with a line for every month and a pie chart
+ */
+public class AmortizationGraph extends JPanel implements MouseListener, Printable {
 
     JScrollPane scrollingPane = null;
     //takes in parameter the name of the class calling the graph class
@@ -24,7 +29,7 @@ public class amortizationGraph extends JPanel implements MouseListener, Printabl
     JFrame f = new JFrame();
     private javax.swing.JButton printGraphButton;
 
-    double[] dGraph = new double[newGui.tMonths];
+    double[] dGraph = new double[ScreenVisualizeLoanSimulation.tMonths];
     final int PAD = 100;
     double monthlyPayment;
     double interestPaid;

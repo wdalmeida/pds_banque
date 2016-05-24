@@ -9,14 +9,19 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-class Pie_Chart {
 
-
+/**
+ * 
+ * @author Florian
+ * Pie Chart component, needs to provide the values of the slices to be properly displayed
+ * 
+ */
+class PieChart {
 
     double value;
     Color color;
 
-    public Pie_Chart(double value, Color color) {
+    public PieChart(double value, Color color) {
         this.value = value;
         this.color = color;
     }
@@ -35,10 +40,10 @@ class MyComponent extends JComponent {
 
     }
 
-    Pie_Chart[] slices = {
-        new Pie_Chart(principalAmount, Color.black),
-        new Pie_Chart(totalInterests, Color.green),
-        new Pie_Chart(totalInsurance, Color.red)};
+    PieChart[] slices = {
+        new PieChart(principalAmount, Color.black),
+        new PieChart(totalInterests, Color.green),
+        new PieChart(totalInsurance, Color.red)};
 
     MyComponent() {
     }
@@ -48,7 +53,7 @@ class MyComponent extends JComponent {
         drawPie((Graphics2D) g, bounds , slices);
     }
 
-    void drawPie(Graphics2D g, Rectangle area, Pie_Chart[] slices) {
+    void drawPie(Graphics2D g, Rectangle area, PieChart[] slices) {
         double total = 0.0D;
         for (int i = 0; i < slices.length; i++) {
             total += slices[i].value;
