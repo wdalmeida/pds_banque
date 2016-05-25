@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -64,7 +65,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
             ses.dispose();
             try {
                 ScreenLoanSim newWindow = new ScreenLoanSim(idCon, tblSim.getModel().getValueAt(tblSim.getSelectedRow(), 0).toString(), true);
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | org.json.simple.parser.ParseException | IOException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnCancel) {
@@ -75,7 +76,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
             ses.dispose();
             try {
                 ScreenLoanSim newWindow = new ScreenLoanSim(idCon, idCust, false);
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | org.json.simple.parser.ParseException | IOException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (e.getSource() == btnCompareSimulation) {
@@ -93,7 +94,7 @@ public class ControllerScreenExistingSim implements ActionListener, MouseListene
             ses.dispose();
             try {
                 ScreenLoanSim newWindow = new ScreenLoanSim(idCon, tblSim.getModel().getValueAt(tblSim.getSelectedRow(), 0).toString(), true);
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | org.json.simple.parser.ParseException | IOException ex) {
                 Logger.getLogger(ControllerScreenExistingSim.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

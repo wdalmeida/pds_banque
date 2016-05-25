@@ -107,6 +107,8 @@ public class ControllerScreenCreateCust implements ActionListener {
                 String idCustomer = ClientJavaSelect.clientTcpSelect("D", "4", encodingCustomerId(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex()));
                 ClientJavInsert.clientTcpInsert("L", "1", encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
 
+                
+
                 JOptionPane.showMessageDialog(scc, "Le client a été ajouté", "Ajout client", JOptionPane.INFORMATION_MESSAGE);
                 // if the boolean is true, the next window will be loan simulation
                 if (goToSim) {

@@ -1,6 +1,14 @@
 package edu.god.charts;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -11,8 +19,14 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-//amortization table buton
-public class amortizationTable extends JFrame {
+/**
+ * 
+ * @author Florian
+ * Draws the amortization table
+ * The input values are privided by an amortization calculation from the GUI
+ * 
+ */
+public class AmortizationTable extends JFrame {
 
     double interestPaid;
     double principalPaid;
@@ -49,6 +63,7 @@ public class amortizationTable extends JFrame {
             //sets the currency
             //NumberFormat nf = NumberFormat.getCurrencyInstance();
             NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+            DecimalFormat df = new DecimalFormat("0.00");
 
             for (int numberOfTerms = 0; numberOfTerms < termMonths; numberOfTerms++) {
                 Object data[] = new Object[6];
