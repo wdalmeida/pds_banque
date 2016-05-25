@@ -1,7 +1,6 @@
 package edu.god.controllers;
 
 import java.awt.Color;
-import edu.god.models.AccessDB;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,14 +20,12 @@ public class ControllerScreenConnection implements ActionListener {
     private final transient JPasswordField password;
     private final JLabel lblError;
     private final Window fen;
-    private final AccessDB bdd;
 
     public ControllerScreenConnection(Window fen0, JTextField identifiant0, JPasswordField password0, JLabel labelError) {
         this.identifiant = identifiant0;
         this.password = password0;
         this.fen = fen0;
         lblError = labelError;
-        bdd = AccessDB.getAccessDB();
     }
 
     @Override
@@ -45,7 +42,7 @@ public class ControllerScreenConnection implements ActionListener {
             if ("".equals(identifiant.getText().trim())) {
                 identifiant.requestFocus();
                 identifiant.setBorder(BorderFactory.createLineBorder(Color.RED));
-            } else if (!pwd.isEmpty()) {
+            } else if (pwd.isEmpty()) {
                 password.requestFocus();
                 password.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
@@ -56,8 +53,8 @@ public class ControllerScreenConnection implements ActionListener {
 
     private void signIn() throws NoSuchAlgorithmException, IOException, FileNotFoundException, ParseException {
         String pwd = pwdToString();
-        String res = ClientJavaSelect.clientTcpSelect(JsonEncoding.encodageLoginConsultant(identifiant.getText(), pwd));
-        if (!res.equals("null")) {
+        String res = ClientJavaSelect.clientTcpSelect("D", "2",JsonEncoding.encodageLoginConsultant(identifiant.getText(), pwd));
+        if (!res.equals("0")) {
             this.fen.dispose();
             fen.setVisible(false);
             ScreenHome fen2 = new ScreenHome(Integer.parseInt(res));

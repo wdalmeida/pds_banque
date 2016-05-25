@@ -11,17 +11,23 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.*;
+import edu.god.server.ClientJavaSelect;
 import edu.god.views.ScreenCreateCust;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
 import edu.god.views.ScreenManageCust;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.regex.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -36,7 +42,6 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     private final JButton btnCreateCust;
     private final JButton btnUpdateCust;
     private final JButton btnDeleteCust;
-    private final AccessDB db;
     private final JTextField firstName;
     private final JTextField lastName;
     private final JTextField postalCode;
@@ -62,7 +67,6 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
      * @param lblError JLabel
      */
     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError) {
-        this.db = AccessDB.getAccessDB();
         this.btnBack = btnBack0;
         this.btnSubmit = btnSubmit0;
         this.firstName = firstName0;
@@ -97,7 +101,6 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
      * @param aSimulation boolean if true a simulation can be made
      */
     public ControllerScreenManageCust(ScreenManageCust smc0, JTextField lastName0, JTextField firstName0, JTextField txtPc, int idC0, JButton btnCreateCust0, JButton btnUpdateCust0, JButton btnDeleteCust0, JButton btnSubmit0, JButton btnBack0, JTable tableCust, JLabel lblError, boolean aSimulation) {
-        this.db = AccessDB.getAccessDB();
         this.btnBack = btnBack0;
         this.btnSubmit = btnSubmit0;
         this.firstName = firstName0;
@@ -119,7 +122,12 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
         resetAfterError();
         if (e.getSource() == btnSubmit) {
             System.out.println("bouton submit");
-            ArrayList<String[]> customers = search();
+            ArrayList<String[]> customers = null;
+            try {
+                customers = search();
+            } catch (IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (customers != null) {
                 if (!customers.isEmpty()) {
                     System.out.println("Customers = " + Arrays.toString(customers.get(0)));
@@ -179,31 +187,57 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
      *
      * @return res ArrayList<String[]>
      */
-    private ArrayList<String[]> search() {
+    private ArrayList<String[]> search() throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, NoSuchAlgorithmException {
         ArrayList<String[]> customers = null;
-
         if (!lastName.getText().isEmpty() && !firstName.getText().isEmpty() && !postalCode.getText().isEmpty() && postalCode.getText().length() == 5) {
-            try {
-                customers = db.getCustomer(lastName.getText(), firstName.getText(), postalCode.getText());
-                System.out.println("Nom - prenom - code postal");
-            } catch (SQLException ex) {
-                Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+           customers= new ArrayList<>();
+            Object objetjson = ClientJavaSelect.clientTcpSelect("D", "1", encodingSearchCustomer(lastName.getText(), firstName.getText(), postalCode.getText()));
+            JSONParser parser = new JSONParser();
+            String object = objetjson.toString();
+            objetjson = parser.parse(object);
+            JSONObject jsonObject = (JSONObject) objetjson;
+            System.out.println(objetjson.toString());
+            System.out.println(objetjson.toString().substring(1,objetjson.toString().length()));
+            for (int i = 1; i <= jsonObject.size(); i++) {
+                String[] test = new String[11];
+                switch (i) {
+                    case 1:
+                        System.arraycopy(jsonObject.get("1").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 11);
+                        break;
+                    case 2:
+                        System.arraycopy(jsonObject.get("2").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 11);
+                        break;
+                    case 3:
+                        System.arraycopy(jsonObject.get("3").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 11);
+                        break;
+                    case 4:
+                        System.arraycopy(jsonObject.get("4").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 11);
+                        break;
+                    case 5:
+                        System.arraycopy(jsonObject.get("5").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 11);
+                        break;
+                    default:
+                        break;
+                }
+                System.out.println(Arrays.toString(test));
+                customers.add(test);
             }
+            System.out.println("Nom - prenom - code postal");
         } else {
             error.setText("Veuillez saisir tous les champs");
             if (lastName.getText().isEmpty()) {
-                lastName.requestFocus();
+                lastName.grabFocus();
                 lastName.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
             if (firstName.getText().isEmpty()) {
                 if (!lastName.isFocusOwner()) {
-                    firstName.requestFocus();
+                    firstName.grabFocus();
                 }
                 firstName.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
             if (postalCode.getText().isEmpty()) {
                 if (!lastName.isFocusOwner() || !firstName.isFocusOwner()) {
-                    postalCode.requestFocus();
+                    postalCode.grabFocus();
                 }
                 postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
             } else if (postalCode.getText().length() < 5) {
@@ -231,14 +265,27 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2 && simulation) {
             smc.dispose();
-            ArrayList<String[]> checkSim = AccessDB.getAccessDB().getDateTypeSims(tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
-            if (checkSim != null) {
-                ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
+            JSONObject jsonObject = null;
+            try {
+                Object objetjson = ClientJavaSelect.clientTcpSelect("D", "3", encodingInfoSimCust(tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString()));
+                JSONParser parser = new JSONParser();
+                String object = objetjson.toString();
+                objetjson = parser.parse(object);
+                jsonObject = (JSONObject) objetjson;
+            } catch (IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException f) {
+
+            }
+            if (jsonObject != null && !jsonObject.isEmpty()) {
+                try {
+                    ScreenExistingSim newWindow = new ScreenExistingSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString());
+                } catch (IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             } else {
                 try {
                     ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, tableCustomer.getModel().getValueAt(tableCustomer.getSelectedRow(), 0).toString(), false);
-                } catch (SQLException | ParseException ex) {
+                } catch (SQLException | ParseException | org.json.simple.parser.ParseException | IOException ex) {
                     Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -289,9 +336,7 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     }
 
     @Override
-    
-    
-    
+
     public void keyPressed(KeyEvent e) {
     }
 
