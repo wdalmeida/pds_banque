@@ -923,7 +923,7 @@ public class AccessDB implements Constantes {
            city = rs.getString(1);
                    
         }
-        System.out.println("city2 = " + city);
+        //System.out.println("city2 = " + city);
     return city;
         
     }
