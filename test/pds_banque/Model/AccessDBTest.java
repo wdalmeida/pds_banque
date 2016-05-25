@@ -6,14 +6,9 @@
 package pds_banque.Model;
 
 import edu.god.models.AccessDB;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import edu.god.entities.Customer;

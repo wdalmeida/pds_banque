@@ -5,13 +5,16 @@
  */
 package edu.god.controllers;
 
+import edu.god.models.AccessDB;
 import edu.god.views.ScreenCompareSimulation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -20,14 +23,17 @@ import javax.swing.JTable;
  */
 public class ControllerScreenCompareSimulation implements ActionListener, MouseListener {
 
-    private JButton btnClose;
-    private ScreenCompareSimulation screenCompareSimulation;
+    private final ScreenCompareSimulation screenCompareSimulation;
     private int idCustomer;
     private JTable tableCompareSims;
-    private boolean firstSimul = false;
-    private boolean secondSimul = false;
-    private boolean thirdSimul = false;
-    private List<String> simulation;
+    private boolean firstSimulFill = false;
+    private boolean secondSimulFill = false;
+    private boolean thirdSimulFill = false;
+    private boolean simulInserted = false;
+    private ArrayList<String> simulation;
+    private JComboBox typeLoan;
+    private JButton btnClose;
+    private JButton btnSubmit;
 
     /**
      * @param screenCompareSimulation0
@@ -36,28 +42,31 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
     public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
         this.btnClose = btnClose0;
         this.screenCompareSimulation = screenCompareSimulation0;
-        simulation = screenCompareSimulation.fillemptyList();
+        simulation = new ArrayList<>();
+    }
+
+    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, int idCustomer0, JComboBox typeLoan0, JButton btnSubmit0) {
+        this.tableCompareSims = tableCompareSims0;
+        this.typeLoan = typeLoan0;
+        this.idCustomer = idCustomer0;
+        this.btnSubmit = btnSubmit0;
+        this.screenCompareSimulation = screenCompareSimulation0;
+
     }
 
     /**
-     * use to fill up the JTable 
-     * @param screenCompareSimulation0
+     * use to fill up the JTable
+     *
      * @param tableCompareSims0
+     * @param screenCompareSimulation0
      * @param btnClose0
      */
-    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, JButton btnClose0) {
+    public ControllerScreenCompareSimulation(JTable tableCompareSims0, ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
         this.btnClose = btnClose0;
-        this.screenCompareSimulation = screenCompareSimulation0;
         this.tableCompareSims = tableCompareSims0;
-        simulation = screenCompareSimulation.fillemptyList();
-    }
+        simulation = new ArrayList<>();
+        this.screenCompareSimulation = screenCompareSimulation0;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnClose) {
-            screenCompareSimulation.dispose();
-            screenCompareSimulation.setVisible(false);
-        }
     }
 
     /**
@@ -81,27 +90,81 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
         simulation.add(duration.toString());
         simulation.add(totalPayment.toString());
         simulation.add("");
+        System.out.println("Nouvelle simulation prete ID = " + ligne.toString());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnClose) {
+            screenCompareSimulation.dispose();
+            screenCompareSimulation.setVisible(false);
+        } else if (e.getSource() == btnSubmit) {
+            if (!typeLoan.getSelectedItem().toString().equals("Veullez selectionner un type de pret")) {
+                screenCompareSimulation.loadDataInTable(
+                        AccessDB.getAccessDB().getSimulationsLoanOfCustomer(
+                                idCustomer, typeLoan.getSelectedItem().toString()));
+
+            } else if (typeLoan.getSelectedItem().toString().equals("Veullez selectionner un type de pret")) {
+                JOptionPane.showMessageDialog(
+                        screenCompareSimulation,
+                        "Veullez selectionner un type de pret",
+                        "Veullez selectionner un type de pret",
+                        JOptionPane.INFORMATION_MESSAGE); // indicate that the selection is wrong and met the user try again                             
+            }
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 1) {
-            if (!screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) {
-                this.setListSimulation(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 3), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 4), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 5), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 6), tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 7));
+            this.setListSimulation(tableCompareSims.getModel().getValueAt(
+                    tableCompareSims.getSelectedRow(), 0),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 3),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 4),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 5),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 6),
+                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 7));
 
-                if (!firstSimul && !secondSimul && !thirdSimul) {
-                    screenCompareSimulation.setJlabelSimul(simulation);
-                    firstSimul = true;
-                } else if (firstSimul && !secondSimul && !thirdSimul) {
-                    screenCompareSimulation.setJlabelSimul(simulation);
-                    secondSimul = true;
-                } else if (firstSimul && secondSimul && !thirdSimul) {
-                    screenCompareSimulation.setJlabelSimul(simulation);
-                    thirdSimul = true;
-                }
-            } else if (screenCompareSimulation.isSimulationfill(tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString())) {
-                this.setListSimulation("", "", "", "", "", "", "");
-                screenCompareSimulation.setSimulOrder(simulation, tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 0).toString());
+            simulInserted = screenCompareSimulation.isSimulationfill(
+                    tableCompareSims.getModel().getValueAt(
+                    tableCompareSims.getSelectedRow(), 0).toString());
+
+            System.out.println("ID existant " + simulInserted);
+            if (!firstSimulFill && !secondSimulFill && !thirdSimulFill && !simulInserted) {
+                System.out.println("1 er if");
+                screenCompareSimulation.setJlabelSimul(simulation, 1);
+                firstSimulFill = true;
+                simulation.clear();
+                simulInserted = false;
+            } else if (firstSimulFill && !simulInserted && !secondSimulFill && !thirdSimulFill) {
+                System.out.println("2 eme if");
+                screenCompareSimulation.setJlabelSimul(simulation, 2);
+                secondSimulFill = true;
+                simulation.clear();
+                simulInserted = false;
+            } else if (firstSimulFill && secondSimulFill && !thirdSimulFill && !simulInserted) {
+                System.out.println("3ème if");
+                screenCompareSimulation.setJlabelSimul(simulation, 3);
+                thirdSimulFill = true;
+                simulation.clear();
+                simulInserted = false;
+            } else if (firstSimulFill && secondSimulFill && thirdSimulFill && simulInserted) {
+                JOptionPane.showMessageDialog(
+                        screenCompareSimulation,
+                        "Veuillez deselectionner une simulation pour afficher la derniere simulation selectioner",
+                        "Veuillez deselectionner une simulation pour afficher la derniere simulation selectionner",
+                        JOptionPane.INFORMATION_MESSAGE); // indicate that the selection is wrong and met the user try again                             
+            }
+        }else if (e.getClickCount() == 2) {
+            simulInserted = screenCompareSimulation.isSimulationfill(
+                    tableCompareSims.getModel().getValueAt(
+                            tableCompareSims.getSelectedRow(), 0).toString());
+
+            if (simulInserted) {
+                screenCompareSimulation.removeSimulation(
+                        tableCompareSims.getModel().getValueAt(
+                                tableCompareSims.getSelectedRow(), 0).toString());
             }
         }
     }

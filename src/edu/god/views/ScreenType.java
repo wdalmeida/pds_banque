@@ -30,6 +30,7 @@ public class ScreenType extends javax.swing.JFrame {
         initComponents();
         this.bdd =AccessDB.getAccessDB();
         this.idConsultant=idConsultant;
+      System.out.println(idConsultant);
     }
 
     /**
@@ -68,29 +69,24 @@ public class ScreenType extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(17, 90, Short.MAX_VALUE)))))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(264, 264, 264)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(352, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(74, 74, 74)
                 .addComponent(jLabel1)
-                .addGap(78, 78, 78)
+                .addGap(151, 151, 151)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 284, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -108,7 +104,7 @@ public class ScreenType extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       String[] possibilites = {"Consommation", "Personel", "Immobilier","Travaux", "Rachat de crédit","Véhicules"};
+       String[] possibilites = {"Consommation", "Personnel", "Immobilier","Travaux", "Rachat de crédit","Véhicules"};
 
 
                 String s = (String) jComboBox1.getSelectedItem();
@@ -128,7 +124,7 @@ public class ScreenType extends javax.swing.JFrame {
        }
                         break;
 /*Clic on case Personal*/
-                    case "Personel":
+                    case "Personnel":
                         ScreenModifyRatesPersonal screenP;
        try {
            screenP = new ScreenModifyRatesPersonal(idConsultant);
@@ -138,6 +134,7 @@ public class ScreenType extends javax.swing.JFrame {
        } catch (SQLException ex) {
            Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
        }
+       break;
        /*Clic on case Property*/
                     case "Immobilier":
                          ScreenModifyRatesProperty screenI;
