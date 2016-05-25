@@ -24,8 +24,9 @@ public class ScreenIndicators extends javax.swing.JFrame {
     /**
      * Creates new form ScreenIndicators
      * @param idC0
+     * @throws java.sql.SQLException
      */
-    public ScreenIndicators() throws SQLException {
+    public ScreenIndicators(int idC0) throws SQLException {
         initComponents();
         this.setVisible(true);
         rootPane.getContentPane().setBackground(Color.WHITE);
@@ -33,9 +34,9 @@ public class ScreenIndicators extends javax.swing.JFrame {
         jPanel2.setBackground(Color.WHITE);
         jPanel3.setBackground(Color.WHITE);
         IndicatorJtable.setModel(new IndicatorTable());
-       AgencyComboBox.addActionListener(new ControllerScreenIndicator(this, AgencyComboBox, IndicatorJtable, jPanel1));
-       backButton.addActionListener(AgencyComboBox);
-       this.setTitle("Indicateur");
+        AgencyComboBox.addActionListener(new ControllerScreenIndicator(this, AgencyComboBox, IndicatorJtable, jPanel1, idC0));
+        backButton.addActionListener(new ControllerScreenIndicator(this, idC0, backButton));
+        this.setTitle("Indicateur");
         
               
     }
