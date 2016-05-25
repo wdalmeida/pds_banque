@@ -540,110 +540,6 @@ public class AccessDB implements Constantes {
         System.out.println(res);
         return res;
     }
-
-    /*Get rates Consumption */
-    public String getratesConsumption(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesConsumption from Agency where id_agency=? ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesConsumption");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
-
-    /*Get rates Personnel */
-    public String getratesPersonal(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesPersonel from Agency where id_agency=? ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesPersonel");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
-
-    /*Get rates Property */
-    public String getratesProperty(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesProperty");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
-
-    /*Get rates Project */
-    public String getratesProj(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesProject from Agency where id_agency=5 ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesProject");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
-
-    /*Get rates Repurchase */
-    public String getratesRepurchase(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesRepurchase");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
-
-    /*Get rates Vehicles */
-    public String getratesVehicles(String idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, idAgency);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("RatesVehicles");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
- /*Get id agency user*/
-    public String getidAgency(int idConsultant) throws SQLException {
-        String chiff = null;
-        String query = "SELECT idAgency FROM Consultant where id_Consultant=? ;";
-        PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setInt(1, idConsultant);
-        ResultSet resultat = queryPrep.executeQuery();
-        if (resultat.first()) {
-            chiff = resultat.getString("id_Agency");
-        }
-        System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
-    }
     /**
      * Return the id of the description
      *
@@ -733,5 +629,261 @@ public class AccessDB implements Constantes {
             nbrLoan = rs.getInt("loan_Number");
         }
         return loanCount = Integer.toString(nbrLoan);
+    }
+      /*For Coline
+    ScreenModifyRatesConsumption*/
+     /*Get Parent Agency rates Consumption */
+    public String getRatesConsumptionParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesConsumption from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesConsumption");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    
+    /*Get rates Consumption */
+    public String getratesConsumption(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesConsumption from Agency where id_agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesConsumption");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+      /*update rates Consumption Agency*/
+    public int updateRatesConsumption(int idAgency, float RatesConsumption) throws SQLException {
+        String query = "UPDATE Agency set RatesConsumption=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesConsumption);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    }
+       /*For Coline
+    ScreenModifyRatesPersonal*/
+    
+     /*Get Parent Agency rates Personal */
+    public String getRatesPesonalParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesPersonal from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesPersonal");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    
+    /*Get rates Personal */
+    public String getratesPersonal(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesPersonel from Agency where id_agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesPersonel");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    
+       /*Update Rates Personal*/
+    public int updateRatesPersonal(int idAgency, float RatesPersonal) throws SQLException {
+        String query = "UPDATE Agency set RatesPersonal=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesPersonal);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    
+    }
+    /*For Coline
+    ScreenModifyRatesProperty*/
+    
+/*Get Parent Agency rates Property */
+    public String getRatesPropertyParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesProperty from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesProperty");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    /*Get rates Property */
+    public String getratesProperty(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProperty");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+       /*Update Rates Property*/
+    public int updateRatesProperty(int idAgency, float RatesProperty) throws SQLException {
+        String query = "UPDATE Agency set RatesProperty=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesProperty);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    
+    }
+    /*For Coline
+    ScreenModifyRatesProject*/
+    
+     /*Get Parent Agency rates Project */
+    public String getRatesProjectParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesProject from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesProject");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    /*Get rates Project */
+    public String getratesProj(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesProject from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesProject");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+       /*Update Rates Project*/
+    public int updateRatesProject(int idAgency, float RatesProject) throws SQLException {
+        String query = "UPDATE Agency set RatesProject=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesProject);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    
+    }
+    /*For Coline
+    ScreenModifyRatesRepurchase*/
+    
+/*Get Parent Agency rates Repurchase */
+    public String getRatesRepurchaseParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesRepurchase from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesRepurchase");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    /*Get rates Repurchase */
+    public String getratesRepurchase(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesRepurchase");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+       /*Update Rates Repurchase*/
+    public int updateRatesRepurchase(int idAgency, float RatesRepurchase) throws SQLException {
+        String query = "UPDATE Agency set RatesRepurchase=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesRepurchase);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    
+    }
+    /*For Coline
+    ScreenModifyRatesVehicles*/
+/*Get Parent Agency rates Vehicles */
+    public String getRatesVehiclesParent() throws SQLException {
+        String chiff = null;
+        String query = "SELECT ParentRatesVehicles from Rate_Parent_company ;";
+        Statement stmt = conn.prepareStatement(query);
+        ResultSet resultat = stmt.executeQuery(query);
+        if (resultat.first()) {
+            chiff = resultat.getString("ParentRatesVehicles");
+        }
+        System.out.println("requete = " + stmt.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    /*Get rates Vehicles */
+    public String getratesVehicles(int idAgency) throws SQLException {
+        String chiff = null;
+        String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getString("RatesVehicles");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
+    }
+    
+       /*Update Rates Vehicles*/
+    public int updateRatesVehicles(int idAgency, float RatesVehicles) throws SQLException {
+        String query = "UPDATE Agency set RatesVehicles=? WHERE id_Agency=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setFloat(1, RatesVehicles);
+        queryPrep.setInt(2, idAgency);
+        System.out.println(queryPrep.toString());
+        return queryPrep.executeUpdate();
+    
+    }
+    
+ /*Get id Agency user*/
+    public int getidAgency(int idConsultant) throws SQLException {
+        int chiff = 0;
+        String query = "SELECT idAgency FROM Consultant where id_Consultant=? ;";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idConsultant);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            chiff = resultat.getInt("id_Agency");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(chiff);
+        return chiff;
     }
 }
