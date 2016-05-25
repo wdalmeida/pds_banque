@@ -907,4 +907,26 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
+    
+    public String getAgencyCity(int idC0) throws SQLException{
+        String city ="";
+        String query = "SELECT city_Agency " 
+                       + "FROM Loan l, LoanSimulation ls,Consultant c,Agency a " 
+                       + "WHERE l.id_Sim = ls.id_Sim " 
+                       + "AND ls.id_Consultant = c.id_Consultant " 
+                       + "AND c.id_Agency = a.id_Agency " 
+                       + "AND c.id_Consultant = ? ";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idC0);
+        ResultSet rs = queryPrep.executeQuery();
+        System.out.println("city = " +  city);
+        if (rs.first()) {
+           //city = rs.getString("city_Agency");
+           city = rs.getString(1);
+                   
+        }
+        System.out.println("city2 = " + city);
+    return city;
+        
+    }
 }

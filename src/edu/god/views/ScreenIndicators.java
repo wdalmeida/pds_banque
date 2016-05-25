@@ -33,7 +33,7 @@ public class ScreenIndicators extends javax.swing.JFrame {
         jPanel1.setBackground(Color.WHITE);
         jPanel2.setBackground(Color.WHITE);
         jPanel3.setBackground(Color.WHITE);
-        IndicatorJtable.setModel(new IndicatorTable());
+        IndicatorJtable.setModel(new IndicatorTable(idC0));
         backButton.addActionListener(new ControllerScreenIndicator(this, idC0, backButton));
         this.setTitle("Indicateur");
         
