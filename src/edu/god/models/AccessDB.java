@@ -648,22 +648,24 @@ public class AccessDB implements Constantes {
     
     /*Get rates Consumption */
     public String getratesConsumption(int idAgency) throws SQLException {
-        String chiff = null;
-        String query = "SELECT RatesConsumption from Agency where id_agency=? ;";
+        String taux = null;
+        String query = "SELECT RatesConsumption from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setInt(1, idAgency);
+        queryPrep.setInt(1,idAgency);
+        System.out.println("getratesConsumption se lance");
         ResultSet resultat = queryPrep.executeQuery();
         if (resultat.first()) {
-            chiff = resultat.getString("RatesConsumption");
+            taux = resultat.getString("RatesConsumption");
         }
         System.out.println("requete = " + queryPrep.toString());
-        System.out.println(chiff);
-        return chiff;
+        System.out.println(taux);
+        return taux;
     }
       /*update rates Consumption Agency*/
     public int updateRatesConsumption(int idAgency, float RatesConsumption) throws SQLException {
         String query = "UPDATE Agency set RatesConsumption=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
+        System.out.println("updateratesConsumption se lance");
         queryPrep.setFloat(1, RatesConsumption);
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
@@ -675,11 +677,11 @@ public class AccessDB implements Constantes {
      /*Get Parent Agency rates Personal */
     public String getRatesPesonalParent() throws SQLException {
         String chiff = null;
-        String query = "SELECT ParentRatesPersonal from Rate_Parent_company ;";
+        String query = "SELECT ParentRatesPersonel FROM Rate_Parent_company ;";
         Statement stmt = conn.prepareStatement(query);
         ResultSet resultat = stmt.executeQuery(query);
         if (resultat.first()) {
-            chiff = resultat.getString("ParentRatesPersonal");
+            chiff = resultat.getString("ParentRatesPersonel");
         }
         System.out.println("requete = " + stmt.toString());
         System.out.println(chiff);
@@ -689,7 +691,7 @@ public class AccessDB implements Constantes {
     /*Get rates Personal */
     public String getratesPersonal(int idAgency) throws SQLException {
         String chiff = null;
-        String query = "SELECT RatesPersonel from Agency where id_agency=? ;";
+        String query = "SELECT RatesPersonel FROM Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet resultat = queryPrep.executeQuery();
@@ -702,10 +704,10 @@ public class AccessDB implements Constantes {
     }
     
        /*Update Rates Personal*/
-    public int updateRatesPersonal(int idAgency, float RatesPersonal) throws SQLException {
-        String query = "UPDATE Agency set RatesPersonal=? WHERE id_Agency=? ;";
+    public int updateRatesPersonal(int idAgency, float RatesPersonel) throws SQLException {
+        String query = "UPDATE Agency set RatesPersonel=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setFloat(1, RatesPersonal);
+        queryPrep.setFloat(1, RatesPersonel);
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
@@ -730,7 +732,7 @@ public class AccessDB implements Constantes {
     /*Get rates Property */
     public String getratesProperty(int idAgency) throws SQLException {
         String chiff = null;
-        String query = "SELECT RatesProperty from Agency where id_agency=5 ;";
+        String query = "SELECT RatesProperty from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet resultat = queryPrep.executeQuery();
@@ -770,7 +772,7 @@ public class AccessDB implements Constantes {
     /*Get rates Project */
     public String getratesProj(int idAgency) throws SQLException {
         String chiff = null;
-        String query = "SELECT RatesProject from Agency where id_agency=5 ;";
+        String query = "SELECT RatesProject from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet resultat = queryPrep.executeQuery();
@@ -810,7 +812,7 @@ public class AccessDB implements Constantes {
     /*Get rates Repurchase */
     public String getratesRepurchase(int idAgency) throws SQLException {
         String chiff = null;
-        String query = "SELECT RatesRepurchase from Agency where id_agency=5 ;";
+        String query = "SELECT RatesRepurchase from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet resultat = queryPrep.executeQuery();
@@ -849,7 +851,7 @@ public class AccessDB implements Constantes {
     /*Get rates Vehicles */
     public String getratesVehicles(int idAgency) throws SQLException {
         String chiff = null;
-        String query = "SELECT RatesVehicles from Agency where id_agency=5 ;";
+        String query = "SELECT RatesVehicles from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet resultat = queryPrep.executeQuery();
@@ -875,7 +877,7 @@ public class AccessDB implements Constantes {
  /*Get id Agency user*/
     public int getidAgency(int idConsultant) throws SQLException {
         int chiff = 0;
-        String query = "SELECT idAgency FROM Consultant where id_Consultant=? ;";
+        String query = "SELECT id_Agency FROM Consultant where id_Consultant=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idConsultant);
         ResultSet resultat = queryPrep.executeQuery();

@@ -24,6 +24,7 @@ public class ScreenModifyRatesPersonal extends javax.swing.JFrame {
     public ScreenModifyRatesPersonal(int idConsultant) throws SQLException {
         initComponents();
          this.bdd =AccessDB.getAccessDB();
+         this.idConsultant=idConsultant;
         int idAgency = bdd.getidAgency(idConsultant);
         jTextField1.setText(bdd.getRatesPesonalParent());
         directoryrates.setText(bdd.getratesPersonal(idAgency));
@@ -120,11 +121,11 @@ public class ScreenModifyRatesPersonal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(167, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(save)
-                        .addGap(141, 141, 141)
+                        .addGap(140, 140, 140)
                         .addComponent(impact)
                         .addGap(223, 223, 223))
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -153,16 +154,13 @@ public class ScreenModifyRatesPersonal extends javax.swing.JFrame {
                             .addComponent(jLabel4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(impact)
-                        .addGap(129, 129, 129)
-                        .addComponent(jButton2)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(save)
-                        .addGap(182, 182, 182))))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(impact)
+                    .addComponent(save))
+                .addGap(129, 129, 129)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
 
         pack();
@@ -185,7 +183,7 @@ public class ScreenModifyRatesPersonal extends javax.swing.JFrame {
             bdd.updateRatesPersonal(idConsultant,directoryratesFloat);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Vous n'avez pas enregistré la donnée.");
-        }// 
+        }
     }//GEN-LAST:event_saveActionPerformed
 
  

@@ -22,7 +22,7 @@ private final AccessDB bdd;
     public ScreenModifyRatesVehicles(int idConsultant) throws SQLException {
         initComponents();
          this.bdd =AccessDB.getAccessDB();
-       int idAgency = bdd.getidAgency(idConsultant);
+        int idAgency = bdd.getidAgency(idConsultant);
         jTextField1.setText(bdd.getRatesVehiclesParent());
         directoryrates.setText(bdd.getratesVehicles(idAgency));
     }

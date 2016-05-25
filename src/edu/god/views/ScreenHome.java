@@ -28,6 +28,7 @@ public class ScreenHome extends javax.swing.JFrame {
         initComponents();
         this.bdd = AccessDB.getAccessDB();
         this.getConsultantInfo(idC);
+        this.idConsultant=idC;
         /*get information about a Consultant */
         // Add ActionListener
         btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan,indicatorButton));

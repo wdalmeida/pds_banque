@@ -27,11 +27,15 @@ public class ScreenModifyRatesConsumption extends javax.swing.JFrame{
      * Creates new form ScreenModifyRates
      */
     public ScreenModifyRatesConsumption(int idConsultant) throws SQLException {
-           initComponents();
+           initComponents();     
+           this.idConsultant=idConsultant;
+           System.out.println("this idconsultant faux");
        this.bdd =AccessDB.getAccessDB();
         int idAgency = bdd.getidAgency(idConsultant);
+        System.out.println("getidAgency");
         jTextField1.setText(bdd.getRatesConsumptionParent());
         directoryrates.setText(bdd.getratesConsumption(idAgency));
+        System.out.println("this getratesConsumption");
     }
     
     /**

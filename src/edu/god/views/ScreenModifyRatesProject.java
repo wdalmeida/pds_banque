@@ -24,6 +24,7 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
     public ScreenModifyRatesProject(int idConsultant) throws SQLException {
         initComponents();
         this.bdd =AccessDB.getAccessDB();
+        this.idConsultant=idConsultant;
         int idAgency = bdd.getidAgency(idConsultant);
         jTextField1.setText(bdd.getRatesProjectParent());
         directoryrates.setText(bdd.getratesConsumption(idAgency));

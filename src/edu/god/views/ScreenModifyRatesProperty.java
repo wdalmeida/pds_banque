@@ -22,6 +22,7 @@ private final AccessDB bdd;
     public ScreenModifyRatesProperty(int idConsultant) throws SQLException {
         initComponents();
         this.bdd =AccessDB.getAccessDB();
+        this.idConsultant=idConsultant;
         int idAgency = bdd.getidAgency(idConsultant);
         jTextField1.setText(bdd.getRatesPropertyParent());
         directoryrates.setText(bdd.getratesProperty(idAgency));

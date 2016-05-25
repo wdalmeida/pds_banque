@@ -23,6 +23,7 @@ private final AccessDB bdd;
         initComponents();
         this.bdd =AccessDB.getAccessDB();
        int idAgency = bdd.getidAgency(idConsultant);
+       this.idConsultant=idConsultant;
         jTextField1.setText(bdd.getRatesRepurchaseParent());
         directoryrates.setText(bdd.getratesRepurchase(idAgency));
     }
