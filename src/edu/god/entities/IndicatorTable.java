@@ -9,6 +9,7 @@ import edu.god.controllers.ControllerScreenIndicator;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -25,10 +26,11 @@ public class IndicatorTable extends AbstractTableModel {
     AccessDB db = AccessDB.getAccessDB();
     public IndicatorTable() throws SQLException {
         super();
-        
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
         indicators.add(new Indicator("Taux Moyen",db.getRateAverage(),"Paris"));
-        indicators.add(new Indicator("Nombre de prêt",db.getLoanNumber(),"Paris"));
-        indicators.add(new Indicator("Nombre de prêt","2","Paris"));
+        indicators.add(new Indicator("Nombre de prêt",db.getLoanNumber(year),"Paris"));
+        
         
     }
  

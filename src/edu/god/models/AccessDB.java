@@ -697,7 +697,6 @@ public class AccessDB implements Constantes {
     }
     
      public String getRateAverage() throws SQLException {
-        String rateStr = null;
         String rate= null;
         String query = "SELECT AVG(percentage_Rate) FROM Rate";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -706,25 +705,28 @@ public class AccessDB implements Constantes {
         if (rs.first()) {
             rate = rs.getString("AVG(percentage_Rate)");
         }
-        return rateStr = rate ;
+        return rate ;
     }
      
-     public String getLoanNumber() throws SQLException {
+     public String getLoanNumber(int year) throws SQLException {
         int nbrLoan = 0;
-        String loanCount = null;
-        String query = "SELECT distinct Count(*) as loan_Number from Loan";
+        String loanCount = "";
+        String query = "SELECT distinct Count(*) as loan_Number from Loan where start_Date like ?";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        //queryPrep.setString(1, agency);
+        queryPrep.setString(1, Integer.toString(year)+"%");
         ResultSet rs = queryPrep.executeQuery();
         if (rs.first()) {
+            System.out.println("TEST GETLOANNUMBER");
+            System.out.println(" numberloan = " + rs.getInt("loan_Number"));
             nbrLoan = rs.getInt("loan_Number");
         }
+        
         return loanCount = Integer.toString(nbrLoan);
     }
      
-      public String getnumbeR() throws SQLException {
+      public String getAgency() throws SQLException {
         int nbrLoan = 0;
-        String loanCount = null;
+        String loanCount = "";
         String query = "SELECT distinct Count(*) as loan_Number from Loan";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         //queryPrep.setString(1, agency);
