@@ -189,10 +189,6 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenManageCust.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (postalCode.getText().length() < 5) {
-            error.setText("le code postal doit être composé de 5 chiffres");
-            postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
-
         } else {
             error.setText("Veuillez saisir tous les champs");
             if (lastName.getText().isEmpty()) {
@@ -210,7 +206,12 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
                     postalCode.requestFocus();
                 }
                 postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
+            } else if (postalCode.getText().length() < 5) {
+                error.setText("le code postal doit être composé de 5 chiffres");
+                postalCode.setBorder(BorderFactory.createLineBorder(Color.RED));
+
             }
+
         }
         return customers;
     }
@@ -288,6 +289,9 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
     }
 
     @Override
+    
+    
+    
     public void keyPressed(KeyEvent e) {
     }
 
@@ -297,7 +301,10 @@ public class ControllerScreenManageCust implements ActionListener, MouseListener
 
     @Override
     public void focusGained(FocusEvent e) {
-        smc.getRootPane().setDefaultButton((JButton) e.getSource());
+        if (e.getComponent().getClass() == JButton.class) {
+            JButton jb = (JButton) e.getSource();
+            smc.getRootPane().setDefaultButton(jb);
+        }
     }
 
     @Override

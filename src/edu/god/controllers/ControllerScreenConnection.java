@@ -74,6 +74,7 @@ public class ControllerScreenConnection implements ActionListener {
         password.setBorder(UIManager.getBorder("TextField.border"));
     }
 
+
     private String pwdToString() {
         String pwd = "";
         for (char aChar : password.getPassword()) {
@@ -82,3 +83,5 @@ public class ControllerScreenConnection implements ActionListener {
         return pwd;
     }
 }
+
+

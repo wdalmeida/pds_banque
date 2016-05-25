@@ -109,37 +109,23 @@ public class ControllerScreenCreateCust implements ActionListener {
                 java.sql.Date sqlDate = new java.sql.Date(birthday.getDate().getTime());
                 String dateString = sqlDate.toString();
 
-
                 String idCustomer = bdd.getIDCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex());
                 ClientJavInsert.clientTcpInsert("L", "1", encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
+
+                
 
                 JOptionPane.showMessageDialog(scc, "Le client a été ajouté", "Ajout client", JOptionPane.INFORMATION_MESSAGE);
                 // if the boolean is true, the next window will be loan simulation
                 if(goToSim){
                 scc.dispose();
+
                 ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant,idCustomer,false);
                 }
                 //Object obj = encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
 
-                // if(birthday.getDate() instanceof DATE && Integer.parseInt(salary.getText()) instanceof(Integer) && Integer.parseInt(phoneNumber.getText()) instanceof Integer && Integer.parseInt(postalCode.getText()) instanceof Integer)
-                //  {
-                /*try {
-                 //System.out.println("Civilité = " + title.getSelectedItem().toString() + " Nom = " + lastName.getText() + " Prenom = " + firstName.getText() + " date de Naissance = " + birthday.getDate() + " Nationalite " + nationality.getText() + " telephone = " + phoneNumber.getText() + " email =" + email.getText() + " Proprietaire = "+owner.isSelected()+ "Salaire = " + Float.valueOf(salary.getText()) + " statut = " + status.getSelectedItem().toString() + " rue = " + street.getText() + " ville= " + city.getText() + " CP = " + postalCode.getText());
-                 res = bdd.insertCustomer(this.customer, idConsultant);
+                ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, idCustomer, false);
 
-                 if (res == 1) {
-                 this.scc.dispose();
-                 scc.setVisible(false);
-                 ScreenHome fen2 = new ScreenHome(idConsultant);
-                 } else {
-                 System.out.println("insertio ko");
-                 }
-                 /*  }else {
-                 // here mesagge for wrong format of birthday or salary or phonenumber or Postal code
-                 }
-                 } catch (NoSuchAlgorithmException ex) {
-                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
-                 }*/
+
             } catch (IOException | ParseException | SQLException | java.text.ParseException ex) {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -9,9 +9,14 @@ import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+
+/**
+ * 
+ * @author Florian
+ * Pie Chart component, needs to provide the values of the slices to be properly displayed
+ * 
+ */
 class PieChart {
-
-
 
     double value;
     Color color;

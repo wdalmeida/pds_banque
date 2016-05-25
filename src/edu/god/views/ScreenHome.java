@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 public class ScreenHome extends javax.swing.JFrame {
 
     private final AccessDB bdd;
+    private int idConsultant ;
 
     /**
      * Creates new form ScreenHome
@@ -27,14 +28,15 @@ public class ScreenHome extends javax.swing.JFrame {
         initComponents();
         this.bdd = AccessDB.getAccessDB();
         this.getConsultantInfo(idC);
+        this.idConsultant=idC;
         /*get information about a Consultant */
         // Add ActionListener
-        btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
-        btnSimulateLoan.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
-        
+        btnCreateCustomer.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan,indicatorButton));
+        btnSimulateLoan.addActionListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan,indicatorButton));
+        indicatorButton.addActionListener(new ControllerScreenHome(this,idC,btnCreateCustomer,btnSimulateLoan,indicatorButton));
         //Add FocusListener
-        btnCreateCustomer.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
-        btnSimulateLoan.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan));
+        btnCreateCustomer.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan,indicatorButton));
+        btnSimulateLoan.addFocusListener(new ControllerScreenHome(this, idC, btnCreateCustomer, btnSimulateLoan,indicatorButton));
         
         this.setVisible(true);
     }
@@ -63,6 +65,7 @@ public class ScreenHome extends javax.swing.JFrame {
         btnCreateCustomer = new javax.swing.JButton();
         title = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        indicatorButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 200));
@@ -80,6 +83,14 @@ public class ScreenHome extends javax.swing.JFrame {
             }
         });
 
+        indicatorButton.setText("Indicateurs");
+        indicatorButton.setActionCommand("");
+        indicatorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                indicatorButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -94,7 +105,9 @@ public class ScreenHome extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSimulateLoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26)
-                .addComponent(btnCreateCustomer)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCreateCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(indicatorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,9 +120,13 @@ public class ScreenHome extends javax.swing.JFrame {
                     .addComponent(btnSimulateLoan)
                     .addComponent(btnCreateCustomer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(indicatorButton))
                 .addGap(10, 10, 10))
         );
+
+        indicatorButton.getAccessibleContext().setAccessibleName("consulter les indicateurs");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,15 +149,20 @@ public class ScreenHome extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame ScreenType = new ScreenType();
+        JFrame ScreenType = new ScreenType(idConsultant);
         ScreenType.setVisible(true);
         this.dispose();
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void indicatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indicatorButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_indicatorButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateCustomer;
     private javax.swing.JButton btnSimulateLoan;
+    private javax.swing.JButton indicatorButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel title;

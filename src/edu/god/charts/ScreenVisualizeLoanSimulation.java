@@ -7,22 +7,20 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Florian
+ * Main graphical user interface
+ * Enable input for simulation parameters
  */
 public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
 
@@ -246,7 +244,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-       /* AmortizationCalculation am = new AmortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -265,7 +263,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
-*/
+
     }//GEN-LAST:event_tableButtonActionPerformed
 
     //lancement de la creation des graphiques
@@ -285,7 +283,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-/*        AmortizationCalculation am = new AmortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -302,7 +300,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText(), insuranceRateTextfield.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
-*/
+
 
     }//GEN-LAST:event_graphButtonActionPerformed
 

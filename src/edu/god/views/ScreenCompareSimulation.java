@@ -7,7 +7,6 @@ package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
-import java.util.List;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
