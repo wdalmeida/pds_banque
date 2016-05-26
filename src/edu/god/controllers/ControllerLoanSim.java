@@ -175,16 +175,16 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
         float monthlyInssuranceRate = insuranceRate / 12;
 
-        float monthly = ((amount - capital) * interestRate)/duration;
+        float monthly = ((amount - capital) * interestRate) / duration;
         float monthlyInsurance = ((amount - capital) * monthlyInssuranceRate);
         float monthlyWInsurance = monthly + monthlyInsurance;
 
         if (insuranceRate == 0) {
             insuranceRate = 1;
         }
-        float totalLoan = (float) (amount * interestRate + (monthlyInsurance*duration));
-        float totalInsurance = (amount * monthlyInssuranceRate ) * duration;
-        float totalInterest = totalLoan - amount -totalInsurance;
+        float totalLoan = (float) (amount * interestRate + (monthlyInsurance * duration));
+        float totalInsurance = (amount * monthlyInssuranceRate) * duration;
+        float totalInterest = totalLoan - amount - totalInsurance;
 
         txtMonthly.setText(df.format(monthly));
         txtMonthlyWInsurance.setText(df.format(monthlyInsurance));
@@ -203,13 +203,21 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private boolean fieldsNotEmpty() {
         boolean notEmpty = true;
         ArrayList<JTextField> textFields = new ArrayList<>();
-
+        Pattern p = Pattern.compile("[0-9]*\\.?[0-9]{1,2}");
+        Matcher m = null;
         if (cbxLoan.getSelectedIndex() == 0) {
             notEmpty = false;
             cbxLoan.setBorder(BorderFactory.createLineBorder(Color.RED));
         }
         if (txtInsurance.getText().isEmpty()) {
             txtInsurance.setText("0");
+        } else if (!txtInsurance.getText().isEmpty()) {
+            m = p.matcher(txtInsurance.getText());
+            if (!m.matches()) {
+                txtInsurance.setBorder(BorderFactory.createLineBorder(Color.RED));
+                return false;
+            }
+
         }
         for (Component aField : left.getComponents()) {
             if (aField.getClass() == JTextField.class
@@ -222,6 +230,13 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 textFields.get(i - 1).requestFocus();
                 textFields.get(i - 1).setBorder(BorderFactory.createLineBorder(Color.RED));
                 notEmpty = false;
+            } else if (!textFields.get(i - 1).getText().isEmpty()) {
+                m = p.matcher(textFields.get(i - 1).getText());
+                if (!m.matches()) {
+                    textFields.get(i - 1).requestFocus();
+                    textFields.get(i - 1).setBorder(BorderFactory.createLineBorder(Color.RED));
+                    return false;
+                }
             }
         }
         return notEmpty;
@@ -245,7 +260,8 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 textFields.get(i - 1).setBorder(UIManager.getBorder("TextField.border"));
             }
         }
-        cbxLoan.setBorder(UIManager.getBorder("TextField.border"));
+        cbxLoan.setBorder(UIManager.getBorder("ComboBox.border"));
+        txtInsurance.setBorder(UIManager.getBorder("TextField.border"));
         error.setText("");
     }
 
@@ -315,8 +331,8 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         String[] param = test3.split(",");
         System.out.println(Arrays.toString(param));
         int minAmount = Integer.parseInt(param[0]), maxAmount = Integer.parseInt(param[1]), minDuration = Integer.parseInt(param[2]), maxDuration = Integer.parseInt(param[3]);
-        if (Integer.parseInt(txtAmount.getText()) >= minAmount && Integer.parseInt(txtAmount.getText()) <= maxAmount) {
-            if (Integer.parseInt(txtDuration.getText()) >= minDuration && Integer.parseInt(txtDuration.getText()) <= maxDuration) {
+        if (Float.parseFloat(txtAmount.getText()) >= minAmount && Float.parseFloat(txtAmount.getText()) <= maxAmount) {
+            if (Float.parseFloat(txtDuration.getText()) >= minDuration && Float.parseFloat(txtDuration.getText()) <= maxDuration) {
                 checking = true;
             } else {
                 JOptionPane.showMessageDialog(sls, "La durée du prêt doit être compris entre " + minDuration + " et " + maxDuration, "Information", JOptionPane.INFORMATION_MESSAGE);
