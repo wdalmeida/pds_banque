@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JTextField txtMonthlyWInsurance;
     private final JTextField txtMonthlyInsurance;
     private final JTextField txtMonthly;
-    private final JTextField txtTotal;
+    private final JTextField txtTotalInterest;
     private final JTextField txtTotalInsurance;
-    private final JTextField txtCost;
+    private final JTextField txtTotalLoan;
     private final JButton btnSave;
 
     private final JPanel left;
@@ -91,9 +92,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyInsurance = txtMonthlyInsurance;
         this.txtMonthly = txtMonthly;
-        this.txtTotal = txtTotal;
+        this.txtTotalInterest = txtTotal;
         this.txtTotalInsurance = txtTotalInsurance;
-        this.txtCost = txtCost;
+        this.txtTotalLoan = txtCost;
         this.cbxLoan = cbxLoan;
         this.txtAmount = txtAmount;
         this.txtRate = txtRate;
@@ -161,32 +162,37 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * the method calcul the loan with the data previously input
      */
     private void calculLoan() {
+        DecimalFormat df = new DecimalFormat("0.00");
+
         float amount = Float.parseFloat(txtAmount.getText());
         float rate = Float.parseFloat(txtRate.getText());
         float insurance = Float.parseFloat(txtInsurance.getText());
         float duration = Float.parseFloat(txtDuration.getText());
         float capital = Float.parseFloat(txtCapital.getText());
 
-        float interestRate = rate / 100;
-        float insussuranceRate = insurance / 100;
+        float interestRate = 1 + (rate / 100);
+        float insuranceRate = insurance / 100;
 
         float monthlyInterestRate = interestRate / 12;
-        float monthlyInssuranceRate = insussuranceRate / 12;
+        float monthlyInssuranceRate = insuranceRate / 12;
 
-        double monthlyWInsurance = amount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -duration)));
-        float monthlyOfInsurance = amount * monthlyInssuranceRate;
-        double monthlyInsurance = monthlyWInsurance + monthlyOfInsurance;
+        float monthly = ((amount - capital) * interestRate)/duration;
+        float monthlyInsurance = ((amount - capital) * monthlyInssuranceRate);
+        float monthlyWInsurance = monthly + monthlyInsurance;
 
-        float totalInsurance = amount * insussuranceRate / 100;
-        float cost = amount * rate / 100;
-        float total = cost - amount;
+        if (insuranceRate == 0) {
+            insuranceRate = 1;
+        }
+        float totalLoan = (float) (amount * interestRate + (monthlyInsurance*duration));
+        float totalInsurance = (amount * monthlyInssuranceRate ) * duration;
+        float totalInterest = totalLoan - amount -totalInsurance;
 
-        txtMonthlyWInsurance.setText(String.valueOf(monthlyWInsurance));
-        txtMonthlyInsurance.setText(String.valueOf(monthlyOfInsurance));
-        txtMonthly.setText(String.valueOf(monthlyInsurance));
-        txtTotal.setText(String.valueOf(total));
-        txtTotalInsurance.setText(String.valueOf(totalInsurance));
-        txtCost.setText(String.valueOf(cost));
+        txtMonthly.setText(df.format(monthly));
+        txtMonthlyWInsurance.setText(df.format(monthlyInsurance));
+        txtMonthlyInsurance.setText(df.format(monthlyWInsurance));
+        txtTotalInterest.setText(df.format(totalInterest));
+        txtTotalInsurance.setText(df.format(totalInsurance));
+        txtTotalLoan.setText(df.format(totalLoan));
     }
 
     /**
