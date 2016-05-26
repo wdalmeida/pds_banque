@@ -55,9 +55,9 @@ public class serverGUI extends javax.swing.JFrame {
             System.out.println("Donnees recues par le serveur: " + donneesEntreeClientSelect);
             Object obj = donneesEntreeClientSelect;
             //decodageCustomer(obj);
-            String resultFromSelect = AccessDB_server.sendQueryRequest(decodeLoginConsultant(donneesEntreeClientSelect));
+           // String resultFromSelect = AccessDB_server.sendQueryRequest(decodeLoginConsultant(donneesEntreeClientSelect));
 
-            outputToClientSelect.writeBytes(resultFromSelect + '\n');
+          //  outputToClientSelect.writeBytes(resultFromSelect + '\n');
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             Socket connectionSocketInsert = socketInsert.accept();

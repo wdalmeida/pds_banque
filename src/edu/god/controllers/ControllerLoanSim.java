@@ -5,7 +5,8 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.AccessDB;
+import edu.god.serialisation.JsonEncoding;
+import edu.god.server.ClientJavaSelect;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
@@ -15,16 +16,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
-import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
@@ -39,9 +44,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JTextField txtMonthlyWInsurance;
     private final JTextField txtMonthlyInsurance;
     private final JTextField txtMonthly;
-    private final JTextField txtTotal;
+    private final JTextField txtTotalInterest;
     private final JTextField txtTotalInsurance;
-    private final JTextField txtCost;
+    private final JTextField txtTotalLoan;
     private final JButton btnSave;
 
     private final JPanel left;
@@ -87,9 +92,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyInsurance = txtMonthlyInsurance;
         this.txtMonthly = txtMonthly;
-        this.txtTotal = txtTotal;
+        this.txtTotalInterest = txtTotal;
         this.txtTotalInsurance = txtTotalInsurance;
-        this.txtCost = txtCost;
+        this.txtTotalLoan = txtCost;
         this.cbxLoan = cbxLoan;
         this.txtAmount = txtAmount;
         this.txtRate = txtRate;
@@ -114,42 +119,42 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         resetAfterError();
-        if (fieldsNotEmpty()) {
-            if (e.getSource() == btnCalculate) {
+        if (e.getSource() == btnCalculate) {
+            if (fieldsNotEmpty()) {
                 try {
                     if (checkLoanProperty()) {
                         calculLoan();
                         btnSave.setEnabled(true);
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException | org.json.simple.parser.ParseException ex) {
                     Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else if (e.getSource() == btnSave) {
-                String date = LocalDate.now().toString();
-                if (modify) { // if the user choose an existing simulation to modified it. CASE UPDATE
-                    try {
-                        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        System.out.println("idtype = " + idType);
-                        int updateLoanSim = AccessDB.getAccessDB().updateLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType);
-                        showDialog(updateLoanSim);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
-                    try {
-                        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        int insertLoanSim = AccessDB.getAccessDB().insertLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Cree le " + date, idCons, idCust, "1", "1", idType);
-                        showDialog(insertLoanSim);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            } else if (e.getSource() == btnHome) {
-                sls.dispose();
-                ScreenHome newWindow = new ScreenHome(idCons);
+            } else { // end of if( fieldsNotEmpty()) ...
+                error.setText("Veuillez saisir tous les champs obligatoires");
             }
-        } else { // end of if( fieldsNotEmpty()) ...
-            error.setText("Veuillez saisir tous les champs obligatoires");
+        } else if (e.getSource() == btnSave) {
+            String date = LocalDate.now().toString();
+            if (modify) { // if the user choose an existing simulation to modified it. CASE UPDATE
+                try {
+                    String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
+                    System.out.println("idtype = " + idType);
+                    String updateLoanSim = ClientJavaSelect.clientTcpSelect("D", "8", JsonEncoding.encodingUpLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType));
+                    showDialog(Integer.parseInt(updateLoanSim));
+                } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
+                try {
+                    String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
+                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", String.valueOf(idCons), idCust, "1", "1", idType));
+                    showDialog(Integer.parseInt(insertLoanSim));
+                } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else if (e.getSource() == btnHome) {
+            sls.dispose();
+            ScreenHome newWindow = new ScreenHome(idCons);
         }
     }
 
@@ -157,32 +162,36 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * the method calcul the loan with the data previously input
      */
     private void calculLoan() {
+        DecimalFormat df = new DecimalFormat("0.00");
+
         float amount = Float.parseFloat(txtAmount.getText());
         float rate = Float.parseFloat(txtRate.getText());
         float insurance = Float.parseFloat(txtInsurance.getText());
         float duration = Float.parseFloat(txtDuration.getText());
         float capital = Float.parseFloat(txtCapital.getText());
 
-        float interestRate = rate / 100;
-        float insussuranceRate = insurance / 100;
-        
-        float monthlyInterestRate = interestRate / 12; 
-        float monthlyInssuranceRate = insussuranceRate / 12;
-        
-        double monthlyWInsurance = amount * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -duration)));
-        float monthlyOfInsurance = amount*monthlyInssuranceRate;
-        double monthlyInsurance = monthlyWInsurance+monthlyOfInsurance;
+        float interestRate = 1 + (rate / 100);
+        float insuranceRate = insurance / 100;
 
-        float totalInsurance = amount * insussuranceRate/100 ;
-        float cost = amount * rate / 100;
-        float total = cost - amount;
+        float monthlyInssuranceRate = insuranceRate / 12;
 
-        txtMonthlyWInsurance.setText(String.valueOf(monthlyWInsurance));
-        txtMonthlyInsurance.setText(String.valueOf(monthlyOfInsurance));
-        txtMonthly.setText(String.valueOf(monthlyInsurance));
-        txtTotal.setText(String.valueOf(total));
-        txtTotalInsurance.setText(String.valueOf(totalInsurance));
-        txtCost.setText(String.valueOf(cost));
+        float monthly = ((amount - capital) * interestRate)/duration;
+        float monthlyInsurance = ((amount - capital) * monthlyInssuranceRate);
+        float monthlyWInsurance = monthly + monthlyInsurance;
+
+        if (insuranceRate == 0) {
+            insuranceRate = 1;
+        }
+        float totalLoan = (float) (amount * interestRate + (monthlyInsurance*duration));
+        float totalInsurance = (amount * monthlyInssuranceRate ) * duration;
+        float totalInterest = totalLoan - amount -totalInsurance;
+
+        txtMonthly.setText(df.format(monthly));
+        txtMonthlyWInsurance.setText(df.format(monthlyInsurance));
+        txtMonthlyInsurance.setText(df.format(monthlyWInsurance));
+        txtTotalInterest.setText(df.format(totalInterest));
+        txtTotalInsurance.setText(df.format(totalInsurance));
+        txtTotalLoan.setText(df.format(totalLoan));
     }
 
     /**
@@ -194,8 +203,17 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private boolean fieldsNotEmpty() {
         boolean notEmpty = true;
         ArrayList<JTextField> textFields = new ArrayList<>();
+
+        if (cbxLoan.getSelectedIndex() == 0) {
+            notEmpty = false;
+            cbxLoan.setBorder(BorderFactory.createLineBorder(Color.RED));
+        }
+        if (txtInsurance.getText().isEmpty()) {
+            txtInsurance.setText("0");
+        }
         for (Component aField : left.getComponents()) {
-            if (aField.getClass() == JTextField.class && aField.getName() == null) {
+            if (aField.getClass() == JTextField.class
+                    && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
@@ -214,8 +232,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      */
     private void resetAfterError() {
         ArrayList<JTextField> textFields = new ArrayList<>();
+
         for (Component aField : left.getComponents()) {
-            if (aField.getClass() == JTextField.class && aField.getName() == null) {
+            if (aField.getClass() == JTextField.class
+                    && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
@@ -225,6 +245,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 textFields.get(i - 1).setBorder(UIManager.getBorder("TextField.border"));
             }
         }
+        cbxLoan.setBorder(UIManager.getBorder("TextField.border"));
         error.setText("");
     }
 
@@ -235,9 +256,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * @param sqlResponse int
      * @throws SQLException
      */
-    private void showDialog(int sqlResponse) throws SQLException {
+    private void showDialog(int sqlResponse) throws SQLException, IOException, FileNotFoundException, org.json.simple.parser.ParseException, NoSuchAlgorithmException {
         if (idCust == null) {
-            idCust = AccessDB.getAccessDB().getIdCustInSim(id);
+            idCust = ClientJavaSelect.clientTcpSelect("D", "11", JsonEncoding.encodingIdCustInSim(id));
         }
         if (sqlResponse == 1) {
             String option[] = {"Accueil", "Comparer des simulations", "Nouvelle simulation"};
@@ -252,8 +273,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                     sls.dispose();
                     try {
                         ScreenLoanSim newWindow = new ScreenLoanSim(idCons, idCust, false);
+
                     } catch (ParseException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ControllerLoanSim.class
+                                .getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 case JOptionPane.YES_OPTION: {
@@ -282,11 +305,16 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * @throws SQLException
      * @return checking boolean
      */
-    private boolean checkLoanProperty() throws SQLException {
+    private boolean checkLoanProperty() throws SQLException, IOException, FileNotFoundException, org.json.simple.parser.ParseException {
         boolean checking = false;
-        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-        int param[] = AccessDB.getAccessDB().getParambyID(idType);
-        int minAmount = param[0], maxAmount = param[1], minDuration = param[2], maxDuration = param[3];
+        String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
+        String res = ClientJavaSelect.clientTcpSelect("D", "12", JsonEncoding.encodingParambyID(idType));
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String test3 = test2.replace(" ", "");
+        String[] param = test3.split(",");
+        System.out.println(Arrays.toString(param));
+        int minAmount = Integer.parseInt(param[0]), maxAmount = Integer.parseInt(param[1]), minDuration = Integer.parseInt(param[2]), maxDuration = Integer.parseInt(param[3]);
         if (Integer.parseInt(txtAmount.getText()) >= minAmount && Integer.parseInt(txtAmount.getText()) <= maxAmount) {
             if (Integer.parseInt(txtDuration.getText()) >= minDuration && Integer.parseInt(txtDuration.getText()) <= maxDuration) {
                 checking = true;
@@ -302,9 +330,12 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == ',') {
+            e.setKeyChar('.');
+        }
         Pattern p = Pattern.compile("[0-9.]");
         Matcher m = p.matcher(String.valueOf(e.getKeyChar()));
-        if(!m.matches()){
+        if (!m.matches()) {
             e.consume();
         }
     }

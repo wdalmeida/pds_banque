@@ -5,7 +5,6 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -15,9 +14,8 @@ import edu.god.entities.*;
 import edu.god.views.*;
 import edu.god.views.ScreenCreateCust;
 import org.jdesktop.swingx.*;
-
 import org.json.simple.parser.ParseException;
-import static edu.god.serialisation.JsonEncoding.encodageCustomer;
+import static edu.god.serialisation.JsonEncoding.*;
 import edu.god.server.*;
 import java.sql.SQLException;
 
@@ -27,7 +25,6 @@ import java.sql.SQLException;
  */
 public class ControllerScreenCreateCust implements ActionListener {
 
-    private AccessDB bdd;
     private JXDatePicker birthday;
     private final JButton btnBack;
     private final JButton btnSubmit;
@@ -61,7 +58,6 @@ public class ControllerScreenCreateCust implements ActionListener {
         this.btnBack = btnBack0;
         this.scc = scc0;
         this.idConsultant = idC0;
-        this.bdd = AccessDB.getAccessDB();
         this.title = title0;
         this.lastName = lastName0;
         this.firstName = firstName0;
@@ -82,7 +78,6 @@ public class ControllerScreenCreateCust implements ActionListener {
         this.btnBack = btnBack0;
         this.scc = scc0;
         this.idConsultant = idC0;
-        this.bdd = AccessDB.getAccessDB();
         this.title = title0;
         this.lastName = lastName0;
         this.firstName = firstName0;
@@ -109,23 +104,17 @@ public class ControllerScreenCreateCust implements ActionListener {
                 java.sql.Date sqlDate = new java.sql.Date(birthday.getDate().getTime());
                 String dateString = sqlDate.toString();
 
-                String idCustomer = bdd.getIDCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex());
+                String idCustomer = ClientJavaSelect.clientTcpSelect("D", "4", encodingCustomerId(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, status.getSelectedIndex()));
                 ClientJavInsert.clientTcpInsert("L", "1", encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex()));
 
                 
 
                 JOptionPane.showMessageDialog(scc, "Le client a été ajouté", "Ajout client", JOptionPane.INFORMATION_MESSAGE);
                 // if the boolean is true, the next window will be loan simulation
-                if(goToSim){
-                scc.dispose();
-
-                ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant,idCustomer,false);
+                if (goToSim) {
+                    scc.dispose();
+                    ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, idCustomer, false);
                 }
-                //Object obj = encodageCustomer(title.getSelectedItem().toString(), lastName.getText(), firstName.getText(), Float.valueOf(salary.getText()), street.getText(), postalCode.getText().substring(0, 5), city.getText(), phoneNumber.getText(), email.getText(), dateString, owner.isValid(), nationality.getText(), idConsultant, -1, status.getSelectedIndex());
-
-                ScreenLoanSim newWindow = new ScreenLoanSim(idConsultant, idCustomer, false);
-
-
             } catch (IOException | ParseException | SQLException | java.text.ParseException ex) {
                 Logger.getLogger(ControllerScreenCreateCust.class.getName()).log(Level.SEVERE, null, ex);
             }

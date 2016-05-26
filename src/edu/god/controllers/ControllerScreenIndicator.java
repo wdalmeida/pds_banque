@@ -73,7 +73,7 @@ public class ControllerScreenIndicator implements ActionListener {
 
         if (e.getSource() == refreshJButton) {
             try {
-                indicatorJtable.setModel(new IndicatorTable());
+                indicatorJtable.setModel(new IndicatorTable(idConsultant));
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -5,13 +5,19 @@
  */
 package edu.god.views;
 
-//import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.controllers.ControllerScreenExistingSim;
-import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.*;
+import edu.god.server.ClientJavaSelect;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -24,11 +30,61 @@ public class ScreenExistingSim extends javax.swing.JFrame {
      *
      * @param idConsultant int
      * @param idCustomer String
+     * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
+     * @throws org.json.simple.parser.ParseException
+     * @throws java.security.NoSuchAlgorithmException
      */
-    public ScreenExistingSim(int idConsultant, String idCustomer) {
+    public ScreenExistingSim(int idConsultant, String idCustomer) throws IOException, FileNotFoundException, ParseException, NoSuchAlgorithmException {
         initComponents();
         setVisible(true);
-        loadDataInTable(AccessDB.getAccessDB().getDateTypeSims(idCustomer));
+        ArrayList<String[]> simList = new ArrayList<>();
+        Object objetjson = ClientJavaSelect.clientTcpSelect("D", "3", encodingInfoSimCust(idCustomer));
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+        System.out.println(objetjson.toString());
+        for (int i = 1; i <= jsonObject.size(); i++) {
+            String[] test = new String[6];
+            switch (i) {
+                case 1:
+                    System.arraycopy(jsonObject.get("1").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 2:
+                    System.arraycopy(jsonObject.get("2").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 3:
+                    System.arraycopy(jsonObject.get("3").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 4:
+                    System.arraycopy(jsonObject.get("4").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 5:
+                    System.arraycopy(jsonObject.get("5").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 6:
+                    System.arraycopy(jsonObject.get("6").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 7:
+                    System.arraycopy(jsonObject.get("7").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 8:
+                    System.arraycopy(jsonObject.get("8").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 9:
+                    System.arraycopy(jsonObject.get("9").toString().split(","), 0, test, 0, 6);
+                    break;
+                case 10:
+                    System.arraycopy(jsonObject.get("10").toString().split(","), 0, test, 0, 6);
+                    break;
+                default:
+                    break;
+            }
+            System.out.println(Arrays.toString(test));
+            simList.add(test);
+        }
+        loadDataInTable(simList);
         getData(idCustomer);
 
         //Add actionListener
@@ -39,25 +95,26 @@ public class ScreenExistingSim extends javax.swing.JFrame {
 
         //Add mouseListener
         tblSims.addMouseListener(new ControllerScreenExistingSim(this, tblSims, btnModified, btnCancel, btnCompareSimulation, btnNewSim, idCustomer, idConsultant));
-        //  btnCompareSimulation.addActionListener(new ControllerScreenCompareSimulation(Integer.parseInt(idCustomer),btnCompareSimulation));
     }
 
     /**
      * The method retrieve the customer last and first name
-     * 
+     *
      * @param idCustomer String
      */
-    private void getData(String idCustomer) {
-        AccessDB bdd = AccessDB.getAccessDB();
-        String[] consultant = bdd.getLastFirstNameCustomer(idCustomer);
+    private void getData(String idCustomer) throws IOException, FileNotFoundException, ParseException {
+        String res = ClientJavaSelect.clientTcpSelect("D", "5", encodingLastFirstNameCustomer(idCustomer));
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String[] consultant = test2.split(",");
         lblTitle.setText(lblTitle.getText() + consultant[0] + "." + consultant[1] + " " + consultant[2]);
-
     }
 
     /**
-     * The method search and display some information about the customer's simulations
-     * 
-     * 
+     * The method search and display some information about the customer's
+     * simulations
+     *
+     *
      * @param simulations ArrayList<String[]>
      */
     private void loadDataInTable(ArrayList<String[]> simulations) {
@@ -69,11 +126,15 @@ public class ScreenExistingSim extends javax.swing.JFrame {
                 return false;
             }
         };
-        simulations.stream().forEach((sim) -> {
+        for (String[] sim : simulations) {
             model.addRow(sim);
-        });
+        }
         tblSims.setModel(model);
         TableColumnModel tcm = tblSims.getColumnModel();
+        for (int i = 0; i < tblSims.getRowCount(); i++) {
+            tblSims.setValueAt(tblSims.getModel().getValueAt(i, 0).toString().replace("[", ""), i, 0);
+            tblSims.setValueAt(tblSims.getValueAt(i, 5).toString().replace("]", ""), i, 5);
+        }
         tcm.removeColumn(tcm.getColumn(0));
     }
 

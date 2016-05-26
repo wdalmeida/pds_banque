@@ -36,9 +36,9 @@ public class TCPServerJsonSelect {
             System.out.println("Donnees recues par le serveur: " + dataFromClient);
             Object obj = dataFromClient;
             //decodageCustomer(obj);
-            String result = AccessDB_server.sendQueryRequest(decodeLoginConsultant(dataFromClient));
+          //  String result = AccessDB_server.sendQueryRequest(decodeLoginConsultant(dataFromClient));
 
-            outputToClient.writeBytes(result + '\n');
+          //  outputToClient.writeBytes(result + '\n');
         }
 
     }

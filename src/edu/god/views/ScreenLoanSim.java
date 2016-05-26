@@ -6,12 +6,16 @@
 package edu.god.views;
 
 import edu.god.controllers.ControllerLoanSim;
-import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.*;
+import edu.god.server.ClientJavaSelect;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -27,29 +31,46 @@ public class ScreenLoanSim extends JFrame {
      * @param simulation boolean
      * @throws java.sql.SQLException
      * @throws java.text.ParseException
+     * @throws org.json.simple.parser.ParseException
+     * @throws java.io.IOException
      */
-    public ScreenLoanSim(int idConsultant, String id, boolean simulation) throws SQLException, ParseException {
+    public ScreenLoanSim(int idConsultant, String id, boolean simulation) throws SQLException, ParseException, org.json.simple.parser.ParseException, IOException {
         initComponents();
         rootPane.getContentPane().setBackground(Color.WHITE);
 
         lblError.setText("");
         lblError.setForeground(Color.red);
         btnSave.setEnabled(false);
-        
+
         //load the combobox
-        ArrayList<String> loanTypes = AccessDB.getAccessDB().getLoanType();
+        String res = ClientJavaSelect.clientTcpSelect("D", "6", new JSONObject());
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String[] loanTypes = test2.split(",");
+        System.out.println(Arrays.toString(loanTypes));
+
         cbxLoan.removeAllItems();
         cbxLoan.addItem("Sélectionner");
         for (String loanType : loanTypes) {
-            cbxLoan.addItem(loanType);
+            if (loanType.startsWith(" ")) {
+                cbxLoan.addItem(loanType.substring(1));
+            } else {
+                cbxLoan.addItem(loanType);
+            }
+
         }
-        
+
         // add ActionListener
         btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance,  txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
-       
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id));
+        //add KeyListener
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+        txtRate.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+        txtInsurance.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+        txtDuration.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+        txtCapital.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id));
+
         // if the simulation exist load in the fied the saved data
         if (simulation) {
             loadForm(id);
@@ -59,19 +80,23 @@ public class ScreenLoanSim extends JFrame {
     }
 
     /**
-     * the method load the fields with the data saved in the database for a given simulation
-     * 
+     * the method load the fields with the data saved in the database for a
+     * given simulation
+     *
      * @param idSim String
-     * @throws ParseException 
+     * @throws ParseException
      */
-    public void loadForm(String idSim) throws ParseException {
-        AccessDB db = AccessDB.getAccessDB();
-        ArrayList<String> simData = db.getSimByID(idSim);
-        cbxLoan.setSelectedItem(simData.get(8));
-        txtAmount.setText(simData.get(2));
-        txtInsurance.setText(simData.get(7));/////////
-        txtDuration.setText(simData.get(4));
-        txtCapital.setText(simData.get(1));
+    public void loadForm(String idSim) throws ParseException, IOException, FileNotFoundException, org.json.simple.parser.ParseException {
+        String res = ClientJavaSelect.clientTcpSelect("D", "7", encodingSimId(idSim));
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String test3 = test.replace(", ", ",");
+        String[] infoSim = test3.split(",");
+        cbxLoan.setSelectedItem(infoSim[8]);
+        txtAmount.setText(infoSim[2]);
+        txtInsurance.setText(infoSim[7]);/////////
+        txtDuration.setText(infoSim[4]);
+        txtCapital.setText(infoSim[1]);
     }
 
     /**

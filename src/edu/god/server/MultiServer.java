@@ -1,15 +1,16 @@
 package edu.god.server;
 
-import static edu.god.serialisation.JsonDecoding.decodeCustomer;
-import static edu.god.serialisation.JsonDecoding.decodeLoginConsultant;
+import static edu.god.serialisation.JsonDecoding.*;
 import java.io.BufferedReader;
-import java.io.*;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
+import java.util.Arrays;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -18,7 +19,7 @@ import org.json.simple.parser.ParseException;
  */
 public class MultiServer {
 
-    public static void launchServer(int port) throws IOException, FileNotFoundException, ParseException {
+    public static void launchServer(int port) throws IOException, FileNotFoundException, ParseException, SQLException, ClassNotFoundException {
         ServerSocket hostingSocket = new ServerSocket(port);
         String dataFromClient;
 
@@ -66,7 +67,71 @@ public class MultiServer {
                 //Florent's  requests
             } //////////////////////////////////////////
             else if (userPrefix.startsWith("D")) {
-                //Warren's requests
+                //Warren's requestsc
+                switch (numberPrefix) {
+                    case "1":
+                        JSONObject resQuery1 = AccessDB_server.getCustomer(decodingSearchCustomer(encodedRequest));
+                        System.out.println(resQuery1.toString());
+                        outputToClient.writeBytes(resQuery1.toString() + '\n');
+                        break;
+                    case "2":
+                        int resQuery2 = AccessDB_server.getUserConnexion(decodeLoginConsultant(encodedRequest));
+                        System.out.println(String.valueOf(resQuery2));
+                        outputToClient.writeBytes(String.valueOf(resQuery2) + '\n');
+                        break;
+                    case "3":
+                        JSONObject resQuery3 = AccessDB_server.getDateTypeSims(decodingInfoSimCust(encodedRequest));
+                        System.out.println(String.valueOf(resQuery3));
+                        outputToClient.writeBytes(String.valueOf(resQuery3) + '\n');
+                        break;
+                    case "4":
+                        String resQuery4 = AccessDB_server.getIDCustomer(decodingCustomerId(encodedRequest));
+                        System.out.println(resQuery4);
+                        outputToClient.writeBytes(resQuery4 + '\n');
+                        break;
+                    case "5":
+                        String[] resQuery5 = AccessDB_server.getLastFirstNameCustomer(decodingLastFirstCustomer(encodedRequest));
+                        System.out.println(Arrays.toString(resQuery5));
+                        outputToClient.writeBytes(Arrays.toString(resQuery5) + '\n');
+                        break;
+                    case "6":
+                        String[] resQuery6 = AccessDB_server.getLoanType();
+                        System.out.println(Arrays.toString(resQuery6) );
+                        outputToClient.writeBytes(Arrays.toString(resQuery6) + '\n');
+                        break;
+                    case "7":
+                        String[] resQuery7 = AccessDB_server.getSimByID(decodingSimId(encodedRequest));
+                        System.out.println(Arrays.toString(resQuery7));
+                        outputToClient.writeBytes(Arrays.toString(resQuery7) + '\n');
+                        break;
+                    case "8":
+                        int resQuery8 = AccessDB_server.updateLoanSim(decodingUpLoanSim(encodedRequest));
+                        System.out.println(String.valueOf(resQuery8));
+                        outputToClient.writeBytes(String.valueOf(resQuery8) + '\n');
+                        break;
+                    case "9":
+                        int resQuery9 = AccessDB_server.insertLoanSim(decodingInLoanSim(encodedRequest));
+                        System.out.println(String.valueOf(resQuery9));
+                        outputToClient.writeBytes(String.valueOf(resQuery9) + '\n');
+                        break;
+                    case "10":
+                        String resQuery10 = AccessDB_server.getIdLoanType(decodingIdLoanType(encodedRequest));
+                        System.out.println(String.valueOf(resQuery10));
+                        outputToClient.writeBytes(String.valueOf(resQuery10) + '\n');
+                        break;
+                    case "11":
+                        String resQuery11 = AccessDB_server.getIdCustInSim(decodingIdCustInSim(encodedRequest));
+                        System.out.println(resQuery11);
+                        outputToClient.writeBytes(resQuery11 + '\n');
+                        break;
+                    case "12":
+                        int[] resQuery12 = AccessDB_server.getParambyID(decodingParamById(encodedRequest));
+                        System.out.println(String.valueOf(Arrays.toString(resQuery12)));
+                        outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery12)) + '\n');
+                        break;
+                    default:
+                        break;
+                }
             } //////////////////////////////////////////
             else if (userPrefix.startsWith("M")) {
                 //Coline's requests
@@ -75,7 +140,6 @@ public class MultiServer {
                 //Florian's requests
                 //the request is a Json Object, it needs to be decoded
                 if (numberPrefix.startsWith("1")) {
-
                     AccessDB_server.sendUpdateRequest(decodeCustomer(encodedRequest));
                 }
             } //////////////////////////////////////////
@@ -97,5 +161,9 @@ public class MultiServer {
 
         launchServer(3000);
 
+    }
+
+    private static String decodeInfoSim(String encodedRequest) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
