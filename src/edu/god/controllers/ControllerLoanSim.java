@@ -5,9 +5,7 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.AccessDB;
 import edu.god.serialisation.JsonEncoding;
-import static edu.god.serialisation.JsonEncoding.encodingLastFirstNameCustomer;
 import edu.god.server.ClientJavaSelect;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
@@ -120,8 +118,8 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         resetAfterError();
-        if (fieldsNotEmpty()) {
-            if (e.getSource() == btnCalculate) {
+        if (e.getSource() == btnCalculate) {
+            if (fieldsNotEmpty()) {
                 try {
                     if (checkLoanProperty()) {
                         calculLoan();
@@ -130,32 +128,32 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 } catch (SQLException | IOException | org.json.simple.parser.ParseException ex) {
                     Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else if (e.getSource() == btnSave) {
-                String date = LocalDate.now().toString();
-                if (modify) { // if the user choose an existing simulation to modified it. CASE UPDATE
-                    try {
-                        String idType = AccessDB.getAccessDB().getIdLoanType(cbxLoan.getSelectedItem().toString());
-                        System.out.println("idtype = " + idType);
-                        String updateLoanSim = ClientJavaSelect.clientTcpSelect("D", "8", JsonEncoding.encodingUpLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType));
-                        showDialog(Integer.parseInt(updateLoanSim));
-                    } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
-                    try {
-                        String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
-                        String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ",String.valueOf(idCons), "1", "1", idType));
-                        showDialog(Integer.parseInt(insertLoanSim));
-                    } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            } else if (e.getSource() == btnHome) {
-                sls.dispose();
-                ScreenHome newWindow = new ScreenHome(idCons);
+            } else { // end of if( fieldsNotEmpty()) ...
+                error.setText("Veuillez saisir tous les champs obligatoires");
             }
-        } else { // end of if( fieldsNotEmpty()) ...
-            error.setText("Veuillez saisir tous les champs obligatoires");
+        } else if (e.getSource() == btnSave) {
+            String date = LocalDate.now().toString();
+            if (modify) { // if the user choose an existing simulation to modified it. CASE UPDATE
+                try {
+                    String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
+                    System.out.println("idtype = " + idType);
+                    String updateLoanSim = ClientJavaSelect.clientTcpSelect("D", "8", JsonEncoding.encodingUpLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType));
+                    showDialog(Integer.parseInt(updateLoanSim));
+                } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
+                try {
+                    String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
+                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", String.valueOf(idCons),idCust ,"1", "1", idType));
+                    showDialog(Integer.parseInt(insertLoanSim));
+                } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else if (e.getSource() == btnHome) {
+            sls.dispose();
+            ScreenHome newWindow = new ScreenHome(idCons);
         }
     }
 
@@ -200,8 +198,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private boolean fieldsNotEmpty() {
         boolean notEmpty = true;
         ArrayList<JTextField> textFields = new ArrayList<>();
+
         for (Component aField : left.getComponents()) {
-            if (aField.getClass() == JTextField.class && aField.getName() == null) {
+            if (aField.getClass() == JTextField.class
+                    && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
@@ -220,8 +220,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      */
     private void resetAfterError() {
         ArrayList<JTextField> textFields = new ArrayList<>();
+
         for (Component aField : left.getComponents()) {
-            if (aField.getClass() == JTextField.class && aField.getName() == null) {
+            if (aField.getClass() == JTextField.class
+                    && aField.getName() == null) {
                 textFields.add((JTextField) aField);
             }
         }
@@ -258,8 +260,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                     sls.dispose();
                     try {
                         ScreenLoanSim newWindow = new ScreenLoanSim(idCons, idCust, false);
+
                     } catch (ParseException ex) {
-                        Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ControllerLoanSim.class
+                                .getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 case JOptionPane.YES_OPTION: {

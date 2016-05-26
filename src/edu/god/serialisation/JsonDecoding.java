@@ -79,7 +79,7 @@ public class JsonDecoding {
         System.out.println("identifiant : " + identifiant_consultant);
         System.out.println("motdepasse : " + mdp_consultant);
 
-      //  String query = "SELECT id_user FROM User WHERE login_user LIKE '" + identifiant_consultant + "' AND pwd_User LIKE '" + mdp_consultant + "'";
+        //  String query = "SELECT id_user FROM User WHERE login_user LIKE '" + identifiant_consultant + "' AND pwd_User LIKE '" + mdp_consultant + "'";
         String data[] = {identifiant_consultant, mdp_consultant};
 
         return data;
@@ -235,11 +235,12 @@ public class JsonDecoding {
         String date = (String) jsonObject.get("date_Sim");
         String statut = (String) jsonObject.get("statut_Sim");
         String idConsultant = (String) jsonObject.get("id_Consultant");
+        String idCustomer = (String) jsonObject.get("id_Customer");
         String idInsurance = (String) jsonObject.get("id_Insurance");
         String idRate = (String) jsonObject.get("id_Rate");
         String idLoanRef = (String) jsonObject.get("id_LoanRef");
 
-        String[] data = {capital, amount, monthly, duration, date, statut, idConsultant, idInsurance, idRate, idLoanRef};
+        String[] data = {capital, amount, monthly, duration, date, statut, idConsultant, idCustomer,idInsurance, idRate, idLoanRef};
         return data;
     }
 

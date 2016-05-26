@@ -211,7 +211,7 @@ public class JsonEncoding {
         return obj;
     }
 
-    public static JSONObject encodingInLoanSim(String capital, String amount, String monthly, String duration, String date, String statut, String idCons, String idInsurance, String idRate, String idLoanRef) {
+    public static JSONObject encodingInLoanSim(String capital, String amount, String monthly, String duration, String date, String statut, String idCons,String idCust, String idInsurance, String idRate, String idLoanRef) {
         JSONObject obj = new JSONObject();
 
         obj.put("capital_Sim", capital);
@@ -221,6 +221,7 @@ public class JsonEncoding {
         obj.put("date_Sim", date);
         obj.put("statut_Sim", statut);
         obj.put("id_Consultant", idCons);
+        obj.put("id_Customer", idCust);
         obj.put("id_Insurance", idInsurance);
         obj.put("id_Rate", idRate);
         obj.put("id_LoanRef", idLoanRef);
