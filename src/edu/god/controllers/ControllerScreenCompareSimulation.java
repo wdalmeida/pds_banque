@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
 
     private final ScreenCompareSimulation screenCompareSimulation;
     private int idCustomer;
+    private int choix;
     private JTable tableCompareSims;
     private boolean firstSimulFill = false;
     private boolean secondSimulFill = false;
@@ -62,13 +64,21 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
      * @param btnClose0
      */
     public ControllerScreenCompareSimulation(JTable tableCompareSims0, ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
+        System.out.println("ControllerScreenCompareSimulation");
         this.btnClose = btnClose0;
         this.tableCompareSims = tableCompareSims0;
         simulation = new ArrayList<>();
         this.screenCompareSimulation = screenCompareSimulation0;
 
     }
-
+    public String getDebtRatio(double debt)
+    {
+        float salary = AccessDB.getAccessDB().getSalaryOfCustomer(idCustomer);
+        double debtRatio = salary+debt;
+        System.out.println("Debt Ration = "+ debtRatio);
+        return ""+debtRatio;
+        
+    }
     /**
      * fill a temporary list to add to a simulation after
      *
@@ -81,7 +91,10 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
      * @param totalPayment
      */
     public void setListSimulation(Object ligne, Object capital, Object rate, Object monthlyLoan, Object monthlyInsurance, Object duration, Object totalPayment) {
-
+        //float monthyloan =Float.parseFloat(0.2);
+        System.out.println("monthly loan = "+monthlyLoan.toString().trim().substring(0,monthlyLoan.toString().length()-2).replace(",",".").replace(" ",""));
+        float debt = Float.parseFloat(rate.toString().trim()) + Float.parseFloat(monthlyInsurance.toString().trim());
+        simulation.clear();
         simulation.add(ligne.toString());
         simulation.add(capital.toString());
         simulation.add(rate.toString());
@@ -91,6 +104,7 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
         simulation.add(totalPayment.toString());
         simulation.add("");
         System.out.println("Nouvelle simulation prete ID = " + ligne.toString());
+
     }
 
     @Override
@@ -116,7 +130,51 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 1) {
+        System.out.println("Simulation boolean =" + firstSimulFill + secondSimulFill + thirdSimulFill);
+        if (e.getClickCount() == 2) {
+            System.out.println("suppression en cours");
+            simulInserted = screenCompareSimulation.isSimulationfill(
+                    tableCompareSims.getModel().getValueAt(
+                            tableCompareSims.getSelectedRow(), 0).toString());
+
+            if (simulInserted) {
+                choix = screenCompareSimulation.getSimulation(
+                        tableCompareSims.getModel().getValueAt(
+                                tableCompareSims.getSelectedRow(), 0).toString());
+                System.out.println("Simulation dans la JFrame a supprimer = " + choix);
+                switch (choix) {
+                    case 1:
+                        if (!secondSimulFill && !thirdSimulFill) {
+                            firstSimulFill = false;
+                        } else if (secondSimulFill && thirdSimulFill) {
+                            thirdSimulFill = false;
+                        } else if (secondSimulFill && !thirdSimulFill) {
+                            secondSimulFill = false;
+                        }
+                        screenCompareSimulation.removeSimulation(
+                                tableCompareSims.getModel().getValueAt(
+                                        tableCompareSims.getSelectedRow(), 0).toString());
+                        break;
+                    case 2:
+                        if (!thirdSimulFill) {
+                            secondSimulFill = false;
+                        } else if (thirdSimulFill) {
+                            thirdSimulFill = false;
+                        }
+                        screenCompareSimulation.removeSimulation(
+                                tableCompareSims.getModel().getValueAt(
+                                        tableCompareSims.getSelectedRow(), 0).toString());
+                        break;
+                    case 3:
+                        thirdSimulFill = false;
+                        screenCompareSimulation.removeSimulation(
+                                tableCompareSims.getModel().getValueAt(
+                                        tableCompareSims.getSelectedRow(), 0).toString());
+                        break;
+                }
+            }
+        } else if (e.getClickCount() == 1) {
+            System.out.println("insertion en cours");
             this.setListSimulation(tableCompareSims.getModel().getValueAt(
                     tableCompareSims.getSelectedRow(), 0),
                     tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2),
@@ -128,7 +186,7 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
 
             simulInserted = screenCompareSimulation.isSimulationfill(
                     tableCompareSims.getModel().getValueAt(
-                    tableCompareSims.getSelectedRow(), 0).toString());
+                            tableCompareSims.getSelectedRow(), 0).toString());
 
             System.out.println("ID existant " + simulInserted);
             if (!firstSimulFill && !secondSimulFill && !thirdSimulFill && !simulInserted) {
@@ -150,21 +208,12 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
                 simulation.clear();
                 simulInserted = false;
             } else if (firstSimulFill && secondSimulFill && thirdSimulFill && simulInserted) {
-                JOptionPane.showMessageDialog(
+                /*JOptionPane.showMessageDialog(
                         screenCompareSimulation,
                         "Veuillez deselectionner une simulation pour afficher la derniere simulation selectioner",
                         "Veuillez deselectionner une simulation pour afficher la derniere simulation selectionner",
                         JOptionPane.INFORMATION_MESSAGE); // indicate that the selection is wrong and met the user try again                             
-            }
-        }else if (e.getClickCount() == 2) {
-            simulInserted = screenCompareSimulation.isSimulationfill(
-                    tableCompareSims.getModel().getValueAt(
-                            tableCompareSims.getSelectedRow(), 0).toString());
-
-            if (simulInserted) {
-                screenCompareSimulation.removeSimulation(
-                        tableCompareSims.getModel().getValueAt(
-                                tableCompareSims.getSelectedRow(), 0).toString());
+                 */
             }
         }
     }
