@@ -216,7 +216,7 @@ public class JsonDecoding {
         String idSim = (String) jsonObject.get("id_Sim");
 
         System.out.println("id_sim : " + idSim);
-
+        monthly = monthly.replace(',', '.');
         Object[] data = {capital, amount, monthly, duration, date, statut, idConsultant, idInsurance, idRate, idLoanRef, idSim};
         return data;
     }
@@ -239,6 +239,7 @@ public class JsonDecoding {
         String idInsurance = (String) jsonObject.get("id_Insurance");
         String idRate = (String) jsonObject.get("id_Rate");
         String idLoanRef = (String) jsonObject.get("id_LoanRef");
+        monthly = monthly.replace(',', '.');
 
         String[] data = {capital, amount, monthly, duration, date, statut, idConsultant, idCustomer,idInsurance, idRate, idLoanRef};
         return data;
@@ -284,5 +285,58 @@ public class JsonDecoding {
         System.out.println("id_LoanType : " + idType);
 
         return idType;
+    }
+    
+    public static String decodingIdAgency(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idConsultant = (String) jsonObject.get("id_Consultant");
+
+        System.out.println("id_Consultant : " + idConsultant);
+
+        return idConsultant;
+    }
+    public static String decodingIdPc(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idAgency = (String) jsonObject.get("id_Agency");
+
+        System.out.println("id_Agency : " + idAgency);
+
+        return idAgency;
+    }
+    public static String decodingRatePc(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idPc = (String) jsonObject.get("id_PC");
+
+        System.out.println("id_PC : " + idPc);
+
+        return idPc;
+    }
+     public static String decodingRateAg(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idAg = (String) jsonObject.get("id_Ag");
+
+        System.out.println("id_Ag : " + idAg);
+
+        return idAg;
     }
 }

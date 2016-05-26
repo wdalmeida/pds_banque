@@ -255,7 +255,7 @@ public class AccessDB implements Constantes {
      */
     public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer, String type) {
 
-        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=? AND description_LoanRef=?;";
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=? AND description_LoanRef=?;";
         ArrayList<String[]> res = new ArrayList();
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
@@ -421,7 +421,7 @@ public class AccessDB implements Constantes {
      * @return res ArrayList<String>
      */
     public ArrayList<String> getSimByID(String idSim) {
-        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,amount_Insurance, description_LoanRef,percentage_Rate, id_Customer "
+        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,percentage_Insurance, description_LoanRef,percentage_Rate, id_Customer "
                 + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate,Insurance WHERE id_Sim=? ;";
         ArrayList<String> res = new ArrayList();
         try {

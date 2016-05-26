@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
@@ -30,12 +32,13 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import jdk.nashorn.internal.ir.Flags;
 
 /**
  *
  * @author Warren
  */
-public class ControllerLoanSim implements ActionListener, KeyListener {
+public class ControllerLoanSim implements ActionListener, KeyListener, ItemListener {
 
     private String id;
     private final ScreenLoanSim sls;
@@ -57,10 +60,14 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
     private final JTextField txtDuration;
     private final JTextField txtCapital;
     private final JButton btnCalculate;
+    private final JLabel rateMax;
+    private final JLabel rateMin;
     private final boolean modify;
 
     private final int idCons;
     private String idCust;
+    private final String[] mins;
+    private final String[] maxs;
 
     /**
      * Default constructor
@@ -87,7 +94,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
      * @param idConsultant int
      * @param aId String
      */
-    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyInsurance, JTextField txtMonthly, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtDuration, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId) {
+    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyInsurance, JTextField txtMonthly, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtDuration, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId, JLabel lblMax, JLabel lblMin, String[] minAg, String[] maxPc) {
         this.sls = sls;
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyInsurance = txtMonthlyInsurance;
@@ -108,7 +115,10 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         error = lblError;
         modify = modified;
         idCons = idConsultant;
-        //
+        rateMax = lblMax;
+        rateMin = lblMin;
+        mins = minAg;
+        maxs = maxPc;
         if (modify) {
             id = aId;
         } else {
@@ -138,7 +148,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 try {
                     String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
                     System.out.println("idtype = " + idType);
-                    String updateLoanSim = ClientJavaSelect.clientTcpSelect("D", "8", JsonEncoding.encodingUpLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, "1", "1", idType));
+                    String updateLoanSim = ClientJavaSelect.clientTcpSelect("D", "8", JsonEncoding.encodingUpLoanSim(id, txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", idCons, txtInsurance.getText(), txtRate.getText(), idType));
                     showDialog(Integer.parseInt(updateLoanSim));
                 } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
                     Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,7 +156,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
             } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
                 try {
                     String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
-                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", String.valueOf(idCons), idCust, "1", "1", idType));
+                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Cree le ", String.valueOf(idCons), idCust, txtInsurance.getText(), txtRate.getText(), idType));
                     showDialog(Integer.parseInt(insertLoanSim));
                 } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
                     Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,7 +245,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 if (!m.matches()) {
                     textFields.get(i - 1).requestFocus();
                     textFields.get(i - 1).setBorder(BorderFactory.createLineBorder(Color.RED));
-                    return false;
+                    notEmpty = false;
                 }
             }
         }
@@ -340,6 +350,15 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         } else {
             JOptionPane.showMessageDialog(sls, "Le montant du prêt doit être compris entre " + minAmount + " et " + maxAmount, "Information", JOptionPane.INFORMATION_MESSAGE);
         }
+        if (Float.parseFloat(txtRate.getText()) >= Float.parseFloat(mins[cbxLoan.getSelectedIndex() - 1])) {
+            if (Float.parseFloat(txtRate.getText()) <= Float.parseFloat(maxs[cbxLoan.getSelectedIndex() - 1])) {
+                checking = true;
+            } else {
+                JOptionPane.showMessageDialog(sls, "Le taux d'interet doit être compris entre " + mins[cbxLoan.getSelectedIndex() - 1] + "% et " + maxs[cbxLoan.getSelectedIndex() - 1] + "%", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(sls, "Le taux d'interet doit être compris entre " + mins[cbxLoan.getSelectedIndex() - 1] + "% et " + maxs[cbxLoan.getSelectedIndex() - 1] + "%", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
 
         return checking;
     }
@@ -362,6 +381,19 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (e.getItem() != cbxLoan.getItemAt(0)) {
+                rateMin.setText(rateMin.getText().substring(0, 5) + mins[cbxLoan.getSelectedIndex() - 1]);
+                rateMax.setText(rateMax.getText().substring(0, 5) + maxs[cbxLoan.getSelectedIndex() - 1]);
+            } else {
+                rateMin.setText(rateMin.getText().substring(0, 5) + "0");
+                rateMax.setText(rateMax.getText().substring(0, 5) + "0");
+            }
+        }
     }
 
 }
