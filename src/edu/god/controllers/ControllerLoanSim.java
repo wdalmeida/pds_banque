@@ -145,7 +145,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
             } else { // if modify is false that means a new simulation will be insert. INSERT CASE 
                 try {
                     String idType = ClientJavaSelect.clientTcpSelect("D", "10", JsonEncoding.encodingIdLoanType(cbxLoan.getSelectedItem().toString()));
-                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", String.valueOf(idCons),idCust ,"1", "1", idType));
+                    String insertLoanSim = ClientJavaSelect.clientTcpSelect("D", "9", JsonEncoding.encodingInLoanSim(txtCapital.getText(), txtAmount.getText(), txtMonthly.getText(), txtDuration.getText(), date, "Mise a jour le ", String.valueOf(idCons), idCust, "1", "1", idType));
                     showDialog(Integer.parseInt(insertLoanSim));
                 } catch (SQLException | IOException | org.json.simple.parser.ParseException | NoSuchAlgorithmException ex) {
                     Logger.getLogger(ControllerLoanSim.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,6 +199,13 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         boolean notEmpty = true;
         ArrayList<JTextField> textFields = new ArrayList<>();
 
+        if (cbxLoan.getSelectedIndex() == 0) {
+            notEmpty = false;
+            cbxLoan.setBorder(BorderFactory.createLineBorder(Color.RED));
+        }
+        if (txtInsurance.getText().isEmpty()) {
+            txtInsurance.setText("0");
+        }
         for (Component aField : left.getComponents()) {
             if (aField.getClass() == JTextField.class
                     && aField.getName() == null) {
@@ -233,6 +240,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
                 textFields.get(i - 1).setBorder(UIManager.getBorder("TextField.border"));
             }
         }
+        cbxLoan.setBorder(UIManager.getBorder("TextField.border"));
         error.setText("");
     }
 
@@ -317,6 +325,9 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == ',') {
+            e.setKeyChar('.');
+        }
         Pattern p = Pattern.compile("[0-9.]");
         Matcher m = p.matcher(String.valueOf(e.getKeyChar()));
         if (!m.matches()) {
