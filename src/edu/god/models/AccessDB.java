@@ -246,6 +246,23 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
+    public float getSalaryOfCustomer (int idCustomer)
+    {        
+        String query = query = "select salary_Customer From Customer where id_Customer=?;";
+        float res = 0;
+        try {
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setInt(1, idCustomer);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                        res = Float.parseFloat(rs.getString(1));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
 
     /**
      * return all simulation of a customer
@@ -253,9 +270,11 @@ public class AccessDB implements Constantes {
      * @param idCustomer
      * @return res ArrayList<String>
      */
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer, String type) {
-
-        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,amount_Insurance,duration_Sim From LoanRef Natural Join LoanSimulation Natural Join Rate Natural Join Insurance where id_Customer=? AND description_LoanRef=?;";
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer, String type) 
+    {
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim "
+                + "From LoanRef Natural Join LoanSimulation where id_Customer=? AND description_LoanRef=? "
+                + "AND now() > DATE_SUB(now(),INTERVAL 6 MONTH);";
         ArrayList<String[]> res = new ArrayList();
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
@@ -286,7 +305,6 @@ public class AccessDB implements Constantes {
                         test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
                         res.add(test);
                         cpt++;
-                        //System.out.println("Tableau BDD " + Arrays.toString);
                     }
                 }
             }

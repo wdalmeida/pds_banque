@@ -9,6 +9,7 @@ import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +21,7 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     /**
      * Creates new form ScreenCompareSimulation
      */
+    private final int NBRPARAMETERS = 8;
     private int idCustomer;
     private ArrayList<String> simul1;
     private ArrayList<String> simul2;
@@ -27,6 +29,7 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
     private ArrayList<String> choiceTypeLoan;
 
     public ScreenCompareSimulation(int idCustomer0) throws SQLException {
+        System.out.println("ScreenCompareSimulation");
         initComponents();
         this.idCustomer = idCustomer0;
         this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
@@ -43,12 +46,59 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
 
     }
 
+    public int getSimulation(String id) {
+        System.out.println("getSimulation");
+        int tmp = 0;
+        if (simul1.get(0).equals(id)) {
+            tmp = 1;
+        } else if (simul2.get(0).equals(id)) {
+            tmp = 2;
+        } else if (simul3.get(0).equals(id)) {
+            tmp = 3;
+        }
+        return tmp;
+    }
+
+    /**
+     * return a empty list
+     *
+     * @return temp
+     */
+    public ArrayList fillemptyList() {
+        System.out.println("filleEmptyList");
+        ArrayList temp = new ArrayList<>();
+        for (int cpt = 0; cpt < NBRPARAMETERS; cpt++) {
+            temp.add("");
+        }
+        return temp;
+    }
+
+    public void cleanSimulation(int choix) {
+        System.out.println("cleanSimulation");
+        switch (choix) {
+            case 1:
+                simul1 = (ArrayList<String>) this.fillemptyList().clone();
+                break;
+            case 2:
+                simul2 = (ArrayList<String>) this.fillemptyList().clone();
+                break;
+            case 3:
+                simul3 = (ArrayList<String>) this.fillemptyList().clone();
+                break;
+        }
+        this.setJlabelSimul(simul1, 1);
+        this.setJlabelSimul(simul2, 2);
+        this.setJlabelSimul(simul3, 3);
+        this.showSimulation();
+    }
+
     /**
      * Load data in the Jtable here tableCompareSims
      *
      * @param simulations
      */
     public void loadDataInTable(ArrayList<String[]> simulations) {
+        System.out.println("LoadDataInTable");
         DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
         tableCompareSims.setModel(model);
 
@@ -66,24 +116,30 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      */
     public boolean isSimulationfill(String row) {
         boolean tmp = false;
-        System.out.println("id a inserer = "+ row);
+        System.out.println("id a inserer = " + row);
         if (!simul1.isEmpty()) {
             if (simul1.get(0).equals(row)) {
                 tmp = true;
             }
         }
         if (!simul2.isEmpty()) {
-            if (simul1.get(0).equals(row) || simul2.get(0).equals(row) ) {
+            if (simul2.get(0).equals(row)) {
                 tmp = true;
             }
         }
         if (!simul3.isEmpty()) {
             System.out.println("simul 3 " + simul3.get(0));
-            if (simul1.get(0).equals(row) || simul2.get(0).equals(row) || simul3.get(0).equals(row)) {
+            if (simul3.get(0).equals(row)) {
                 tmp = true;
             }
         }
         return tmp;
+    }
+
+    public void showSimulation() {
+        System.out.println("Simulation 1 =" + Arrays.toString(simul1.toArray()));
+        System.out.println("Simulation 2 =" + Arrays.toString(simul2.toArray()));
+        System.out.println("Simulation 3 =" + Arrays.toString(simul3.toArray()));
     }
 
     /**
@@ -92,25 +148,77 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param row
      */
     public void removeSimulation(String row) {
-        System.out.println("removeSimulation");
-        
-        if (simul1.get(0).equals(row)) {
-            System.out.println("Suppresion Simul1");
-            simul1 = (ArrayList<String>) simul2.clone();
-            simul2.clear();
-            simul2 = (ArrayList<String>) simul3.clone();
-            simul3.clear();
-        } else if (simul2.get(0).equals(row)) {
-            System.out.println("Suppresion Simul2");
-            simul2 = (ArrayList<String>) simul3.clone();
-            simul3.clear();
-        } else if (simul3.get(0).equals(row)) {
-            System.out.println("Suppresion Simul3");
-            simul3.clear();            
+        System.out.println("removeSimulation = " + row);
+        if (!simul1.isEmpty()) {
+            if (!simul1.get(0).equals("")) {
+                System.out.println("Simul 1 fill");
+                if (simul1.get(0).equals(row)) {
+                    System.out.println("delete Simul 1 = " + row);
+                    if (simul2.get(0).equals("") && simul3.get(0).equals("")) {
+                        System.out.println("simul 2 && simul 3 = vide");
+                        this.cleanSimulation(1);
+                        this.setJlabelSimul(simul1, 1);
+                    }
+                    if (!simul2.isEmpty()) {
+                        System.out.println("simul 2 not empty");
+                        if (!simul2.get(0).equals("")) {
+                            System.out.println("simul 2 =" + simul2.get(0));
+                            simul1 = (ArrayList<String>) simul2.clone();
+                            this.cleanSimulation(2);
+                            this.setJlabelSimul(simul1, 1);
+                            if (!simul3.isEmpty()) {
+                                System.out.println("simul 3 not empty");
+                                if (!simul3.get(0).equals("")) {
+                                    System.out.println("simul 3 =" + simul3.get(0));
+                                    simul2 = (ArrayList<String>) simul3.clone();
+                                    this.cleanSimulation(3);
+                                    this.setJlabelSimul(simul2, 2);
+                                    if (simul2.get(0).equals("") && simul3.get(0).equals("")) {
+                                        System.out.println("simul 2 && simul 3 = vide");
+                                        this.cleanSimulation(1);
+                                        this.setJlabelSimul(simul1, 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        this.setJlabelSimul(simul1, 1);
-        this.setJlabelSimul(simul2, 2);
-        this.setJlabelSimul(simul3, 3);
+        if (!simul2.isEmpty()) {
+            if (!simul2.get(0).equals("")) {
+                System.out.println("Simul 2 fill");
+                if (simul2.get(0).equals(row)) {
+                    System.out.println("delete Simul 2");
+                    System.out.println("simul 2 =" + simul2.get(0));
+                    simul2 = (ArrayList<String>) simul3.clone();
+                    this.setJlabelSimul(simul2, 2);
+                    this.cleanSimulation(3);
+                }
+                if (!simul3.isEmpty()) {
+                    if (!simul3.get(0).equals("")) {
+                        System.out.println("Simul 3 fill");
+                        if (simul3.get(0).equals(row)) {
+                            System.out.println("simul 3 =" + simul3.get(0));
+                            this.cleanSimulation(3);
+                        }
+                    } else {
+                        this.cleanSimulation(3);
+                    }
+                }
+
+            }
+        }
+        if (!simul3.isEmpty()) {
+            if (!simul3.get(0).equals("")) {
+                System.out.println("Simul 3 fill");
+                if (simul3.get(0).equals(row)) {
+                    System.out.println("Suppresion Simul 3");
+                    System.out.println("simul 3 =" + simul3.get(0));
+                    this.cleanSimulation(3);
+                }
+            }
+        }
     }
 
     /**
@@ -120,8 +228,10 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param choix
      */
     public void setJlabelSimul(ArrayList<String> simulation, int choix) {
+        System.out.println("setJlabelSimul");
         switch (choix) {
             case 1:
+                simul1 = this.fillemptyList();
                 capitalSimul1.setText(simulation.get(1));
                 rateSimul1.setText(simulation.get(2));
                 monthlyLoanSimul1.setText(simulation.get(3));
@@ -130,10 +240,11 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 totalAmountSimul1.setText(simulation.get(6));
                 ratioDebtSimul1.setText(simulation.get(7));
                 simul1 = (ArrayList<String>) simulation.clone();
-                simulation.clear();
-                System.out.println(" Sortie insertion simul 1");
+                simulation = this.fillemptyList();
+                System.out.println(" Sortie update simul 1");
                 break;
             case 2:
+                simul2 = this.fillemptyList();
                 capitalSimul2.setText(simulation.get(1));
                 rateSimul2.setText(simulation.get(2));
                 monthlyLoanSimul2.setText(simulation.get(3));
@@ -142,10 +253,11 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 totalAmountSimul2.setText(simulation.get(6));
                 ratioDebtSimul2.setText(simulation.get(7));
                 simul2 = (ArrayList<String>) simulation.clone();
-                simulation.clear();
-                System.out.println(" Sortie insertion simul 2 ");
+                simulation = this.fillemptyList();
+                System.out.println(" Sortie update simul 2 ");
                 break;
             case 3:
+                simul3 = fillemptyList();
                 capitalSimul3.setText(simulation.get(1));
                 rateSimul3.setText(simulation.get(2));
                 monthlyLoanSimul3.setText(simulation.get(3));
@@ -154,12 +266,13 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
                 totalAmountSimul3.setText(simulation.get(6));
                 ratioDebtSimul3.setText(simulation.get(7));
                 simul3 = (ArrayList<String>) simulation.clone();
-                simulation.clear();
-                System.out.println(" Sortie insertion simul 3");
+                simulation = this.fillemptyList();
+                System.out.println(" Sortie update simul 3");
                 break;
             default:
                 break;
         }
+        this.showSimulation();
     }
 
     /**
