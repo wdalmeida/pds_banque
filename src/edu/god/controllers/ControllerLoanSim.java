@@ -173,7 +173,6 @@ public class ControllerLoanSim implements ActionListener, KeyListener {
         float interestRate = 1 + (rate / 100);
         float insuranceRate = insurance / 100;
 
-        float monthlyInterestRate = interestRate / 12;
         float monthlyInssuranceRate = insuranceRate / 12;
 
         float monthly = ((amount - capital) * interestRate)/duration;
