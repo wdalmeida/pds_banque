@@ -5,18 +5,25 @@
  */
 package edu.god.controllers;
 
+import edu.god.charts.LineChart;
 import edu.god.entities.Indicator;
 import edu.god.entities.IndicatorTable;
 import edu.god.models.AccessDB;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenIndicators;
+import java.awt.BorderLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import org.jdesktop.swingx.JXDatePicker;
+import org.jfree.chart.ChartPanel;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -36,6 +43,10 @@ public class ControllerScreenIndicator implements ActionListener {
     private ScreenIndicators sci;
     private final int idConsultant;
     private JButton backHome;
+    private JComboBox<String> chartComboBox;
+    private JTable loanIndicatorTable;
+    Calendar c = Calendar.getInstance();
+    int year = c.get(Calendar.YEAR);
     ArrayList<Indicator> indicators = new ArrayList();
 
     public ControllerScreenIndicator(ScreenIndicators sci, JComboBox<String> indicatorComboBox, JTable indicatorJtable, JPanel indicatorPanel, JPanel indicatorDPanel, JPanel graphicPanel, int idC0) {
@@ -50,22 +61,45 @@ public class ControllerScreenIndicator implements ActionListener {
 
     }
 
-    public ControllerScreenIndicator(ScreenIndicators sci, JComboBox<String> indicatorComboBox, JTable indicatorJtable, JPanel indicatorPanel, int idC0) {
+    public ControllerScreenIndicator(ScreenIndicators sci, JComboBox<String> indicatorComboBox, JTable indicatorJtable, JPanel indicatorPanel, int idC0, JComboBox<String> comboBox) {
         this.db = AccessDB.getAccessDB();
         this.sci = sci;
         this.jPanel1 = indicatorPanel;
         this.AgencyComboBox = indicatorComboBox;
         this.indicatorJtable = indicatorJtable;
         this.idConsultant = idC0;
+        this.chartComboBox = comboBox;
+        this.jPanel3 = indicatorPanel;
 
     }
-    
-    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton backButton){
-        this.db= AccessDB.getAccessDB();
+
+    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton backButton) {
+        this.db = AccessDB.getAccessDB();
         this.sci = sci;
         this.backHome = backButton;
         this.idConsultant = idC0;
+
     }
+
+    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JPanel Cpanel, JComboBox<String> comboBox1) {
+        this.db = AccessDB.getAccessDB();
+        this.sci = sci;
+        this.idConsultant = idC0;
+        this.jPanel3 = Cpanel;
+        this.chartComboBox = comboBox1;
+
+    }
+    
+    
+    public ControllerScreenIndicator(ScreenIndicators sci, int idC0,JComboBox<String> comboBox1,JTable loanIndicatorTable) {
+        this.db = AccessDB.getAccessDB();
+        this.sci = sci;
+        this.idConsultant = idC0;
+        this.loanIndicatorTable = loanIndicatorTable;
+        this.chartComboBox = comboBox1;
+
+    }
+
 
     @Override
 
@@ -73,18 +107,50 @@ public class ControllerScreenIndicator implements ActionListener {
 
         if (e.getSource() == refreshJButton) {
             try {
+                indicatorJtable.removeAll();
                 indicatorJtable.setModel(new IndicatorTable(idConsultant));
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
             }
             indicatorJtable.setVisible(true);
-        }else if(e.getSource() == backHome){
+        } else if (e.getSource() == backHome) {
             sci.dispose();
             sci.setVisible(false);
             ScreenHome sch = new ScreenHome(idConsultant);
             sch.setVisible(true);
+        } else if (e.getSource() == chartComboBox) {
+            // if (lineChartComboBox.getSelectedItem() ==) {
+            try {
+                LineChart chart = new LineChart(" Graphique d'évolution", "Number of Loan");
+                jPanel3.add(chart, BorderLayout.CENTER);
+                chart.setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //}
+
         }
 
+    }
+
+    public String indicatorDynamic(JXDatePicker periodJDatePicker1, JXDatePicker periodJDatePicker2, JTextField ageLabel) {
+        int i = 0;
+        String query = " SELECT first_Name_Customer,last_Name_Customer, percentage_Rate,monthly_Sim, duration_Sim,birthday_Customer"
+                + "FROM LoanSimulation ls, Loan l, Customer c"
+                + "WHERE l.id_Sim = ls.id_Sim"
+                + "AND c.id_Customer = ls.id_Customer;";
+        String constraint1 = "";
+        String constraint2 = "";
+        String finalQuery = query;
+        switch (i) {
+            case 1:
+                constraint1 = "AND duration_Sim between '" + periodJDatePicker1 + "%' and '" + periodJDatePicker2 + "%'";
+                finalQuery = query + constraint2;
+            case 2:
+                constraint2 = "AND birthday_Customer = " + Integer.toString(year - Integer.parseInt(ageLabel.getText()));
+                finalQuery = query + constraint2;
+        }
+        return finalQuery;
     }
 
 }

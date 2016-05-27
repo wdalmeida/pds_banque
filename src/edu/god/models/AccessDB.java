@@ -627,7 +627,7 @@ public class AccessDB implements Constantes {
         return res;
     }
     
-     public String getRateAverage() throws SQLException {
+    /* public String getRateAverage() throws SQLException {
         String rate= null;
         String query = "SELECT AVG(percentage_Rate) FROM Rate";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -637,7 +637,7 @@ public class AccessDB implements Constantes {
             rate = rs.getString("AVG(percentage_Rate)");
         }
         return rate ;
-    }
+    }*/
      
      public String getLoanNumber(int year) throws SQLException {
         int nbrLoan = 0;
@@ -945,4 +945,20 @@ public class AccessDB implements Constantes {
     return city;
         
     }
+    
+    public ArrayList<LoanIndicator>getLaonInformation() throws SQLException{
+        ArrayList<LoanIndicator> loanObject = new ArrayList();
+        String query ="SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer "
+                + "FROM LoanSimulation ls, Loan l, Customer c "
+                + "WHERE l.id_Sim = ls.id_Sim "
+                + "AND c.id_Customer = ls.id_Customer";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        ResultSet rs = queryPrep.executeQuery();
+        while(rs.next()){ 
+            loanObject.add(new LoanIndicator(rs.getString("first_Name_Customer"), rs.getString("last_Name_Customer"), rs.getString("percentage_Rate"), rs.getString("monthly_Sim"), rs.getString("duration_Sim"), rs.getString("birthday_Customer")));                
+        }
+        return loanObject;
+        
+    }
+    
 }
