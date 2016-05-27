@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
@@ -443,46 +444,70 @@ public class AccessDB_server {
         }
         return res;
     }
-        
-    public static String[] getTypeLoanCustomer(String idC) throws ClassNotFoundException {
-        String query = "SELECT description_LoanRef FROM LoanRef Natural Join LoanSimulation where id_Customer=?;";
-        try {
-            String[] tab = null;
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
-            PreparedStatement queryPrep = conn.prepareStatement(query);
-            queryPrep.setString(1, idC);
-            try (ResultSet rs = queryPrep.executeQuery()) {
-                if (rs.first()) {
-                    for (int i = 0; rs.next(); i++) 
-                    {
-                        tab[i] = rs.getString(i + 1);
-                        System.out.println("tab"+i+"] = "+tab[i]);
-                    }
+
+    public static String getSalaryOfCustomer(Object[] data) throws ClassNotFoundException, SQLException {
+        String query = "select salary_Customer From Customer where id_Customer=?;";
+        System.out.println("methode getSalaryCustomer idCustomer = "+ data[0]);
+        String res = null;
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, data[0].toString());
+        try (ResultSet rs = queryPrep.executeQuery()) {
+            if (rs.first()) {
+                res = rs.getString("salary_Customer");
+            }
+            System.out.println("requete = " + queryPrep.toString());
+            System.out.println(res);
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
+    public static String[] getTypeLoanCustomer(String idC) throws ClassNotFoundException, SQLException {
+        String query = "SELECT Distinct description_LoanRef "
+                + "FROM LoanRef Natural Join LoanSimulation "
+                + "where id_Customer=? AND now( ) > DATE_SUB( now( ) , INTERVAL 6 MONTH );";
+        String[] res = null;
+        System.out.println("GetTypeLoanCustomer");
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+        PreparedStatement queryPrep = con.prepareStatement(query);
+        queryPrep.setString(1, idC);
+        try (ResultSet rs = queryPrep.executeQuery()) {
+            if (rs.first()) {
+                rs.last();
+                int nbRow = rs.getRow();
+                rs.beforeFirst();
+                int i = 0;
+                res = new String[nbRow];
+                while (rs.next()) {
+                    res[i] = rs.getString("description_LoanRef");
+                    i++;
                 }
             }
-            return tab;
         } catch (SQLException e) {
-            System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
-        return null;
+        return res;
     }
-    
-     public String[] getSimulationsLoanOfCustomer(String idCustomer, String type) throws ClassNotFoundException 
-    {
+
+    public static JSONObject getSimulationsLoanOfCustomer(String[] data) throws ClassNotFoundException {
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim "
                 + "From LoanRef Natural Join LoanSimulation where id_Customer=? AND description_LoanRef=? "
                 + "AND now() > DATE_SUB(now(),INTERVAL 6 MONTH);";
         String[] res = null;
-        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        JSONObject obj = new JSONObject();
+        DecimalFormat df = new DecimalFormat("0.00");
         double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
         int cpt = 1;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
             PreparedStatement queryPrep = conn.prepareStatement(query);
-            queryPrep.setString(1, idCustomer);
-            queryPrep.setString(2, type);
+            queryPrep.setString(1, data[0]);
+            queryPrep.setString(2, data[1]);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
                     ResultSetMetaData metadata = rs.getMetaData();
@@ -493,17 +518,19 @@ public class AccessDB_server {
                         String test[] = new String[nbColumn];
                         test[0] = Integer.toString(cpt);
                         test[1] = rs.getString(1);
-                        test[2] = nf.format(Integer.parseInt(rs.getString(2)));
+                        test[2] = rs.getString(2);
                         test[3] = rs.getString(3);
                         monthlyInterestRate = Integer.parseInt(rs.getString(3)) / 12.0;
                         monthlyPayment = Integer.parseInt(rs.getString(2)) * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -Integer.parseInt(rs.getString(5))))) + Integer.parseInt(rs.getString(4));
-                        test[4] = nf.format(Double.parseDouble(Double.toString(monthlyPayment)));
+                        test[4] = df.format(monthlyPayment).replace(",",".");
                         test[5] = rs.getString(4);
                         test[6] = rs.getString(5);
 
                         annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
-                        test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
-                        res = test.clone();
+                        test[7] = df.format(annualPayment).replace(",",".");
+                        System.out.println("mensualite = " + df.format(monthlyPayment).replace(",","."));
+                        System.out.println("total = " + df.format(annualPayment).replace(",","."));
+                        obj.put(rs.getRow(), Arrays.toString(test));
                         cpt++;
                     }
                 }
@@ -511,10 +538,10 @@ public class AccessDB_server {
         } catch (SQLException e) {
             System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
         }
-        return res;
+        return obj;
     }
 
-      /**
+    /**
      *
      * @param idConsultant
      * @return
@@ -584,7 +611,7 @@ public class AccessDB_server {
 
     public static float[] getRateAg(String idAgency) {
         String query = "SELECT RatesConsumption , RatesProject , RatesPersonel , RatesProperty , RatesRepurchase , RatesVehicles "
-                        + "FROM Agency where id_Agency=? ; ";
+                + "FROM Agency where id_Agency=? ; ";
         float res[] = new float[6];
         try {
             Class.forName("com.mysql.jdbc.Driver");
