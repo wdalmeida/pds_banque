@@ -38,13 +38,24 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
         System.out.println("ScreenCompareSimulation");
         initComponents();
         this.idCustomer = idCustomer0;
-        Object objetjson = ClientJavaSelect.clientTcpSelect("P", "1", encodingLoanType(idCustomer));
-        JSONParser parser = new JSONParser();
-        String object = objetjson.toString();
-        objetjson = parser.parse(object);
-        JSONObject jsonObject = (JSONObject) objetjson;
-        System.out.println(objetjson.toString());
-       /* this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
+        //load the combobox
+        String res = ClientJavaSelect.clientTcpSelect("P", "1", encodingLoanType(idCustomer));
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String[] loanTypes = test2.split(",");
+        System.out.println(Arrays.toString(loanTypes));
+
+        typeLoan.removeAllItems();
+        typeLoan.addItem("Veullez selectionner un type de pret");
+        for (String loanType : loanTypes) {
+            if (loanType.startsWith(" ")) {
+                typeLoan.addItem(loanType.substring(1));
+            } else {
+                typeLoan.addItem(loanType);
+            }
+
+        }
+        /* this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
         choiceTypeLoan.stream().forEach((choiceStatu) -> {
             typeLoan.addItem(choiceStatu);
         });*/
