@@ -144,9 +144,9 @@ public class MultiServer {
                         outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery12)) + '\n');
                         break;
                     case "13":
-                        //float[] resQuery13 = AccessDB_server.getRatePc(decodingRatePc(encodedRequest));
-                        //System.out.println(String.valueOf(Arrays.toString(resQuery13)));
-                        //outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery13)) + '\n');
+                        float[] resQuery13 = AccessDB_server.getRatePc(decodingRatePc(encodedRequest));
+                        System.out.println(String.valueOf(Arrays.toString(resQuery13)));
+                        outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery13)) + '\n');
                         break;
                     case "14":
                         float[] resQuery14 = AccessDB_server.getRateAg(decodingRateAg(encodedRequest));
