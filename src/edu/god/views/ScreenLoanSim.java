@@ -77,18 +77,19 @@ public class ScreenLoanSim extends JFrame {
         }
 
         // add ActionListener
-        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        btnCaculate.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        btnSave.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        btnBack.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        btnVisualize.addActionListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnBack,btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
         //add KeyListener
-        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        txtRate.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        txtInsurance.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        txtDuration.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
-        txtCapital.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        txtAmount.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        txtRate.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        txtInsurance.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave,btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        txtDuration.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        txtCapital.addKeyListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtTotalInterest, txtTotalInsurrance, txtTotalLoan, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave,btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
 
         //
-        cbxLoan.addItemListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtCapital, txtTotalInsurrance, txtAmount, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
+        cbxLoan.addItemListener(new ControllerLoanSim(this, txtMonthlyWInsurance, txtMonthlyInsurance, txtMonthly, txtCapital, txtTotalInsurrance, txtAmount, cbxLoan, txtAmount, txtRate, txtInsurance, txtDuration, txtCapital, btnCaculate, btnSave, btnSave, btnVisualize, PLeft, lblError, simulation, idConsultant, id, lblMax, lblMin, minAg,maxPc));
         // if the simulation exist load in the fied the saved data
         if (simulation) {
             loadForm(id,minAg,maxPc);
@@ -130,7 +131,7 @@ public class ScreenLoanSim extends JFrame {
 
         PLeft = new javax.swing.JPanel();
         lblLoan = new javax.swing.JLabel();
-        cbxLoan = new javax.swing.JComboBox<>();
+        cbxLoan = new javax.swing.JComboBox<String>();
         lblAmount = new javax.swing.JLabel();
         txtAmount = new javax.swing.JTextField();
         lblRate = new javax.swing.JLabel();
@@ -160,6 +161,7 @@ public class ScreenLoanSim extends JFrame {
         txtTotalLoan = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        btnVisualize = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simulation de prêt");
@@ -167,20 +169,18 @@ public class ScreenLoanSim extends JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("windows"); // NOI18N
-        setSize(new java.awt.Dimension(800, 600));
 
         PLeft.setBackground(new java.awt.Color(255, 255, 255));
         PLeft.setPreferredSize(new java.awt.Dimension(300, 500));
 
         lblLoan.setText("Type de prêt");
 
-        cbxLoan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxLoan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblAmount.setText("Montant du prêt");
 
         lblRate.setText("Taux d'interêt");
 
-        txtRate.setEditable(true);
         txtRate.setBackground(new java.awt.Color(255, 255, 255));
 
         lblinsurance.setText("Taux d'assurance");
@@ -364,6 +364,8 @@ public class ScreenLoanSim extends JFrame {
 
         btnBack.setText("Retour");
 
+        btnVisualize.setText("Visualiser");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -376,8 +378,10 @@ public class ScreenLoanSim extends JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(btnVisualize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(106, 106, 106)
                 .add(btnBack, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(319, 319, 319))
+                .add(206, 206, 206))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -387,7 +391,9 @@ public class ScreenLoanSim extends JFrame {
                     .add(PRight, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                     .add(PLeft, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 531, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(btnBack, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(btnBack, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .add(btnVisualize, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -400,6 +406,7 @@ public class ScreenLoanSim extends JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCaculate;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnVisualize;
     private javax.swing.JComboBox<String> cbxLoan;
     private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblCapital;

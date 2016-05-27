@@ -10,6 +10,7 @@ import edu.god.server.ClientJavaSelect;
 import edu.god.views.ScreenExistingSim;
 import edu.god.views.ScreenHome;
 import edu.god.views.ScreenLoanSim;
+import edu.god.views.ScreenVisualizeSimulation;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -60,6 +61,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener, ItemListe
     private final JTextField txtDuration;
     private final JTextField txtCapital;
     private final JButton btnCalculate;
+    private final JButton btnVisualize;
     private final JLabel rateMax;
     private final JLabel rateMin;
     private final boolean modify;
@@ -94,7 +96,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener, ItemListe
      * @param idConsultant int
      * @param aId String
      */
-    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyInsurance, JTextField txtMonthly, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtDuration, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId, JLabel lblMax, JLabel lblMin, String[] minAg, String[] maxPc) {
+    public ControllerLoanSim(ScreenLoanSim sls, JTextField txtMonthlyWInsurance, JTextField txtMonthlyInsurance, JTextField txtMonthly, JTextField txtTotal, JTextField txtTotalInsurance, JTextField txtCost, JComboBox cbxLoan, JTextField txtAmount, JTextField txtRate, JTextField txtInsurance, JTextField txtDuration, JTextField txtCapital, JButton btnCalculate, JButton btnSave, JButton btnHome, JButton btnVisualize, JPanel panelLeft, JLabel lblError, boolean modified, int idConsultant, String aId, JLabel lblMax, JLabel lblMin, String[] minAg, String[] maxPc) {
         this.sls = sls;
         this.txtMonthlyWInsurance = txtMonthlyWInsurance;
         this.txtMonthlyInsurance = txtMonthlyInsurance;
@@ -111,6 +113,7 @@ public class ControllerLoanSim implements ActionListener, KeyListener, ItemListe
         this.btnCalculate = btnCalculate;
         this.btnSave = btnSave;
         this.btnHome = btnHome;
+        this.btnVisualize = btnVisualize;
         this.left = panelLeft;
         error = lblError;
         modify = modified;
@@ -165,6 +168,11 @@ public class ControllerLoanSim implements ActionListener, KeyListener, ItemListe
         } else if (e.getSource() == btnHome) {
             sls.dispose();
             ScreenHome newWindow = new ScreenHome(idCons);
+        }
+        else if (e.getSource() == btnVisualize) {
+
+                ScreenVisualizeSimulation gui = new ScreenVisualizeSimulation(txtAmount.getText(), txtInsurance.getText(), txtRate.getText(), txtDuration.getText() );
+                gui.setVisible(true);      
         }
     }
 

@@ -1,7 +1,8 @@
-package edu.god.views;
+package edu.god.charts;
 
 
-import edu.god.views.MyComponent;
+import edu.god.views.*;
+
 import edu.god.views.ScreenVisualizeLoanSimulation;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -40,7 +41,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
     JFrame f = new JFrame();
     private javax.swing.JButton printGraphButton;
 
-    double[] dGraph = new double[ScreenVisualizeSimulation.tMonths];
+    double[] dGraph = new double[ScreenVisualizeLoanSimulation.tMonths];
     final int PAD = 100;
     double monthlyPayment;
     double interestPaid;
