@@ -258,4 +258,28 @@ public class JsonEncoding {
         return obj;
     }
     
+    public static JSONObject encodingIdAgency(String idConsultant) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("id_Consultant", idConsultant);
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    public static JSONObject encodingIdPc(String idAgency) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("id_Agency", idAgency);
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    public static JSONObject encodingRatePc(String idPc) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("id_PC", idPc);
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    public static JSONObject encodingRateAg(String idAg) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("id_Ag", idAg);
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
 }

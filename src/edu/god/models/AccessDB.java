@@ -439,7 +439,7 @@ public class AccessDB implements Constantes {
      * @return res ArrayList<String>
      */
     public ArrayList<String> getSimByID(String idSim) {
-        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,amount_Insurance, description_LoanRef,percentage_Rate, id_Customer "
+        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,percentage_Insurance, description_LoanRef,percentage_Rate, id_Customer "
                 + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate,Insurance WHERE id_Sim=? ;";
         ArrayList<String> res = new ArrayList();
         try {

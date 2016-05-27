@@ -110,7 +110,7 @@ public class MultiServer {
                         break;
                     case "6":
                         String[] resQuery6 = AccessDB_server.getLoanType();
-                        System.out.println(Arrays.toString(resQuery6) );
+                        System.out.println(Arrays.toString(resQuery6));
                         outputToClient.writeBytes(Arrays.toString(resQuery6) + '\n');
                         break;
                     case "7":
@@ -142,6 +142,26 @@ public class MultiServer {
                         int[] resQuery12 = AccessDB_server.getParambyID(decodingParamById(encodedRequest));
                         System.out.println(String.valueOf(Arrays.toString(resQuery12)));
                         outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery12)) + '\n');
+                        break;
+                    case "13":
+                        //float[] resQuery13 = AccessDB_server.getRatePc(decodingRatePc(encodedRequest));
+                        //System.out.println(String.valueOf(Arrays.toString(resQuery13)));
+                        //outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery13)) + '\n');
+                        break;
+                    case "14":
+                        //float[] resQuery14 = AccessDB_server.getRateAg(decodingRateAg(encodedRequest));
+                        //System.out.println(String.valueOf(Arrays.toString(resQuery14)));
+                        //outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery14)) + '\n');
+                        break;
+                    case "15":
+                        //String resQuery15 = AccessDB_server.getIdAgency(decodingIdAgency(encodedRequest));
+                        //System.out.println(resQuery15);
+                        //outputToClient.writeBytes(resQuery15 + '\n');
+                        break;
+                    case "16":
+                        //String resQuery16 = AccessDB_server.getIdPc(decodingIdPc(encodedRequest));
+                        //System.out.println(resQuery16);
+                        //outputToClient.writeBytes(resQuery16 + '\n');
                         break;
                     default:
                         break;

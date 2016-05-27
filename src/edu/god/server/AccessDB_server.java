@@ -138,9 +138,8 @@ public class AccessDB_server {
      * @throws java.lang.ClassNotFoundException
      */
     public static JSONObject getDateTypeSims(String idCustomer) throws ClassNotFoundException {
-        String query = "SELECT id_Sim, description_LoanRef, date_Sim,percentage_Rate,monthly_Sim, duration_Sim  FROM LoanSimulation "
+        String query = "SELECT id_Sim, description_LoanRef, date_Sim,percentage_rate,monthly_Sim, duration_Sim  FROM LoanSimulation "
                 + "JOIN LoanRef on LoanRef.id_LoanRef=LoanSimulation.id_LoanRef "
-                + "JOIN Rate on Rate.id_Rate = LoanSimulation.id_Rate "
                 + "WHERE id_Customer =? AND now() > DATE_SUB(now(), INTERVAL 6 MONTH); ";
         JSONObject obj = new JSONObject();
         try {
@@ -279,8 +278,8 @@ public class AccessDB_server {
      * @return res ArrayList<String>
      */
     public static String[] getSimByID(String idSim) throws ClassNotFoundException {
-        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,amount_Insurance, description_LoanRef,percentage_Rate, id_Customer "
-                + " FROM LoanSimulation NATURAL JOIN LoanRef,Rate,Insurance WHERE id_Sim=? ;";
+        String query = "SELECT id_Sim,capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,percentage_insurance, description_LoanRef,percentage_rate, id_Customer "
+                + " FROM LoanSimulation NATURAL JOIN LoanRef WHERE id_Sim=? ;";
         String[] res = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -314,7 +313,7 @@ public class AccessDB_server {
      * @throws SQLException
      */
     public static int updateLoanSim(Object[] data) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE LoanSimulation set capital_Sim=?,amount_Sim=?,monthly_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, id_Consultant=?, id_Insurance=? ,id_Rate=?, id_LoanRef=? WHERE id_Sim=? ;";
+        String query = "UPDATE LoanSimulation set capital_Sim=?,amount_Sim=?,monthly_Sim=?, duration_Sim=?, date_Sim=?, statut_Sim=?, id_Consultant=?, percentage_insurance=? ,percentage_rate=?, id_LoanRef=? WHERE id_Sim=? ;";
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -337,22 +336,13 @@ public class AccessDB_server {
     /**
      * The method insert a new simulation in the database
      *
-     * @param capital String
-     * @param amount String
-     * @param monthly String
-     * @param duration String
-     * @param date String
-     * @param statut String
-     * @param idConsultant int
-     * @param idCustomer String
-     * @param idInsurance String
-     * @param idRate String
-     * @param loanType String
+     * @param data
      * @return
      * @throws SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static int insertLoanSim(String[] data) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO LoanSimulation (capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,id_Consultant,id_Customer,id_Insurance,id_Rate,id_LoanRef) VALUES (?,?,?,?,?,?,?,?,?,?,?) ; ";
+        String query = "INSERT INTO LoanSimulation (capital_Sim,amount_Sim,monthly_Sim,duration_Sim,date_Sim,statut_Sim,id_Consultant,id_Customer,percentage_insurance,percentage_rate,id_LoanRef) VALUES (?,?,?,?,?,?,?,?,?,?,?) ; ";
         System.out.println(query);
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
@@ -397,7 +387,6 @@ public class AccessDB_server {
         return res;
     }
 
-
     /**
      * Return the customer id which match with simulation
      *
@@ -420,8 +409,8 @@ public class AccessDB_server {
         System.out.println(res);
         return res;
     }
-    
-     /**
+
+    /**
      * Return a table which contains the delimeter values for a simulation's
      * type
      *

@@ -95,7 +95,6 @@
                       </Group>
                       <Component id="lblDuration" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lblinsurance" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblRate" min="-2" max="-2" attributes="0"/>
                       <Component id="lblAmount" min="-2" max="-2" attributes="0"/>
                       <Component id="lblLoan" min="-2" max="-2" attributes="0"/>
                       <Component id="cbxLoan" alignment="0" max="32767" attributes="0"/>
@@ -104,6 +103,14 @@
                       <Component id="txtInsurance" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtDuration" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtCapital" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lblMax" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="lblRate" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="lblMin" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace pref="53" max="32767" attributes="0"/>
               </Group>
@@ -121,7 +128,11 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtAmount" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="lblRate" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblRate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblMax" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblMin" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txtRate" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -182,7 +193,7 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="eb" green="eb" red="eb" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
           <Events>
@@ -224,6 +235,16 @@
         <Component class="javax.swing.JLabel" name="lblError">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblMax">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Max : "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblMin">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Min :"/>
           </Properties>
         </Component>
       </SubComponents>
