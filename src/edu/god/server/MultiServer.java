@@ -71,10 +71,10 @@ public class MultiServer {
                         System.out.println(Arrays.toString(resQuery1));
                         outputToClient.writeBytes(Arrays.toString(resQuery1) + '\n');
                         break;
-                    case "2":/*
-                        JSONObject resQuery1 = AccessDB_server.getSimulationsLoanOfCustomer(decodingSimCust(encodedRequest));
-                        System.out.println(resQuery1.toString());
-                        outputToClient.writeBytes(resQuery1.toString() + '\n');*/
+                    case "2":
+                        JSONObject resQuery2 = AccessDB_server.getSimulationsLoanOfCustomer(decodingSimCust(encodedRequest));
+                        System.out.println(resQuery2.toString());
+                        outputToClient.writeBytes(resQuery2.toString() + '\n');
                         break;
                     case "3" :
                         break;
