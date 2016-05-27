@@ -514,4 +514,100 @@ public class AccessDB_server {
         return res;
     }
 
+      /**
+     *
+     * @param idConsultant
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public static String getIdAgency(String idConsultant) throws SQLException, ClassNotFoundException {
+        String res = null;
+        String query = "SELECT id_Agency FROM Consultant where id_Consultant=? ;";
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idConsultant);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            res = resultat.getString("id_Agency");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(res);
+        return res;
+    }
+
+    public static String getIdPc(String idAgency) throws SQLException, ClassNotFoundException {
+        String res = null;
+        String query = "SELECT id_Rate_PC FROM Agency where id_Agency=? ;";
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setString(1, idAgency);
+        ResultSet resultat = queryPrep.executeQuery();
+        if (resultat.first()) {
+            res = resultat.getString("id_Rate_PC");
+        }
+        System.out.println("requete = " + queryPrep.toString());
+        System.out.println(res);
+        return res;
+    }
+
+    public static float[] getRatePc(String idPc) {
+        String query = "SELECT ParentRatesVehicles, ParentRatesConsumption ,ParentRatesPersonel, ParentRatesProperty, ParentRatesRepurchase, ParentRatesProject "
+                + "FROM Rate_Parent_company where id_Rate_PC=? ;";
+        float res[] = new float[6];
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idPc);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getFloat(1);
+                    res[1] = rs.getFloat(2);
+                    res[2] = rs.getFloat(3);
+                    res[3] = rs.getFloat(4);
+                    res[4] = rs.getFloat(5);
+                    res[5] = rs.getFloat(6);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AccessDB_server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+
+    public static float[] getRateAg(String idAgency) {
+        String query = "SELECT RatesConsumption , RatesProject , RatesPersonel , RatesProperty , RatesRepurchase , RatesVehicles "
+                        + "FROM Agency where id_Agency=? ; ";
+        float res[] = new float[6];
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idAgency);
+
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    res[0] = rs.getFloat(1);
+                    res[1] = rs.getFloat(2);
+                    res[2] = rs.getFloat(3);
+                    res[3] = rs.getFloat(4);
+                    res[4] = rs.getFloat(5);
+                    res[5] = rs.getFloat(6);
+                }
+                System.out.println("requete = " + queryPrep.toString());
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AccessDB_server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
 }

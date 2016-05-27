@@ -149,19 +149,19 @@ public class MultiServer {
                         //outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery13)) + '\n');
                         break;
                     case "14":
-                        //float[] resQuery14 = AccessDB_server.getRateAg(decodingRateAg(encodedRequest));
-                        //System.out.println(String.valueOf(Arrays.toString(resQuery14)));
-                        //outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery14)) + '\n');
+                        float[] resQuery14 = AccessDB_server.getRateAg(decodingRateAg(encodedRequest));
+                        System.out.println(String.valueOf(Arrays.toString(resQuery14)));
+                        outputToClient.writeBytes(String.valueOf(Arrays.toString(resQuery14)) + '\n');
                         break;
                     case "15":
-                        //String resQuery15 = AccessDB_server.getIdAgency(decodingIdAgency(encodedRequest));
-                        //System.out.println(resQuery15);
-                        //outputToClient.writeBytes(resQuery15 + '\n');
+                        String resQuery15 = AccessDB_server.getIdAgency(decodingIdAgency(encodedRequest));
+                        System.out.println(resQuery15);
+                        outputToClient.writeBytes(resQuery15 + '\n');
                         break;
                     case "16":
-                        //String resQuery16 = AccessDB_server.getIdPc(decodingIdPc(encodedRequest));
-                        //System.out.println(resQuery16);
-                        //outputToClient.writeBytes(resQuery16 + '\n');
+                        String resQuery16 = AccessDB_server.getIdPc(decodingIdPc(encodedRequest));
+                        System.out.println(resQuery16);
+                        outputToClient.writeBytes(resQuery16 + '\n');
                         break;
                     default:
                         break;
