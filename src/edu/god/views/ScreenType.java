@@ -57,7 +57,7 @@ public class ScreenType extends javax.swing.JFrame {
 
         jLabel1.setText("Choissisez le type de prêt ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Consommation", "Personnel", "Travaux", "Immobilier", "Rachat de crédit", "Véhicules" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Consommation", "Personnel", "Travaux", "Immobilier", "Rachat de credit", "Vehicules" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -92,6 +92,7 @@ public class ScreenType extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -104,7 +105,7 @@ public class ScreenType extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       String[] possibilites = {"Consommation", "Personnel", "Immobilier","Travaux", "Rachat de crédit","Véhicules"};
+       String[] possibilites = {"Consommation", "Personnel", "Immobilier","Travaux", "Rachat de credit","Vehicules"};
 
 
                 String s = (String) jComboBox1.getSelectedItem();
@@ -158,8 +159,9 @@ public class ScreenType extends javax.swing.JFrame {
        } catch (SQLException ex) {
            Logger.getLogger(ScreenType.class.getName()).log(Level.SEVERE, null, ex);
        }
+                        break;
             /*Clic on case Repurchase*/
-                    case "Rachat de crédit":
+                    case "Rachat de credit":
                         ScreenModifyRatesRepurchase screenR;
                         try{
                            screenR = new ScreenModifyRatesRepurchase(idConsultant);
@@ -171,7 +173,7 @@ public class ScreenType extends javax.swing.JFrame {
        }
                         break;
             /*Clic on case Vehicles*/
-                      case "Véhicules":
+                      case "Vehicules":
                ScreenModifyRatesVehicles screenV;
        try {
            screenV = new ScreenModifyRatesVehicles(idConsultant);
