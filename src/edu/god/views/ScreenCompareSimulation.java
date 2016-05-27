@@ -7,10 +7,16 @@ package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
 import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.encodingLoanType;
+import edu.god.server.ClientJavaSelect;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -22,20 +28,26 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * Creates new form ScreenCompareSimulation
      */
     private final int NBRPARAMETERS = 8;
-    private int idCustomer;
+    private String idCustomer;
     private ArrayList<String> simul1;
     private ArrayList<String> simul2;
     private ArrayList<String> simul3;
     private ArrayList<String> choiceTypeLoan;
 
-    public ScreenCompareSimulation(int idCustomer0) throws SQLException {
+    public ScreenCompareSimulation(String idCustomer0) throws SQLException, ParseException, IOException {
         System.out.println("ScreenCompareSimulation");
         initComponents();
         this.idCustomer = idCustomer0;
-        this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
+        Object objetjson = ClientJavaSelect.clientTcpSelect("P", "1", encodingLoanType(idCustomer));
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+        System.out.println(objetjson.toString());
+       /* this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
         choiceTypeLoan.stream().forEach((choiceStatu) -> {
             typeLoan.addItem(choiceStatu);
-        });
+        });*/
         btnSubmit.addActionListener(new ControllerScreenCompareSimulation(this, tableCompareSims, idCustomer, typeLoan, btnSubmit));
         simul1 = new ArrayList<>(); // initialize list
         simul2 = new ArrayList<>();

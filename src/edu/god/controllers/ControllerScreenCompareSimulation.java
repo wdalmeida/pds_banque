@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -25,7 +24,7 @@ import javax.swing.JTable;
 public class ControllerScreenCompareSimulation implements ActionListener, MouseListener {
 
     private final ScreenCompareSimulation screenCompareSimulation;
-    private int idCustomer;
+    private String idCustomer;
     private int choix;
     private JTable tableCompareSims;
     private boolean firstSimulFill = false;
@@ -47,7 +46,7 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
         simulation = new ArrayList<>();
     }
 
-    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, int idCustomer0, JComboBox typeLoan0, JButton btnSubmit0) {
+    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, String idCustomer0, JComboBox typeLoan0, JButton btnSubmit0) {
         this.tableCompareSims = tableCompareSims0;
         this.typeLoan = typeLoan0;
         this.idCustomer = idCustomer0;
@@ -93,7 +92,9 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
     public void setListSimulation(Object ligne, Object capital, Object rate, Object monthlyLoan, Object monthlyInsurance, Object duration, Object totalPayment) {
         //float monthyloan =Float.parseFloat(0.2);
         System.out.println("monthly loan = "+monthlyLoan.toString().trim().substring(0,monthlyLoan.toString().length()-2).replace(",",".").replace(" ",""));
-        float debt = Float.parseFloat(rate.toString().trim()) + Float.parseFloat(monthlyInsurance.toString().trim());
+        System.out.println("rate = "+rate.toString());
+        System.out.println("monthlyInsurance ="+ monthlyInsurance.toString());
+        // float debt = Float.parseFloat(rate.toString().trim()) + Float.parseFloat(monthlyInsurance.toString().trim());
         simulation.clear();
         simulation.add(ligne.toString());
         simulation.add(capital.toString());

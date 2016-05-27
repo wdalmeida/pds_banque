@@ -65,7 +65,21 @@ public class MultiServer {
              */
             if (userPrefix.startsWith("P")) {
                 //Florent's  requests
-            } //////////////////////////////////////////
+                switch (numberPrefix){
+                    case "1":                        
+                        String[] resQuery1 = AccessDB_server.getTypeLoanCustomer(decodingSimCustType(encodedRequest));
+                        System.out.println(Arrays.toString(resQuery1));
+                        outputToClient.writeBytes(Arrays.toString(resQuery1) + '\n');
+                        break;
+                    case "2":/*
+                        JSONObject resQuery1 = AccessDB_server.getSimulationsLoanOfCustomer(decodingSimCust(encodedRequest));
+                        System.out.println(resQuery1.toString());
+                        outputToClient.writeBytes(resQuery1.toString() + '\n');*/
+                        break;
+                    case "3" :
+                        break;
+                }
+            } 
             else if (userPrefix.startsWith("D")) {
                 //Warren's requestsc
                 switch (numberPrefix) {

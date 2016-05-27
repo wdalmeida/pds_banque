@@ -181,6 +181,32 @@ public class JsonDecoding {
 
         return idCustomer;
     }
+    public static String decodingSimCust(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idCustomer = (String) jsonObject.get("idCustomer");
+
+        System.out.println("idCustomer : " + idCustomer);
+
+        return idCustomer;
+    }
+    public static String decodingSimCustType(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idCustomer = (String) jsonObject.get("description_LoanRef");
+
+        System.out.println("idCustomer : " + idCustomer);
+
+        return idCustomer;
+    }
 
     public static String decodingSimId(Object objetjson) throws IOException, FileNotFoundException, ParseException {
 

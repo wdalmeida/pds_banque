@@ -250,4 +250,12 @@ public class JsonEncoding {
         System.out.print("Objet encodé:" + obj);
         return obj;
     }
+    
+    public static JSONObject encodingLoanType(String idCustomer) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("idCustomer", idCustomer);
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    
 }

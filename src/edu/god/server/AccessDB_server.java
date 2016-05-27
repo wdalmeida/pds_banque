@@ -7,8 +7,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONObject;
@@ -453,4 +454,75 @@ public class AccessDB_server {
         }
         return res;
     }
+        
+    public static String[] getTypeLoanCustomer(String idC) throws ClassNotFoundException {
+        String query = "SELECT description_LoanRef FROM LoanRef Natural Join LoanSimulation where id_Customer=?;";
+        try {
+            String[] tab = null;
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idC);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    for (int i = 0; rs.next(); i++) 
+                    {
+                        tab[i] = rs.getString(i + 1);
+                        System.out.println("tab"+i+"] = "+tab[i]);
+                    }
+                }
+            }
+            return tab;
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requ\u00EAte" + query + "n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return null;
+    }
+    
+     public String[] getSimulationsLoanOfCustomer(String idCustomer, String type) throws ClassNotFoundException 
+    {
+        String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim "
+                + "From LoanRef Natural Join LoanSimulation where id_Customer=? AND description_LoanRef=? "
+                + "AND now() > DATE_SUB(now(),INTERVAL 6 MONTH);";
+        String[] res = null;
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        double monthlyInterestRate = 0, monthlyPayment = 0, annualPayment = 0;
+        int cpt = 1;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.30.9:3306/god_banque", "god_banque", "God123Banque");
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setString(1, idCustomer);
+            queryPrep.setString(2, type);
+            try (ResultSet rs = queryPrep.executeQuery()) {
+                if (rs.first()) {
+                    ResultSetMetaData metadata = rs.getMetaData();
+                    int nbColumn = metadata.getColumnCount() + 3;
+
+                    rs.beforeFirst();
+                    while (rs.next()) {
+                        String test[] = new String[nbColumn];
+                        test[0] = Integer.toString(cpt);
+                        test[1] = rs.getString(1);
+                        test[2] = nf.format(Integer.parseInt(rs.getString(2)));
+                        test[3] = rs.getString(3);
+                        monthlyInterestRate = Integer.parseInt(rs.getString(3)) / 12.0;
+                        monthlyPayment = Integer.parseInt(rs.getString(2)) * (monthlyInterestRate / (1 - Math.pow(1 + monthlyInterestRate, -Integer.parseInt(rs.getString(5))))) + Integer.parseInt(rs.getString(4));
+                        test[4] = nf.format(Double.parseDouble(Double.toString(monthlyPayment)));
+                        test[5] = rs.getString(4);
+                        test[6] = rs.getString(5);
+
+                        annualPayment = monthlyPayment * Double.parseDouble(rs.getString(5));
+                        test[7] = nf.format(Double.parseDouble(Double.toString(annualPayment)));
+                        res = test.clone();
+                        cpt++;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur ! La requete " + query + " n'a pas pu aboutir.\n\nMessage d'erreur :\n");
+        }
+        return res;
+    }
+
 }

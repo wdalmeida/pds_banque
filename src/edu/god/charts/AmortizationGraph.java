@@ -22,14 +22,14 @@ import javax.swing.*;
  * Draws a chart with a line for every month and a pie chart
  */
 public class AmortizationGraph extends JPanel implements MouseListener, Printable {
-
+/*
     JScrollPane scrollingPane = null;
     //takes in parameter the name of the class calling the graph class
     JPanel panel = new JPanel();
     JFrame f = new JFrame();
     private javax.swing.JButton printGraphButton;
 
-    double[] dGraph = new double[ScreenVisualizeLoanSimulation.tMonths];
+    double[] dGraph = new double[ScreenVisualizeLoanSimulation.getMonths];
     final int PAD = 100;
     double monthlyPayment;
     double interestPaid;
@@ -112,11 +112,11 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
 
         addMouseListener(this);
 
-    }
+    }*/
 
     //paint component     
     protected void paintComponent(Graphics g) {
-
+/*
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -174,10 +174,10 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
             double y = h - PAD - scale * dGraph[i];
             g2.fill(new Ellipse2D.Double(x - 2, y - 2, 4, 4));
 
-        }
+        }*/
 
     }
-
+/*
     private double getMax() {
 
         double max = -Double.MAX_VALUE;
@@ -224,7 +224,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
                 System.err.println(e.getMessage());
             }
         }
-    }
+    }*/
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -245,7 +245,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
     public void mouseEntered(MouseEvent e) {
         //the mouseOver
         //JOptionPane.showConfirmDialog(this, "Tout plein d'informations", "Bien ou bien", JOptionPane.YES_NO_OPTION);
-        panel.setToolTipText("Somme empruntée: " + initialAmount + " Euros" + '\n' + "Total des intérèts payés: " + totalInterests + " Euros" + '\n' + "Total de la somme à rembourser: " + totalPayments + " Euros");
+        //panel.setToolTipText("Somme empruntée: " + initialAmount + " Euros" + '\n' + "Total des intérèts payés: " + totalInterests + " Euros" + '\n' + "Total de la somme à rembourser: " + totalPayments + " Euros");
     }
 
     @Override
