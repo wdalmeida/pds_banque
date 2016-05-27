@@ -40,7 +40,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
     JFrame f = new JFrame();
     private javax.swing.JButton printGraphButton;
 
-    double[] dGraph = new double[ScreenVisualizeLoanSimulation.tMonths];
+    double[] dGraph = new double[ScreenVisualizeSimulation.tMonths];
     final int PAD = 100;
     double monthlyPayment;
     double interestPaid;
@@ -93,6 +93,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
         
         //MyComponent.setChartValues(principalAmountPercent, totalInterestsPercent, totalInsurancePercents); //first parameter needs to take insurance in account
         
+        //draws the pie chart with JFreeChart
         monpanel = drawingPanel(principalAmountPercent, totalInterestsPercent, totalInsurancePercents);
      
        
@@ -266,7 +267,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
                             pageFormat.getImageableY());
 
                     //prints only a jpanel
-                    panel.paint(g2d);
+                    monpanel.paint(g2d);
                     //print the whole JFrame
                     //  f.paint(g2d);
 

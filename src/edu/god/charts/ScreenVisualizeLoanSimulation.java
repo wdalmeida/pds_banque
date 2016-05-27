@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
  * Enable input for simulation parameters
  */
 public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
-/*
+
     //variable declaration
     public static int tMonths;
     double principalAmount;
@@ -227,10 +227,10 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-*/
+
     //launch the creation of the amortization table
     private void tableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableButtonActionPerformed
-/*
+
         try { //checks whether the entered values for principal amount, interest rate and term (in months) are numeric or not
 
             float pAmount, iRate, aRate, tMonths;
@@ -244,7 +244,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        amortizationCalculation am = new amortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -259,11 +259,11 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests); //total interests
         totalInsuranceTextField.setText(tInsurance); //total insurance
 
-        amortizationTable amT = new amortizationTable(); // an object of the amortization table
+        AmortizationTable amT = new AmortizationTable(); // an object of the amortization table
         amT.getTableInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
-*/
+
     }//GEN-LAST:event_tableButtonActionPerformed
 
     //lancement de la creation des graphiques
@@ -271,7 +271,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         //DataValuesClass.calculate(Double.parseDouble(txtPrincipal.getText()), Integer.parseInt(txtTerms.getText()), Double.parseDouble(txtRate.getText()));
         //DataValuesClass.calculate(Double.parseDouble("100000"), Integer.parseInt("24"), Double.parseDouble("5"));
         //GraphClass.callGraphClass(); // To Display Graph
-       /* try { //checks if the entered values are numeric or not
+        try { //checks if the entered values are numeric or not
 
             float pAmount, iRate, tMonths;
             pAmount = Float.parseFloat(principalAmountTextField.getText());
@@ -283,7 +283,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
             JOptionPane.showConfirmDialog(null, "Merci d'entrer des valeurs numériques", "Exception", JOptionPane.PLAIN_MESSAGE);
 
         }
-        amortizationCalculation am = new amortizationCalculation();
+        AmortizationCalculation am = new AmortizationCalculation();
         String payInfo = null;
         payInfo = am.getpayInfo(principalAmountTextField.getText(), interestRateTextField.getText(), insuranceRateTextfield.getText(), termMonthsTextField.getText());
 
@@ -296,16 +296,16 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         totalInterestsTextField.setText(tInterests);
         tMonths = Integer.parseInt(termMonthsTextField.getText());
 
-    amortizationGraph amG = new amortizationGraph();
+        AmortizationGraph amG = new AmortizationGraph();
         amG.getGraphInfo(principalAmountTextField.getText(), interestRateTextField.getText(), termMonthsTextField.getText(), totalInterestsTextField.getText(), totalPaymentsTextField.getText(), insuranceRateTextfield.getText());
 
         endDateTextField.setText(dateFormat.format(addMonths(startDatePicker.getDate(), Integer.parseInt(termMonthsTextField.getText()))));
-*/
+
 
     }//GEN-LAST:event_graphButtonActionPerformed
 
     private void printWindowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printWindowButtonActionPerformed
-/*
+
         PrinterJob job = PrinterJob.getPrinterJob();
         PageFormat format = job.defaultPage();
         format.setOrientation(PageFormat.LANDSCAPE);
@@ -319,7 +319,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
+
     }//GEN-LAST:event_printWindowButtonActionPerformed
 
     //actual printing function
@@ -359,7 +359,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
      return cal.getTime();
      }
      */
-  /*  public static Date addMonths(Date date, int months) {
+    public static Date addMonths(Date date, int months) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MONTH, months); //minus number would decrement the days
@@ -372,7 +372,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-/*      try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -401,7 +401,7 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
     }
 
     //getters and setters
-   /* public void setMonthlyPayment(String monthlyPayment) {
+    public void setMonthlyPayment(String monthlyPayment) {
         //this.monthlyPayment = monthlyPayment;
         monthlyPaymentTextField.setText(monthlyPayment);
     }
@@ -436,4 +436,4 @@ public class ScreenVisualizeLoanSimulation extends JFrame implements Printable {
     private javax.swing.JTextField totalInterestsTextField;
     private javax.swing.JTextField totalPaymentsTextField;
     // End of variables declaration//GEN-END:variables
-*/}
+}

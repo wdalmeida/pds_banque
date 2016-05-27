@@ -70,7 +70,7 @@ class MyComponent extends JComponent {
         }
     }
 
-    public static void main(String[] argv) {
+  /*  public static void main(String[] argv) {
         JFrame frame = new JFrame();
 
         setChartValues(85, 10, 5);
@@ -79,5 +79,5 @@ class MyComponent extends JComponent {
         frame.setSize(500, 500);
         frame.setVisible(true);
     }
-
+*/
 }

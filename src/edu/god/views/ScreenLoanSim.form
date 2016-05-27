@@ -8,15 +8,12 @@
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-      <Color id="Curseur par d&#xe9;faut"/>
+      <Color id="Default Cursor"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[800, 600]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="windows" noResource="true"/>
-    <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[800, 600]"/>
-    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -46,8 +43,10 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnVisualize" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
               <Component id="btnBack" min="-2" pref="100" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -60,7 +59,10 @@
                   <Component id="PLeft" pref="531" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnBack" min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnBack" pref="40" max="32767" attributes="0"/>
+                  <Component id="btnVisualize" max="32767" attributes="0"/>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -191,14 +193,10 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtRate">
           <Properties>
-            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtRateActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblinsurance">
           <Properties>
@@ -228,9 +226,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Calculer"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCaculateActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblError">
           <Properties>
@@ -334,9 +329,6 @@
               <Color blue="eb" green="eb" red="eb" type="rgb"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMonthlyActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblMonthlyWInsurance">
           <Properties>
@@ -350,9 +342,6 @@
               <Color blue="eb" green="eb" red="eb" type="rgb"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMonthlyWInsuranceActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblMonthlyInsurance">
           <Properties>
@@ -417,9 +406,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Retour"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
-      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnVisualize">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Visualiser"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
