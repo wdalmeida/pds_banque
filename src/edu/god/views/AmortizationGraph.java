@@ -93,6 +93,7 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
         
         //MyComponent.setChartValues(principalAmountPercent, totalInterestsPercent, totalInsurancePercents); //first parameter needs to take insurance in account
         
+        //draws the pie chart with JFreeChart
         monpanel = drawingPanel(principalAmountPercent, totalInterestsPercent, totalInsurancePercents);
      
        
