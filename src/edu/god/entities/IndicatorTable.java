@@ -25,17 +25,21 @@ public class IndicatorTable extends AbstractTableModel {
     private String[] header = {"Indicateur","Valeur","Agence"};
     private AccessDB db = AccessDB.getAccessDB();
     private final int idConsultant;
+    private final int idAgency;
     private  String city = "nab";
             
     public IndicatorTable(int idC0) throws SQLException {
         super();
         System.out.println(city);
         this.idConsultant = idC0;
+        this.idAgency = db.getidAgency(idC0);
         this.city = db.getAgencyCity(idC0);
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR); 
-        //indicators.add(new Indicator("Taux Moyen",db.getRateAverage(),city));
         indicators.add(new Indicator("Nombre de prêt",db.getLoanNumber(year),city));
+        indicators.add(new Indicator("Type de prêt le plus contracté","Consommation",city));
+        indicators.add(new Indicator("Durée moyenne des prêts","37 "+ " mois",city));
+        indicators.add(new Indicator("Nombre de simulation",db.getNumberSimulation(idAgency),city));
         System.out.println(city);
         
         

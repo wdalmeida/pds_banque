@@ -105,7 +105,7 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-   /* public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
+    /* public int insertCustomer(Customer cust, int idConsultant) throws NoSuchAlgorithmException {
         String query2 = "test";
         String pwd = HashString.sha512(cust.getBirthday().toString()); // use for crypt the password
         int res;
@@ -134,7 +134,7 @@ public class AccessDB implements Constantes {
         }
         return tmp;
     }
-*/
+     */
     public int getIDConsultant(Customer cust) {
         int tmp = 0;
         String query1 = "test";
@@ -171,7 +171,7 @@ public class AccessDB implements Constantes {
     }
 
     public ArrayList<String> getTypeLoanCustomer(int idC) {
-        String query = "SELECT description_LoanRef FROM LoanRef Natural Join LoanSimulation Natural Join Rate where id_Customer="+idC+";";
+        String query = "SELECT description_LoanRef FROM LoanRef Natural Join LoanSimulation Natural Join Rate where id_Customer=" + idC + ";";
         try {
             ArrayList<String> tab = new ArrayList<>();
             try (ResultSet rs = this.declaration.executeQuery(query)) {
@@ -186,7 +186,6 @@ public class AccessDB implements Constantes {
         return null;
     }
 
-    
     public ArrayList<String> getStatus() throws SQLException {
         String query = "test";
         int i = 0;
@@ -246,8 +245,8 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-    public float getSalaryOfCustomer (String idCustomer)
-    {        
+
+    public float getSalaryOfCustomer(String idCustomer) {
         String query = query = "select salary_Customer From Customer where id_Customer=?;";
         float res = 0;
         try {
@@ -255,7 +254,7 @@ public class AccessDB implements Constantes {
             queryPrep.setString(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
-                        res = Float.parseFloat(rs.getString(1));
+                    res = Float.parseFloat(rs.getString(1));
                 }
             }
         } catch (SQLException e) {
@@ -270,8 +269,7 @@ public class AccessDB implements Constantes {
      * @param idCustomer
      * @return res ArrayList<String>
      */
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(String idCustomer, String type) 
-    {
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(String idCustomer, String type) {
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim "
                 + "From LoanRef Natural Join LoanSimulation where id_Customer=? AND description_LoanRef=? "
                 + "AND now() > DATE_SUB(now(),INTERVAL 6 MONTH);";
@@ -313,7 +311,6 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-
 
     /**
      * Return the customer id with all the parameter required to insert him
@@ -575,6 +572,7 @@ public class AccessDB implements Constantes {
         System.out.println(res);
         return res;
     }
+
     /**
      * Return the id of the description
      *
@@ -626,7 +624,7 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-    
+
     /* public String getRateAverage() throws SQLException {
         String rate= null;
         String query = "SELECT AVG(percentage_Rate) FROM Rate";
@@ -638,24 +636,23 @@ public class AccessDB implements Constantes {
         }
         return rate ;
     }*/
-     
-     public String getLoanNumber(int year) throws SQLException {
+    public String getLoanNumber(int year) throws SQLException {
         int nbrLoan = 0;
         String loanCount = "";
         String query = "SELECT distinct Count(*) as loan_Number from Loan where start_Date like ?";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, Integer.toString(year)+"%");
+        queryPrep.setString(1, Integer.toString(year) + "%");
         ResultSet rs = queryPrep.executeQuery();
         if (rs.first()) {
             System.out.println("TEST GETLOANNUMBER");
             System.out.println(" numberloan = " + rs.getInt("loan_Number"));
             nbrLoan = rs.getInt("loan_Number");
         }
-        
+
         return loanCount = Integer.toString(nbrLoan);
     }
-     
-      public String getAgency() throws SQLException {
+
+    public String getAgency() throws SQLException {
         int nbrLoan = 0;
         String loanCount = "";
         String query = "SELECT distinct Count(*) as loan_Number from Loan";
@@ -667,9 +664,10 @@ public class AccessDB implements Constantes {
         }
         return loanCount = Integer.toString(nbrLoan);
     }
-      /*For Coline
+
+    /*For Coline
     ScreenModifyRatesConsumption*/
-     /*Get Parent Agency rates Consumption */
+ /*Get Parent Agency rates Consumption */
     public String getRatesConsumptionParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesConsumption from Rate_Parent_company ;";
@@ -682,13 +680,13 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-    
+
     /*Get rates Consumption */
     public String getratesConsumption(int idAgency) throws SQLException {
         String taux = null;
         String query = "SELECT RatesConsumption from Agency where id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setInt(1,idAgency);
+        queryPrep.setInt(1, idAgency);
         System.out.println("getratesConsumption se lance");
         ResultSet resultat = queryPrep.executeQuery();
         if (resultat.first()) {
@@ -698,7 +696,8 @@ public class AccessDB implements Constantes {
         System.out.println(taux);
         return taux;
     }
-      /*update rates Consumption Agency*/
+
+    /*update rates Consumption Agency*/
     public int updateRatesConsumption(int idAgency, float RatesConsumption) throws SQLException {
         String query = "UPDATE Agency set RatesConsumption=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -708,10 +707,11 @@ public class AccessDB implements Constantes {
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
     }
-       /*For Coline
+
+    /*For Coline
     ScreenModifyRatesPersonal*/
-    
-     /*Get Parent Agency rates Personal */
+
+ /*Get Parent Agency rates Personal */
     public String getRatesPesonalParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesPersonel FROM Rate_Parent_company ;";
@@ -724,7 +724,7 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-    
+
     /*Get rates Personal */
     public String getratesPersonal(int idAgency) throws SQLException {
         String chiff = null;
@@ -739,8 +739,8 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-    
-       /*Update Rates Personal*/
+
+    /*Update Rates Personal*/
     public int updateRatesPersonal(int idAgency, float RatesPersonel) throws SQLException {
         String query = "UPDATE Agency set RatesPersonel=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -748,12 +748,13 @@ public class AccessDB implements Constantes {
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
-    
+
     }
+
     /*For Coline
     ScreenModifyRatesProperty*/
-    
-/*Get Parent Agency rates Property */
+
+ /*Get Parent Agency rates Property */
     public String getRatesPropertyParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesProperty from Rate_Parent_company ;";
@@ -766,6 +767,7 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
+
     /*Get rates Property */
     public String getratesProperty(int idAgency) throws SQLException {
         String chiff = null;
@@ -780,7 +782,8 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-       /*Update Rates Property*/
+
+    /*Update Rates Property*/
     public int updateRatesProperty(int idAgency, float RatesProperty) throws SQLException {
         String query = "UPDATE Agency set RatesProperty=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -788,12 +791,13 @@ public class AccessDB implements Constantes {
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
-    
+
     }
+
     /*For Coline
     ScreenModifyRatesProject*/
-    
-     /*Get Parent Agency rates Project */
+
+ /*Get Parent Agency rates Project */
     public String getRatesProjectParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesProject from Rate_Parent_company ;";
@@ -806,6 +810,7 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
+
     /*Get rates Project */
     public String getratesProj(int idAgency) throws SQLException {
         String chiff = null;
@@ -820,7 +825,8 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-       /*Update Rates Project*/
+
+    /*Update Rates Project*/
     public int updateRatesProject(int idAgency, float RatesProject) throws SQLException {
         String query = "UPDATE Agency set RatesProject=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -828,12 +834,13 @@ public class AccessDB implements Constantes {
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
-    
+
     }
+
     /*For Coline
     ScreenModifyRatesRepurchase*/
-    
-/*Get Parent Agency rates Repurchase */
+
+ /*Get Parent Agency rates Repurchase */
     public String getRatesRepurchaseParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesRepurchase from Rate_Parent_company ;";
@@ -846,6 +853,7 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
+
     /*Get rates Repurchase */
     public String getratesRepurchase(int idAgency) throws SQLException {
         String chiff = null;
@@ -860,7 +868,8 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-       /*Update Rates Repurchase*/
+
+    /*Update Rates Repurchase*/
     public int updateRatesRepurchase(int idAgency, float RatesRepurchase) throws SQLException {
         String query = "UPDATE Agency set RatesRepurchase=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -868,11 +877,12 @@ public class AccessDB implements Constantes {
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
-    
+
     }
+
     /*For Coline
     ScreenModifyRatesVehicles*/
-/*Get Parent Agency rates Vehicles */
+ /*Get Parent Agency rates Vehicles */
     public String getRatesVehiclesParent() throws SQLException {
         String chiff = null;
         String query = "SELECT ParentRatesVehicles from Rate_Parent_company ;";
@@ -885,6 +895,7 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
+
     /*Get rates Vehicles */
     public String getratesVehicles(int idAgency) throws SQLException {
         String chiff = null;
@@ -899,8 +910,8 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-    
-       /*Update Rates Vehicles*/
+
+    /*Update Rates Vehicles*/
     public int updateRatesVehicles(int idAgency, float RatesVehicles) throws SQLException {
         String query = "UPDATE Agency set RatesVehicles=? WHERE id_Agency=? ;";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -908,10 +919,10 @@ public class AccessDB implements Constantes {
         queryPrep.setInt(2, idAgency);
         System.out.println(queryPrep.toString());
         return queryPrep.executeUpdate();
-    
+
     }
-    
- /*Get id Agency user*/
+
+    /*Get id Agency user*/
     public int getidAgency(int idConsultant) throws SQLException {
         int chiff = 0;
         String query = "SELECT id_Agency FROM Consultant where id_Consultant=? ;";
@@ -925,40 +936,84 @@ public class AccessDB implements Constantes {
         System.out.println(chiff);
         return chiff;
     }
-    
-    public String getAgencyCity(int idC0) throws SQLException{
-        String city ="";
-        String query = "SELECT city_Agency " 
-                       + "FROM Consultant c,Agency a " 
-                       + "WHERE c.id_Agency = a.id_Agency " 
-                       + "AND c.id_Consultant = ? ";
+
+    public String getAgencyCity(int idC0) throws SQLException {
+        String city = "";
+        String query = "SELECT city_Agency "
+                + "FROM Consultant c,Agency a "
+                + "WHERE c.id_Agency = a.id_Agency "
+                + "AND c.id_Consultant = ? ";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idC0);
         ResultSet rs = queryPrep.executeQuery();
-        System.out.println("city = " +  city);
+        System.out.println("city = " + city);
         if (rs.first()) {
-           //city = rs.getString("city_Agency");
-           city = rs.getString(1);
-                   
+            //city = rs.getString("city_Agency");
+            city = rs.getString(1);
+
         }
         //System.out.println("city2 = " + city);
-    return city;
-        
+        return city;
+
     }
-    
-    public ArrayList<LoanIndicator>getLaonInformation() throws SQLException{
+
+    public ArrayList<LoanIndicator> getLaonInformation() throws SQLException {
         ArrayList<LoanIndicator> loanObject = new ArrayList();
-        String query ="SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer "
+        String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer "
                 + "FROM LoanSimulation ls, Loan l, Customer c "
                 + "WHERE l.id_Sim = ls.id_Sim "
                 + "AND c.id_Customer = ls.id_Customer";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         ResultSet rs = queryPrep.executeQuery();
-        while(rs.next()){ 
-            loanObject.add(new LoanIndicator(rs.getString("first_Name_Customer"), rs.getString("last_Name_Customer"), rs.getString("percentage_Rate"), rs.getString("monthly_Sim"), rs.getString("duration_Sim"), rs.getString("birthday_Customer")));                
+        while (rs.next()) {
+            loanObject.add(new LoanIndicator(rs.getString("first_Name_Customer"), rs.getString("last_Name_Customer"), rs.getString("percentage_Rate"), rs.getString("monthly_Sim"), rs.getString("duration_Sim"), rs.getString("birthday_Customer")));
         }
         return loanObject;
-        
+
+    }
+
+    public String getNumberCustomer(int idAgency) throws SQLException {
+        String numberCust = "";
+        String query = "SELECT count( * ) "
+                + "FROM Customer c, Agency a, Consultant ct "
+                + "WHERE a.id_Agency = ct.id_Agency "
+                + "AND ct.id_Consultant = c.id_Consultant "
+                + "AND ct.id_Agency = ? ";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet rs = queryPrep.executeQuery();
+        System.out.println("number of cust = " + numberCust);
+        if (rs.first()) {
+            //city = rs.getString("city_Agency");
+            numberCust = rs.getString(1);
+
+        }
+        //System.out.println("city2 = " + city);
+        return numberCust;
+
+    }
+
+    public String getNumberSimulation(int idAgency) throws SQLException {
+        String numberSim = "";
+        String query = "Select count(*) "
+                        +"From LoanSimulation ls, Consultant ct, Agency a "
+                        +"Where ls.id_Consultant = ct.id_Consultant "
+                        +"AND ct.id_Agency = a.id_Agency "
+                        +"AND a.id_Agency =? ";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
+        ResultSet rs = queryPrep.executeQuery();
+        System.out.println("number of sim = " + numberSim);
+        if (rs.first()) {
+            //city = rs.getString("city_Agency");
+            numberSim = rs.getString(1);
+
+        }
+        //System.out.println("city2 = " + city);
+        return numberSim;
+
     }
     
+ 
+
 }

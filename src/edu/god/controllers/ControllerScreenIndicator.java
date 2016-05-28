@@ -133,24 +133,30 @@ public class ControllerScreenIndicator implements ActionListener {
 
     }
 
-    public String indicatorDynamic(JXDatePicker periodJDatePicker1, JXDatePicker periodJDatePicker2, JTextField ageLabel) {
-        int i = 0;
-        String query = " SELECT first_Name_Customer,last_Name_Customer, percentage_Rate,monthly_Sim, duration_Sim,birthday_Customer"
-                + "FROM LoanSimulation ls, Loan l, Customer c"
-                + "WHERE l.id_Sim = ls.id_Sim"
-                + "AND c.id_Customer = ls.id_Customer;";
-        String constraint1 = "";
-        String constraint2 = "";
-        String finalQuery = query;
-        switch (i) {
-            case 1:
+    public String indicatorDynamic(JXDatePicker periodJDatePicker1, JXDatePicker periodJDatePicker2) {
+        String constraint1 ="";
+        if(periodJDatePicker1.equals(null) && periodJDatePicker1.equals(null)){
+            constraint1="";
+        }else if(!periodJDatePicker1.equals(null) && !periodJDatePicker1.equals(null)){
                 constraint1 = "AND duration_Sim between '" + periodJDatePicker1 + "%' and '" + periodJDatePicker2 + "%'";
-                finalQuery = query + constraint2;
-            case 2:
-                constraint2 = "AND birthday_Customer = " + Integer.toString(year - Integer.parseInt(ageLabel.getText()));
-                finalQuery = query + constraint2;
-        }
-        return finalQuery;
+        }else if (!periodJDatePicker1.equals(null) && periodJDatePicker1.equals(null)){
+                constraint1 = "AND duration_Sim = '" + periodJDatePicker1 + "%'";
+                }
+        else if (periodJDatePicker1.equals(null) && !periodJDatePicker1.equals(null)){
+                constraint1 = "AND duration_Sim = '" + periodJDatePicker2 + "%'" ;
+                }  
+        return constraint1;
     }
+    
+     public String indicatorDynamicAge(JTextField ageJTextField) {
+        String constraint2 ="";
+        if(!ageJTextField.equals(null)){
+            constraint2 = "AND birthday_Customer like '" + Integer.toString(year - Integer.parseInt(ageJTextField.getText()))+"%'";
+        }
+            
+        return constraint2;
+    }
+    
+    
 
 }
