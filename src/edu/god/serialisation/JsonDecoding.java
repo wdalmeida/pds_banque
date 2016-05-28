@@ -181,6 +181,66 @@ public class JsonDecoding {
 
         return idCustomer;
     }
+    public static String decodingSimCust(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idCustomer = (String) jsonObject.get("idCustomer");
+
+        System.out.println("idCustomer : " + idCustomer);
+
+        return idCustomer;
+    }
+    public static Object[] decodingSalaryCustomer(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;     
+
+        String idCustomer = jsonObject.get("idCustomer").toString();
+
+        System.out.println("idCustomer Flo : " + idCustomer);
+        Object[] data = {idCustomer};
+
+        return data;
+    }
+    
+    public static String[] decodingSimsLoan(Object objetjson) throws FileNotFoundException, IOException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+                
+        String idCustomer = (String) jsonObject.get("idCustomer");
+        String type = (String) jsonObject.get("type");
+
+        System.out.println("type : " + type);
+        System.out.println("idCustomer : " + idCustomer);
+
+        String data[] = {idCustomer,type};
+
+        return data;
+    }
+    
+    
+    public static String decodingSimCustType(Object objetjson) throws IOException, FileNotFoundException, ParseException {
+
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+
+        String idCustomer = (String) jsonObject.get("idCustomer");
+
+        System.out.println("idCustomer Flo dec: " + idCustomer);
+
+        return idCustomer;
+    }
 
     public static String decodingSimId(Object objetjson) throws IOException, FileNotFoundException, ParseException {
 

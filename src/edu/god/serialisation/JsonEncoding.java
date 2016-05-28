@@ -250,6 +250,40 @@ public class JsonEncoding {
         System.out.print("Objet encodé:" + obj);
         return obj;
     }
+    
+    public static JSONObject encodingLoanType(String idCustomer) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("idCustomer", idCustomer);
+        System.out.print("Objet encodé Flo:" + obj);
+        return obj;
+    }
+    
+    /**
+     *
+     * @param idCustomer
+     * @param type
+     * @return
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ParseException
+     * @throws NoSuchAlgorithmException
+     */
+    public static JSONObject encodingSimsLoan(String idCustomer,String type) throws IOException, FileNotFoundException, ParseException, NoSuchAlgorithmException {
+        JSONObject obj = new JSONObject();
+
+        obj.put("idCustomer", idCustomer);
+        obj.put("type", type);
+
+        System.out.print("Objet encodé:" + obj);
+        return obj;
+    }
+    public static JSONObject encodingSalaryCustomer(String idCustomer) throws IOException, FileNotFoundException, ParseException {
+        JSONObject obj = new JSONObject();
+        obj.put("idCustomer", idCustomer);
+        System.out.print("Objet encodé Flo :" + obj);
+        return obj;
+    }
+    
     public static JSONObject encodingIdAgency(String idConsultant) throws IOException, FileNotFoundException, ParseException {
         JSONObject obj = new JSONObject();
         obj.put("id_Consultant", idConsultant);

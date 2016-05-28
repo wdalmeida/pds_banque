@@ -34,7 +34,7 @@ public class IndicatorTable extends AbstractTableModel {
         this.city = db.getAgencyCity(idC0);
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR); 
-        indicators.add(new Indicator("Taux Moyen",db.getRateAverage(),city));
+        //indicators.add(new Indicator("Taux Moyen",db.getRateAverage(),city));
         indicators.add(new Indicator("Nombre de prêt",db.getLoanNumber(year),city));
         System.out.println(city);
         

@@ -246,13 +246,13 @@ public class AccessDB implements Constantes {
         }
         return res;
     }
-    public float getSalaryOfCustomer (int idCustomer)
+    public float getSalaryOfCustomer (String idCustomer)
     {        
         String query = query = "select salary_Customer From Customer where id_Customer=?;";
         float res = 0;
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
-            queryPrep.setInt(1, idCustomer);
+            queryPrep.setString(1, idCustomer);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
                         res = Float.parseFloat(rs.getString(1));
@@ -270,7 +270,7 @@ public class AccessDB implements Constantes {
      * @param idCustomer
      * @return res ArrayList<String>
      */
-    public ArrayList<String[]> getSimulationsLoanOfCustomer(int idCustomer, String type) 
+    public ArrayList<String[]> getSimulationsLoanOfCustomer(String idCustomer, String type) 
     {
         String query = query = "select description_LoanRef,capital_Sim,percentage_Rate,percentage_Insurance,duration_Sim "
                 + "From LoanRef Natural Join LoanSimulation where id_Customer=? AND description_LoanRef=? "
@@ -281,7 +281,7 @@ public class AccessDB implements Constantes {
         int cpt = 1;
         try {
             PreparedStatement queryPrep = conn.prepareStatement(query);
-            queryPrep.setInt(1, idCustomer);
+            queryPrep.setString(1, idCustomer);
             queryPrep.setString(2, type);
             try (ResultSet rs = queryPrep.executeQuery()) {
                 if (rs.first()) {
@@ -627,7 +627,7 @@ public class AccessDB implements Constantes {
         return res;
     }
     
-     public String getRateAverage() throws SQLException {
+    /* public String getRateAverage() throws SQLException {
         String rate= null;
         String query = "SELECT AVG(percentage_Rate) FROM Rate";
         PreparedStatement queryPrep = conn.prepareStatement(query);
@@ -637,7 +637,7 @@ public class AccessDB implements Constantes {
             rate = rs.getString("AVG(percentage_Rate)");
         }
         return rate ;
-    }
+    }*/
      
      public String getLoanNumber(int year) throws SQLException {
         int nbrLoan = 0;
@@ -945,4 +945,20 @@ public class AccessDB implements Constantes {
     return city;
         
     }
+    
+    public ArrayList<LoanIndicator>getLaonInformation() throws SQLException{
+        ArrayList<LoanIndicator> loanObject = new ArrayList();
+        String query ="SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer "
+                + "FROM LoanSimulation ls, Loan l, Customer c "
+                + "WHERE l.id_Sim = ls.id_Sim "
+                + "AND c.id_Customer = ls.id_Customer";
+        PreparedStatement queryPrep = conn.prepareStatement(query);
+        ResultSet rs = queryPrep.executeQuery();
+        while(rs.next()){ 
+            loanObject.add(new LoanIndicator(rs.getString("first_Name_Customer"), rs.getString("last_Name_Customer"), rs.getString("percentage_Rate"), rs.getString("monthly_Sim"), rs.getString("duration_Sim"), rs.getString("birthday_Customer")));                
+        }
+        return loanObject;
+        
+    }
+    
 }

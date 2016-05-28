@@ -6,11 +6,14 @@
 package edu.god.views;
 
 import edu.god.controllers.ControllerScreenCompareSimulation;
-import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.encodingLoanType;
+import edu.god.server.ClientJavaSelect;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -22,27 +25,44 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * Creates new form ScreenCompareSimulation
      */
     private final int NBRPARAMETERS = 8;
-    private int idCustomer;
+    private final String idCustomer;
     private ArrayList<String> simul1;
     private ArrayList<String> simul2;
     private ArrayList<String> simul3;
     private ArrayList<String> choiceTypeLoan;
 
-    public ScreenCompareSimulation(int idCustomer0) throws SQLException {
+    public ScreenCompareSimulation(String idCustomer0) throws SQLException, ParseException, IOException {
         System.out.println("ScreenCompareSimulation");
         initComponents();
         this.idCustomer = idCustomer0;
-        this.choiceTypeLoan = AccessDB.getAccessDB().getTypeLoanCustomer(idCustomer);
-        choiceTypeLoan.stream().forEach((choiceStatu) -> {
-            typeLoan.addItem(choiceStatu);
-        });
-        btnSubmit.addActionListener(new ControllerScreenCompareSimulation(this, tableCompareSims, idCustomer, typeLoan, btnSubmit));
+
+        //load the combobox
+        String res = ClientJavaSelect.clientTcpSelect("P", "1", encodingLoanType(this.idCustomer));
+        String test = res.replace("[", "");
+        String test2 = test.replace("]", "");
+        String[] loanTypes = test2.split(",");
+        System.out.println(Arrays.toString(loanTypes));
+
+        typeLoan.removeAllItems();
+        typeLoan.addItem("Veullez selectionner un type de pret");
+        for (String loanType : loanTypes) {
+            if (loanType.startsWith(" ")) {
+                typeLoan.addItem(loanType.substring(1));
+            } else {
+                typeLoan.addItem(loanType);
+            }
+        }
+        btnSubmit.addActionListener(new ControllerScreenCompareSimulation(this, tableCompareSims, this.idCustomer, typeLoan, btnSubmit));
         simul1 = new ArrayList<>(); // initialize list
         simul2 = new ArrayList<>();
         simul3 = new ArrayList<>();
+        simul1 = (ArrayList<String>) this.fillemptyList().clone();
+        simul2 = (ArrayList<String>) this.fillemptyList().clone();
+        simul3 = (ArrayList<String>) this.fillemptyList().clone();
+
         this.setVisible(true);
-        btnClose.addActionListener(new ControllerScreenCompareSimulation(this, btnClose)); // add ActionListener to btnClose
-        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(tableCompareSims, this, btnClose));  // Add MouseListener to tableCompareSims
+        btnClose.addActionListener(new ControllerScreenCompareSimulation(this,this.idCustomer, btnClose)); // add ActionListener to btnClose
+        tableCompareSims.addMouseListener(new ControllerScreenCompareSimulation(tableCompareSims,this,this.idCustomer, btnClose));  // Add MouseListener to tableCompareSims
 
     }
 
@@ -98,8 +118,14 @@ public class ScreenCompareSimulation extends javax.swing.JFrame {
      * @param simulations
      */
     public void loadDataInTable(ArrayList<String[]> simulations) {
+
         System.out.println("LoadDataInTable");
         DefaultTableModel model = (DefaultTableModel) tableCompareSims.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
         tableCompareSims.setModel(model);
 
         for (String[] sim : simulations) {

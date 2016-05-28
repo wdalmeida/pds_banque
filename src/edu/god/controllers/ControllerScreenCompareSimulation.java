@@ -5,18 +5,27 @@
  */
 package edu.god.controllers;
 
-import edu.god.models.AccessDB;
+import static edu.god.serialisation.JsonEncoding.encodingSalaryCustomer;
+import static edu.god.serialisation.JsonEncoding.encodingSimsLoan;
+import edu.god.server.ClientJavaSelect;
 import edu.god.views.ScreenCompareSimulation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -25,7 +34,7 @@ import javax.swing.JTable;
 public class ControllerScreenCompareSimulation implements ActionListener, MouseListener {
 
     private final ScreenCompareSimulation screenCompareSimulation;
-    private int idCustomer;
+    private final String idCustomer;
     private int choix;
     private JTable tableCompareSims;
     private boolean firstSimulFill = false;
@@ -41,13 +50,14 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
      * @param screenCompareSimulation0
      * @param btnClose0
      */
-    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
+    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, String idCustomer0,JButton btnClose0) {
         this.btnClose = btnClose0;
         this.screenCompareSimulation = screenCompareSimulation0;
         simulation = new ArrayList<>();
+        this.idCustomer = idCustomer0;
     }
 
-    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, int idCustomer0, JComboBox typeLoan0, JButton btnSubmit0) {
+    public ControllerScreenCompareSimulation(ScreenCompareSimulation screenCompareSimulation0, JTable tableCompareSims0, String idCustomer0, JComboBox typeLoan0, JButton btnSubmit0) {
         this.tableCompareSims = tableCompareSims0;
         this.typeLoan = typeLoan0;
         this.idCustomer = idCustomer0;
@@ -63,22 +73,34 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
      * @param screenCompareSimulation0
      * @param btnClose0
      */
-    public ControllerScreenCompareSimulation(JTable tableCompareSims0, ScreenCompareSimulation screenCompareSimulation0, JButton btnClose0) {
+    public ControllerScreenCompareSimulation(JTable tableCompareSims0, ScreenCompareSimulation screenCompareSimulation0,String idCustomer0, JButton btnClose0) {
         System.out.println("ControllerScreenCompareSimulation");
         this.btnClose = btnClose0;
         this.tableCompareSims = tableCompareSims0;
         simulation = new ArrayList<>();
         this.screenCompareSimulation = screenCompareSimulation0;
+        this.idCustomer = idCustomer0;
 
     }
-    public String getDebtRatio(double debt)
-    {
-        float salary = AccessDB.getAccessDB().getSalaryOfCustomer(idCustomer);
-        double debtRatio = salary+debt;
-        System.out.println("Debt Ration = "+ debtRatio);
-        return ""+debtRatio;
+
+    public String getDebtRatio(float debt) throws IOException, FileNotFoundException, ParseException {
         
+        System.out.println("getDebtRation");
+        String objetjson = ClientJavaSelect.clientTcpSelect("P", "3", encodingSalaryCustomer(this.idCustomer));
+        
+        System.out.println("idCustomer getDebtRatio="+ idCustomer);
+        
+        float salary = Float.parseFloat(objetjson);
+        
+        System.out.println("salary = " + salary);
+        
+        float debtRatio = debt/salary;
+        System.out.println("Debt Ratio = " + debtRatio);
+        int percentage = (int) Math.ceil((debtRatio) * 100);
+        
+        return Integer.toString(percentage);
     }
+
     /**
      * fill a temporary list to add to a simulation after
      *
@@ -89,11 +111,15 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
      * @param monthlyInsurance
      * @param duration
      * @param totalPayment
+     * @throws java.io.IOException
+     * @throws java.io.FileNotFoundException
+     * @throws org.json.simple.parser.ParseException
      */
-    public void setListSimulation(Object ligne, Object capital, Object rate, Object monthlyLoan, Object monthlyInsurance, Object duration, Object totalPayment) {
-        //float monthyloan =Float.parseFloat(0.2);
-        System.out.println("monthly loan = "+monthlyLoan.toString().trim().substring(0,monthlyLoan.toString().length()-2).replace(",",".").replace(" ",""));
-        float debt = Float.parseFloat(rate.toString().trim()) + Float.parseFloat(monthlyInsurance.toString().trim());
+    public void setListSimulation(Object ligne, Object capital, Object rate, Object monthlyLoan, Object monthlyInsurance, Object duration, Object totalPayment) throws IOException, FileNotFoundException, ParseException {
+       
+        float debt = Float.parseFloat((String) totalPayment) /Float.parseFloat((String) duration);
+        System.out.println("Charge = "+debt);       
+        
         simulation.clear();
         simulation.add(ligne.toString());
         simulation.add(capital.toString());
@@ -102,9 +128,61 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
         simulation.add(monthlyInsurance.toString());
         simulation.add(duration.toString());
         simulation.add(totalPayment.toString());
-        simulation.add("");
+        simulation.add(this.getDebtRatio(debt));
         System.out.println("Nouvelle simulation prete ID = " + ligne.toString());
 
+    }
+
+    public ArrayList<String[]> getAllLoans() throws IOException, FileNotFoundException, org.json.simple.parser.ParseException, NoSuchAlgorithmException {
+        ArrayList<String[]> tab = new ArrayList();
+        System.out.println("Client numero = " + idCustomer + " type pret =" + typeLoan.getSelectedItem().toString());
+        
+        Object objetjson = ClientJavaSelect.clientTcpSelect("P", "2", encodingSimsLoan(idCustomer, typeLoan.getSelectedItem().toString()));
+        JSONParser parser = new JSONParser();
+        String object = objetjson.toString();
+        
+        objetjson = parser.parse(object);
+        JSONObject jsonObject = (JSONObject) objetjson;
+        
+        for (int i = 1; i <= jsonObject.size(); i++) {
+            String[] test = new String[8];
+            switch (i) {
+                case 1:
+                    System.arraycopy(jsonObject.get("1").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 2:
+                    System.arraycopy(jsonObject.get("2").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 3:
+                    System.arraycopy(jsonObject.get("3").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 4:
+                    System.arraycopy(jsonObject.get("4").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 5:
+                    System.arraycopy(jsonObject.get("5").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 6:
+                    System.arraycopy(jsonObject.get("6").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 7:
+                    System.arraycopy(jsonObject.get("7").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 8:
+                    System.arraycopy(jsonObject.get("8").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 9:
+                    System.arraycopy(jsonObject.get("9").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                case 10:
+                    System.arraycopy(jsonObject.get("10").toString().replace("[", "").replace("]", "").split(","), 0, test, 0, 8);
+                    break;
+                default:
+                    break;
+            }
+            tab.add(test);
+        }
+        return tab;
     }
 
     @Override
@@ -114,10 +192,11 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
             screenCompareSimulation.setVisible(false);
         } else if (e.getSource() == btnSubmit) {
             if (!typeLoan.getSelectedItem().toString().equals("Veullez selectionner un type de pret")) {
-                screenCompareSimulation.loadDataInTable(
-                        AccessDB.getAccessDB().getSimulationsLoanOfCustomer(
-                                idCustomer, typeLoan.getSelectedItem().toString()));
-
+                try {
+                    screenCompareSimulation.loadDataInTable((ArrayList<String[]>)this.getAllLoans().clone());
+                } catch (IOException | ParseException | NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ControllerScreenCompareSimulation.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else if (typeLoan.getSelectedItem().toString().equals("Veullez selectionner un type de pret")) {
                 JOptionPane.showMessageDialog(
                         screenCompareSimulation,
@@ -175,14 +254,20 @@ public class ControllerScreenCompareSimulation implements ActionListener, MouseL
             }
         } else if (e.getClickCount() == 1) {
             System.out.println("insertion en cours");
-            this.setListSimulation(tableCompareSims.getModel().getValueAt(
-                    tableCompareSims.getSelectedRow(), 0),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 3),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 4),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 5),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 6),
-                    tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 7));
+            try {
+                this.setListSimulation(tableCompareSims.getModel().getValueAt(
+                        tableCompareSims.getSelectedRow(), 0),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 2),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 3),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 4),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 5),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 6),
+                        tableCompareSims.getModel().getValueAt(tableCompareSims.getSelectedRow(), 7));
+            } catch (IOException ex) {
+                Logger.getLogger(ControllerScreenCompareSimulation.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControllerScreenCompareSimulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             simulInserted = screenCompareSimulation.isSimulationfill(
                     tableCompareSims.getModel().getValueAt(
