@@ -27,7 +27,7 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
         this.idConsultant=idConsultant;
         int idAgency = bdd.getidAgency(idConsultant);
         jTextField1.setText(bdd.getRatesProjectParent());
-        directoryrates.setText(bdd.getratesConsumption(idAgency));
+        directoryrates.setText(bdd.getratesProj(idAgency));
     }
 
     /**
@@ -174,7 +174,15 @@ public class ScreenModifyRatesProject extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void impactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_impactActionPerformed
-        JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
+          ScreenImpactProject screenMC;
+        try {
+            screenMC = new ScreenImpactProject(idConsultant);
+            screenMC.setVisible(true);
+        this. setVisible(false);
+        this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(ScreenModifyRatesProject.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_impactActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed

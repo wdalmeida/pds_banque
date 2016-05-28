@@ -7,6 +7,8 @@ package edu.god.views;
 
 import edu.god.models.AccessDB;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -176,7 +178,15 @@ private final AccessDB bdd;
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void impactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_impactActionPerformed
-        JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
+        ScreenImpactVehicles screenMC;
+        try {
+            screenMC = new ScreenImpactVehicles(idConsultant);
+            screenMC.setVisible(true);
+        this. setVisible(false);
+        this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(ScreenModifyRatesVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        };
     }//GEN-LAST:event_impactActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
