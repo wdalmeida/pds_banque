@@ -174,7 +174,15 @@ public class ScreenModifyRatesPersonal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void impactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_impactActionPerformed
-        JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
+          ScreenImpactPersonal screenMC;
+        try {
+            screenMC = new ScreenImpactPersonal(idConsultant);
+            screenMC.setVisible(true);
+        this. setVisible(false);
+        this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(ScreenModifyRatesPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_impactActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
