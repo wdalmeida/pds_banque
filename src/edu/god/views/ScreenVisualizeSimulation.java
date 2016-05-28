@@ -292,10 +292,13 @@ public class ScreenVisualizeSimulation extends JFrame implements Printable {
         String mPay = payInfo.split("####")[0]; // monthly payment
         String tPay = payInfo.split("####")[1]; //total payment
         String tInterests = payInfo.split("####")[2]; //total interests
+        String mInsurance = payInfo.split("####")[3];  //monthly insurance
+        String tInsurance = payInfo.split("####")[4]; //total insurance
 
         monthlyPaymentTextField.setText(mPay);
         totalPaymentsTextField.setText(tPay);
         totalInterestsTextField.setText(tInterests);
+        totalInsuranceTextField.setText(tInsurance); //total insurance
         tMonths = Integer.parseInt(termMonthsTextField.getText());
 
         AmortizationGraph amG = new AmortizationGraph();

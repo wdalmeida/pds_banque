@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 public class LoanTable extends AbstractTableModel {
 
     private List<LoanIndicator> loanTable;
-    private String[] header = {"Prénom", "Nom", "Taux", "Mensualité", "Durée du prêt", "Date de Naissance"};
+    private String[] header = {"Prénom", "Nom", "Durée de prêt", "Mensualité", "Taux", "Date de Naissance"};
     private AccessDB db = AccessDB.getAccessDB();
     private final int idConsultant;
 

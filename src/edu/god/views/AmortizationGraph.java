@@ -150,6 +150,14 @@ public class AmortizationGraph extends JPanel implements MouseListener, Printabl
 
     }
     
+    /**
+     * 
+     * @param principalAmount
+     * @param totalInterests
+     * @param totalInsurance
+     * @return 
+     * Function used to draw the chart on a panel
+     */
     public  JPanel drawingPanel (double principalAmount, double totalInterests, double totalInsurance){
         
         final DefaultPieDataset result = new DefaultPieDataset();
