@@ -957,13 +957,17 @@ public class AccessDB implements Constantes {
 
     }
 
-    public ArrayList<LoanIndicator> getLaonInformation() throws SQLException {
+    public ArrayList<LoanIndicator> getLaonInformation(int idAgency) throws SQLException {
         ArrayList<LoanIndicator> loanObject = new ArrayList();
         String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer "
-                + "FROM LoanSimulation ls, Loan l, Customer c "
+                + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct  "
                 + "WHERE l.id_Sim = ls.id_Sim "
-                + "AND c.id_Customer = ls.id_Customer";
+                + "AND c.id_Customer = ls.id_Customer "
+                + "AND ct.id_Consultant = ls.id_Consultant "
+                + "AND a.id_Agency = ct.id_Agency "
+                + "AND a.id_Agency = ? ";
         PreparedStatement queryPrep = conn.prepareStatement(query);
+        queryPrep.setInt(1, idAgency);
         ResultSet rs = queryPrep.executeQuery();
         while (rs.next()) {
             loanObject.add(new LoanIndicator(rs.getString("first_Name_Customer"), rs.getString("last_Name_Customer"), rs.getString("percentage_Rate"), rs.getString("monthly_Sim"), rs.getString("duration_Sim"), rs.getString("birthday_Customer")));
@@ -999,7 +1003,7 @@ public class AccessDB implements Constantes {
                         +"From LoanSimulation ls, Consultant ct, Agency a "
                         +"Where ls.id_Consultant = ct.id_Consultant "
                         +"AND ct.id_Agency = a.id_Agency "
-                        +"AND a.id_Agency =? ";
+                        +"AND a.id_Agency = ? ";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet rs = queryPrep.executeQuery();

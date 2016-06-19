@@ -47,6 +47,7 @@ public class ControllerScreenIndicator implements ActionListener {
     private JTable loanIndicatorTable;
     Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
+    private JButton submitButton; 
     ArrayList<Indicator> indicators = new ArrayList();
 
     public ControllerScreenIndicator(ScreenIndicators sci, JComboBox<String> indicatorComboBox, JTable indicatorJtable, JPanel indicatorPanel, JPanel indicatorDPanel, JPanel graphicPanel, int idC0) {
@@ -73,12 +74,12 @@ public class ControllerScreenIndicator implements ActionListener {
 
     }
 
-    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton backButton) {
+    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton backButton, JButton submit) {
         this.db = AccessDB.getAccessDB();
         this.sci = sci;
         this.backHome = backButton;
         this.idConsultant = idC0;
-
+        this.submitButton= submit;
     }
 
     public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JPanel Cpanel, JComboBox<String> comboBox1) {
@@ -127,8 +128,9 @@ public class ControllerScreenIndicator implements ActionListener {
             } catch (SQLException ex) {
                 Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //}
 
+        }else if (e.getSource() ==  submitButton){
+           String cond1 = indicatorDynamic(sci.getJXDatePicker1(), sci.getJXDatePicker2());
         }
 
     }

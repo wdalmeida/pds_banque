@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
 package edu.god.views;
 import edu.god.charts.LineChart;
 import edu.god.controllers.ControllerScreenCompareSimulation;
@@ -18,6 +20,7 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jdesktop.swingx.JXDatePicker;
 
 
 /**
@@ -41,7 +44,7 @@ public class ScreenIndicators extends javax.swing.JFrame {
         jPanel2.setBackground(Color.WHITE);
         jPanel3.setBackground(Color.WHITE);
         IndicatorJtable.setModel(new IndicatorTable(idC0));
-        backButton.addActionListener(new ControllerScreenIndicator(this, idC0, backButton));    
+        backButton.addActionListener(new ControllerScreenIndicator(this, idC0, backButton,submitButton));    
         chartComboBox.addActionListener(new ControllerScreenIndicator(this, idC0, jPanel3 , chartComboBox));
         this.setTitle("Indicateur");
         loanIndicatorTable.setModel(new LoanTable(idC0));
@@ -318,7 +321,13 @@ public class ScreenIndicators extends javax.swing.JFrame {
      * @param args the command line arguments
      */
    
+    public JXDatePicker getJXDatePicker1(){
+        return periodJDatePicker1;
+    }
     
+    public JXDatePicker getJXDatePicker2(){
+        return periodJDatePicker2;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable IndicatorJtable;
