@@ -15,6 +15,8 @@ import java.util.*;
 import edu.god.common.contents.*;
 import edu.god.entities.*;
 import java.text.NumberFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccessDB implements Constantes {
 
@@ -1000,10 +1002,10 @@ public class AccessDB implements Constantes {
     public String getNumberSimulation(int idAgency) throws SQLException {
         String numberSim = "";
         String query = "Select count(*) "
-                        +"From LoanSimulation ls, Consultant ct, Agency a "
-                        +"Where ls.id_Consultant = ct.id_Consultant "
-                        +"AND ct.id_Agency = a.id_Agency "
-                        +"AND a.id_Agency = ? ";
+                + "From LoanSimulation ls, Consultant ct, Agency a "
+                + "Where ls.id_Consultant = ct.id_Consultant "
+                + "AND ct.id_Agency = a.id_Agency "
+                + "AND a.id_Agency = ? ";
         PreparedStatement queryPrep = conn.prepareStatement(query);
         queryPrep.setInt(1, idAgency);
         ResultSet rs = queryPrep.executeQuery();
@@ -1017,7 +1019,29 @@ public class AccessDB implements Constantes {
         return numberSim;
 
     }
-    
- 
 
+    public ResultSet getLoanIndicators(int idAgency, String constraint) {
+
+        try {
+            String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef "
+                    + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct, LoanRef lr  "
+                    + "WHERE l.id_Sim = ls.id_Sim "
+                    + "AND c.id_Customer = ls.id_Customer "
+                    + "AND ct.id_Consultant = ls.id_Consultant "
+                    + "AND a.id_Agency = ct.id_Agency "
+                    + "AND ls.id_LoanRef = lr.id_LoanRef "
+                    + "AND a.id_Agency = ? ";
+            if (!constraint.equals("")) {
+                query = query + constraint;
+            }
+            PreparedStatement queryPrep = conn.prepareStatement(query);
+            queryPrep.setInt(1, idAgency);
+            ResultSet rs = queryPrep.executeQuery();
+            return rs;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccessDB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
 }
