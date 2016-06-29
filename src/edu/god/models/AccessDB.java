@@ -641,9 +641,9 @@ public class AccessDB implements Constantes {
     public String getLoanNumber(int year) throws SQLException {
         int nbrLoan = 0;
         String loanCount = "";
-        String query = "SELECT distinct Count(*) as loan_Number from Loan where start_Date like ?";
+        String query = "SELECT distinct Count(*) as loan_Number from Loan";// where start_Date";
         PreparedStatement queryPrep = conn.prepareStatement(query);
-        queryPrep.setString(1, Integer.toString(year) + "%");
+        //queryPrep.setString(1, Integer.toString(year) + "%");
         ResultSet rs = queryPrep.executeQuery();
         if (rs.first()) {
             System.out.println("TEST GETLOANNUMBER");
@@ -1022,8 +1022,9 @@ public class AccessDB implements Constantes {
 
     public ResultSet getLoanIndicators(int idAgency, String constraint) {
 
+        ResultSet rslt = null;
         try {
-            String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef "
+            String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef, amount_Sim "
                     + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct, LoanRef lr  "
                     + "WHERE l.id_Sim = ls.id_Sim "
                     + "AND c.id_Customer = ls.id_Customer "
@@ -1034,14 +1035,19 @@ public class AccessDB implements Constantes {
             if (!constraint.equals("")) {
                 query = query + constraint;
             }
+            System.out.println("CONTRAINTE : " + constraint);
+
             PreparedStatement queryPrep = conn.prepareStatement(query);
             queryPrep.setInt(1, idAgency);
             ResultSet rs = queryPrep.executeQuery();
-            return rs;
+            rslt= rs;
+            
+                
+            
         } catch (SQLException ex) {
             Logger.getLogger(AccessDB.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            
         }
-
+        return rslt;
     }
 }

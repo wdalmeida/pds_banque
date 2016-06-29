@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.Soundbank;
 import javax.swing.*;
 import org.jdesktop.swingx.JXDatePicker;
 import org.jfree.chart.ChartPanel;
@@ -52,8 +53,8 @@ public class ControllerScreenIndicator implements ActionListener {
     private JButton submitButton;
     ArrayList<Indicator> indicators = new ArrayList();
     private JXDatePicker periodJDatePicker1, periodJDatePicker2;
-    private String typeLoan;
-    private String age;
+    private JComboBox<String> typeLoan;
+    private JComboBox<String> age;
     private int idC0;
     private JLabel label1, label2, label3, label4;
 
@@ -89,7 +90,7 @@ public class ControllerScreenIndicator implements ActionListener {
         this.submitButton = submit;
     }
 
-    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton submit, JLabel label1, JLabel label2, JLabel label3, JLabel label4, String typeLoan, String Age, JXDatePicker date1, JXDatePicker date2) {
+    public ControllerScreenIndicator(ScreenIndicators sci, int idC0, JButton submit, JLabel label1, JLabel label2, JLabel label3, JLabel label4, JComboBox typeLoan, JComboBox<String> Age, JXDatePicker date1, JXDatePicker date2) {
         this.db = AccessDB.getAccessDB();
         this.sci = sci;
         this.idConsultant = idC0;
@@ -150,89 +151,91 @@ public class ControllerScreenIndicator implements ActionListener {
             }*/
 
         } else if (e.getSource() == submitButton) {
-            //String constraint="";
-            String constraint = setIndicatorDynamic(periodJDatePicker1.getDate(), periodJDatePicker2.getDate(), typeLoan, age);
+            String constraint = setIndicatorDynamic(periodJDatePicker1, periodJDatePicker2, typeLoan, age);
             System.out.println(typeLoan);
-            ResultSet rs = db.getLoanIndicators(idC0, constraint);
+            ResultSet rs = db.getLoanIndicators(idConsultant, constraint);
             this.indicatorDynamic(rs, label1, label2, label3, label4);
-
         }
 
     }
 
-    public String setIndicatorDynamic(Date periodJDatePicker1, Date periodJDatePicker2, String typeLoan, String age) {
-        /*String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef "
-                + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct, LoanRef lr  "
-                + "WHERE l.id_Sim = ls.id_Sim "
-                + "AND c.id_Customer = ls.id_Customer "
-                + "AND ct.id_Consultant = ls.id_Consultant "
-                + "AND a.id_Agency = ct.id_Agency "
-                + "AND ls.id_LoanRef = lr.id_LoanRef "
-                + "AND a.id_Agency = ? ;";*/
+    public String setIndicatorDynamic(JXDatePicker periodJDatePicker1, JXDatePicker periodJDatePicker2, JComboBox<String> typeLoan, JComboBox<String> age) {
 
         String constraint = "";
 
-        /*if (!periodJDatePicker1.equals(null) && !periodJDatePicker1.equals(null)) {
-            constraint = constraint + " AND duration_Sim between '" + periodJDatePicker1 + "%' and '" + periodJDatePicker2 + "%'";
-        } else if (!periodJDatePicker1.equals(null) && periodJDatePicker1.equals(null)) {
-            constraint = constraint + " AND duration_Sim = '" + periodJDatePicker1 + "%'";
-        } else if (periodJDatePicker1.equals(null) && !periodJDatePicker1.equals(null)) {
-            constraint = constraint + " AND duration_Sim = '" + periodJDatePicker2 + "%'";
+        Date period1 = periodJDatePicker1.getDate();
+        Date period2  = periodJDatePicker1.getDate();
+        System.out.println("Date : " + period1);
+       /*if (!period1.equals(null)&& !period2.equals(null)) {
+            constraint = constraint + " AND duration_Sim between '" + period1 + "' and '" + period2 + "%'";
+        } else if (!period1.equals(null) && period2.equals(null)) {
+            constraint = constraint + " AND duration_Sim = '" + period1 + "%'";
+        } else if (period1.equals(null) && !period2.equals(null)) {
+            constraint = constraint + " AND duration_Sim = '" + period2 + "%'";
+        } else {
+            constraint = "";
         }*/
-        switch (typeLoan) {
+       
+       String box = typeLoan.getSelectedItem().toString();
+       //System.out.println(box);
+        switch (box) {
             case "Consommation":
-                constraint = constraint + " AND lr.description_LoanRef = 'Comsuption'";
+                constraint = " AND lr.description_LoanRef = 'Consommation'";
+                break;
             case "Immobilier":
                 constraint = constraint + " AND lr.description_LoanRef = 'Immobilier'";
+                break;
             case "Automobile":
                 constraint = constraint + " AND lr.description_LoanRef = 'Automobile'";
+                break;
             case "Véhicule":
-                constraint = constraint + " AND lr.description_LoanRef = 'Comsuption'";
+                constraint = constraint + " AND lr.description_LoanRef = 'Vehicule'";
+                break;
             case "Travaux":
                 constraint = constraint + " AND lr.description_LoanRef = 'Travaux'";
+                break;
             case "Personnel":
                 constraint = constraint + " AND lr.description_LoanRef = 'Personnel'";
+                break;
             case "Rachat de crédit":
                 constraint = constraint + " AND lr.description_LoanRef = 'Rachat de credit'";
-            default:
-                constraint = constraint;
-
+                break;
+            
         }
         return constraint;
     }
 
-    public String indicatorDynamicAge(JTextField ageJTextField) {
-        String constraint2 = "";
-        if (!ageJTextField.equals(null)) {
-            constraint2 = "AND birthday_Customer like '" + Integer.toString(year - Integer.parseInt(ageJTextField.getText())) + "%'";
-        }
 
-        return constraint2;
-    }
-
+    // calcul the different indicators 
     public void indicatorDynamic(ResultSet rs, JLabel label1, JLabel label2, JLabel label3, JLabel label4) {
         try {
             int nbrLoan = 0;
             Double average = 0.0;
             int loanDuration = 0;
             int avgDuration = 0;
+            int mensuality = 0;
             while (rs.next()) {
-                nbrLoan += 1;
+
+                nbrLoan++;
+                System.out.println(nbrLoan); 
+                mensuality = rs.getInt("monthly_Sim");
                 average += rs.getInt("amount_Sim");
+                System.out.println(average);
                 loanDuration += rs.getInt("duration_Sim");
             }
-            try {
+                
+            try{
                 avgDuration = (loanDuration / nbrLoan);
-            } catch (ArithmeticException e) {
-                avgDuration = 0;
+            }catch(ArithmeticException e){
+                avgDuration =0;
             }
-
             label1.setText("Nombre de prêt : " + nbrLoan);
-            label2.setText("Montant total des prêts : " + average);
+            label2.setText("Montant total des prêts : " + mensuality);
             label3.setText("Durée moyenne des prêts : " + avgDuration);
-            label4.setText("Benefice total");
+            label4.setText("Benefice total : " +  average);
         } catch (SQLException ex) {
             Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("fail sql");
         }
 
     }

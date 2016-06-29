@@ -29,13 +29,13 @@ public class LineChart extends JPanel {
 
     public LineChart(String chartTitle) throws SQLException {
         this.db = AccessDB.getAccessDB();
-        JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "Years", "Number of loans", createDataset(), PlotOrientation.VERTICAL, true, true, false);
-        ChartPanel chartPanel = new ChartPanel(lineChart);
-        chartPanel.setPreferredSize(new Dimension(300,300));
+        //JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "Years", "Number of loans", createDataset(), PlotOrientation.VERTICAL, true, true, false);
+        //ChartPanel chartPanel = new ChartPanel(lineChart);
+        //chartPanel.setPreferredSize(new Dimension(300,300));
         
     }
 
-    DefaultCategoryDataset createDataset() throws SQLException {
+    public DefaultCategoryDataset createDataset() throws SQLException {
         //System.out.println("Test 1");
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Calendar c = Calendar.getInstance();
@@ -47,6 +47,14 @@ public class LineChart extends JPanel {
         }
         //System.out.println("Test sortie boucle");
         return dataset;
+    }
+    
+    
+    public JPanel createChartPanel(DefaultCategoryDataset dataset){
+        JFreeChart line = ChartFactory.createLineChart("Evolution du nombre de prêts", "Years", "Number of Loans", dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        ChartPanel chart = new ChartPanel(line);
+        chart.setVisible(true);
+        return chart;
     }
    
    
