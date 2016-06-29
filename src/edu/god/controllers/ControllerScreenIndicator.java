@@ -17,6 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -152,6 +155,7 @@ public class ControllerScreenIndicator implements ActionListener {
 
         } else if (e.getSource() == submitButton) {
             String constraint = setIndicatorDynamic(periodJDatePicker1, periodJDatePicker2, typeLoan, age);
+            System.out.println(" ESSAI" + constraint);
             System.out.println(typeLoan);
             ResultSet rs = db.getLoanIndicators(idConsultant, constraint);
             this.indicatorDynamic(rs, label1, label2, label3, label4);
@@ -162,25 +166,44 @@ public class ControllerScreenIndicator implements ActionListener {
     public String setIndicatorDynamic(JXDatePicker periodJDatePicker1, JXDatePicker periodJDatePicker2, JComboBox<String> typeLoan, JComboBox<String> age) {
 
         String constraint = "";
-
-        Date period1 = periodJDatePicker1.getDate();
-        Date period2  = periodJDatePicker1.getDate();
+        
+        
+        Date period1 = null;
+        Date period2  = null;
+        
+       
+        
+        period1 = periodJDatePicker1.getDate();
+        period2  = periodJDatePicker2.getDate();
+        String dateStr=null;
+        String dateStr2= null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if(period1 !=null){
+             dateStr = format.format(period1);
+        }
+        
+        if(period2 !=null){
+         dateStr2 = format.format(period2);
+        }
+        
+        System.out.println("DATE TEST : "+ period1);
+        
         System.out.println("Date : " + period1);
-       /*if (!period1.equals(null)&& !period2.equals(null)) {
-            constraint = constraint + " AND duration_Sim between '" + period1 + "' and '" + period2 + "%'";
-        } else if (!period1.equals(null) && period2.equals(null)) {
-            constraint = constraint + " AND duration_Sim = '" + period1 + "%'";
-        } else if (period1.equals(null) && !period2.equals(null)) {
-            constraint = constraint + " AND duration_Sim = '" + period2 + "%'";
+        if (period1 != null && period2 != null) {
+             constraint = constraint + " AND start_Date >= '" + dateStr + "'" + " AND end_Date <= '" + dateStr2 + "'";
+        } else if (period1 != null && period2 == null) {
+            constraint = constraint + " AND start_Date >= '" + dateStr + "'";
+        } else if (period1 == null && period2 != null) {
+            constraint = constraint + " AND end_Date <= '" + dateStr2 + "'";
         } else {
             constraint = "";
-        }*/
+        }
        
        String box = typeLoan.getSelectedItem().toString();
        //System.out.println(box);
         switch (box) {
             case "Consommation":
-                constraint = " AND lr.description_LoanRef = 'Consommation'";
+                constraint = constraint + " AND lr.description_LoanRef = 'Consommation'";
                 break;
             case "Immobilier":
                 constraint = constraint + " AND lr.description_LoanRef = 'Immobilier'";
@@ -225,14 +248,20 @@ public class ControllerScreenIndicator implements ActionListener {
             }
                 
             try{
-                avgDuration = (loanDuration / nbrLoan);
+                //System.out.println("loannum : "  + loanDuration);
+                avgDuration = (loanDuration /nbrLoan);
             }catch(ArithmeticException e){
                 avgDuration =0;
             }
+            
+            DecimalFormatSymbols format = new DecimalFormatSymbols();
+            format.setGroupingSeparator(' ');
+            DecimalFormat ds = new DecimalFormat("###,###.00",format);
+            
             label1.setText("Nombre de prêt : " + nbrLoan);
-            label2.setText("Montant total des prêts : " + mensuality);
-            label3.setText("Durée moyenne des prêts : " + avgDuration);
-            label4.setText("Benefice total : " +  average);
+            label2.setText("Montant total des prêts : " + ds.format(mensuality));
+            label3.setText("Durée moyenne des prêts : " + ds.format(avgDuration)+ " mois");
+            label4.setText("Benefice total : " +  ds.format(average));
         } catch (SQLException ex) {
             Logger.getLogger(ControllerScreenIndicator.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("fail sql");

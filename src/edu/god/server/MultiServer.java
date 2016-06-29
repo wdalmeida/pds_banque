@@ -16,6 +16,10 @@ import org.json.simple.parser.ParseException;
 /**
  *
  * @author Florian
+ * 
+ * Function used to launch the server
+ * Parameter: a port
+ *  
  */
 public class MultiServer {
 
@@ -29,40 +33,15 @@ public class MultiServer {
             DataOutputStream outputToClient = new DataOutputStream(connectionSocket.getOutputStream());
             dataFromClient = inputFromClient.readLine();
             System.out.println(dataFromClient);
+            
+            //splits what have been received from the client
+            String userPrefix = dataFromClient.split("\\####")[0]; // prefix, request owner
 
-            String userPrefix = dataFromClient.split("\\####")[0]; // prefixe, inidiquant le type de requete
+            String numberPrefix = dataFromClient.split("####")[1]; // prefix, request type
 
-            String numberPrefix = dataFromClient.split("####")[1]; // prefixe, inidiquant le type de requete
-
-            String encodedRequest = dataFromClient.split("\\####")[2]; //la requete en question
+            String encodedRequest = dataFromClient.split("\\####")[2]; //request
 
 
-            /*switch (requestType) {
-             case "i":
-             //System.out.println("Le serveur a recu une requete d'update" + '\n');
-             outputToClient.writeBytes("Le serveur a recu une requete d'insert" + '\n');
-
-             break;
-             case "u":
-             System.out.println("Le serveur a recu une requete d'update" + '\n');
-             outputToClient.writeBytes("Le serveur a recu une requete d'update" + '\n');
-             break;
-             case "s":
-             System.out.println("Le serveur a reçu une requete de select");
-             outputToClient.writeBytes("Le serveur a recu une requete de select" + '\n');
-             break;
-
-             case "d":
-             System.out.println("Le serveur a reçu une requete de delete");
-             outputToClient.writeBytes("Le serveur a recu une requete de delete" + '\n');
-             break;
-
-             default:
-             System.out.println("Le serveur a reçu une requete non valide");
-             outputToClient.writeBytes("Le serveur a recu une requete non valide" + '\n');
-             break;
-             }
-             */
             if (userPrefix.startsWith("P")) {
                 //Florent's  requests
                 switch (numberPrefix){
@@ -193,7 +172,13 @@ public class MultiServer {
         }
 
     }
-
+    
+    /**
+     * 
+     * @param argv
+     * @throws Exception
+     * Launches the server on the given port, 3000 by default
+     */
     public static void main(String argv[]) throws Exception {
 
         launchServer(3000);

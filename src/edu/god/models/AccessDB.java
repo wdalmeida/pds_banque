@@ -1024,17 +1024,20 @@ public class AccessDB implements Constantes {
 
         ResultSet rslt = null;
         try {
-            String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef, amount_Sim "
-                    + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct, LoanRef lr  "
+            String query = "SELECT first_Name_Customer,last_Name_Customer, percentage_Rate, monthly_Sim, duration_Sim,birthday_Customer, description_LoanRef, amount_Sim,start_Date, end_Date "
+                    + "FROM LoanSimulation ls, Loan l, Customer c, Agency a,Consultant ct, LoanRef lr   "
                     + "WHERE l.id_Sim = ls.id_Sim "
                     + "AND c.id_Customer = ls.id_Customer "
                     + "AND ct.id_Consultant = ls.id_Consultant "
                     + "AND a.id_Agency = ct.id_Agency "
                     + "AND ls.id_LoanRef = lr.id_LoanRef "
-                    + "AND a.id_Agency = ? ";
+                    + "AND a.id_Agency = ?";
+            
+            
             if (!constraint.equals("")) {
                 query = query + constraint;
             }
+            System.out.println(query);
             System.out.println("CONTRAINTE : " + constraint);
 
             PreparedStatement queryPrep = conn.prepareStatement(query);

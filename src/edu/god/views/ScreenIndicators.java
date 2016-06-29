@@ -60,8 +60,7 @@ public class ScreenIndicators extends javax.swing.JFrame {
         DefaultCategoryDataset d= line.createDataset();
         JPanel p =line.createChartPanel(d);
         p.setVisible(true);
-        jPanel4.add(p);
-        
+        jPanel4=p;
         jPanel4.setVisible(true);
         jPanel4.validate();
         jPanel4.repaint();

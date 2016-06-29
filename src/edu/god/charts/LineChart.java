@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.Panel;
 import java.sql.SQLException;
 import java.util.Calendar;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
@@ -23,16 +24,16 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class LineChart extends JPanel {
+public class LineChart extends JFrame {
 
     private AccessDB db;
 
     public LineChart(String chartTitle) throws SQLException {
         this.db = AccessDB.getAccessDB();
-        //JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "Years", "Number of loans", createDataset(), PlotOrientation.VERTICAL, true, true, false);
-        //ChartPanel chartPanel = new ChartPanel(lineChart);
-        //chartPanel.setPreferredSize(new Dimension(300,300));
-        
+        JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "Years", "Number of loans", createDataset(), PlotOrientation.VERTICAL, true, true, false);
+        ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setPreferredSize(new Dimension(300,300));
+        this.getContentPane().add(chartPanel);
     }
 
     public DefaultCategoryDataset createDataset() throws SQLException {
@@ -60,11 +61,11 @@ public class LineChart extends JPanel {
    
    
 
-    /*public static void main(String[] args) throws SQLException {
-        LineChart chart = new LineChart("School Vs Years", "Numer of Schools vs years");
+    public static void main(String[] args) throws SQLException {
+        LineChart chart = new LineChart("Evolution des prêts");
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
 
-    }*/
+    }
 }
